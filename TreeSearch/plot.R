@@ -1,33 +1,6 @@
 TipCol <- function (tip.label) {
-  pal <- palette.colors(pal = "Tableau 10")
-  blue <- amber <- red <- teal <- green <- gold <- lilac <- pink <- brown <-
-    grey <- character(0)
-  
-  # List taxa against their desired colours here
-  blue  <- c("taxon_1", "taxon_2")
-  amber <- c("taxon_3", "taxon_4")
-  red   <- c("taxon_5", "taxon_6")
-  teal  <- c("taxon_7", "taxon_8")
-  green <- c("taxon_9", "taxon_10")
-  gold  <- c("taxon_11", "taxon_12")
-  lilac <- c("taxon_13", "taxon_14")
-  pink  <- c("taxon_15", "taxon_16")
-  brown <- c("taxon_17", "taxon_18")
-  grey  <- c("taxon_19", "taxon_20")
-  
-  # This sets up the colour vector
-  tip.col <- rep("#000000", length(tip.label))
-  tip.col[tip.label %in% blue] <- pal[1]
-  tip.col[tip.label %in% amber] <- pal[2]
-  tip.col[tip.label %in% red] <- pal[3]
-  tip.col[tip.label %in% teal] <- pal[4]
-  tip.col[tip.label %in% green] <- pal[5]
-  tip.col[tip.label %in% gold] <- pal[6]
-  tip.col[tip.label %in% lilac] <- pal[7]
-  tip.col[tip.label %in% pink] <- pal[8]
-  tip.col[tip.label %in% brown] <- pal[9]
-  tip.col[tip.label %in% grey] <- pal[10]
-  tip.col
+  c("black" = "#222222", palette.colors(pal = "Tableau 10"))[
+    match(ages[tip.label, "group"], unique(ages$group))]
 }
 
 # REQUIRE tr, a phylo object.
@@ -41,14 +14,15 @@ Plot <- function (tr, pdf = FALSE, direction = 'rightwards', font = 3,
         height = ploth, pointsize = pts, colormodel = 'rgb')
     on.exit(dev.off())
   }
-  tip.label <- tr$tip.label
-  nTip <- length(tip.label)
+  tip.id <- tr$tip.label
+  tip.label <- ages[tip.id, "taxon"]
+  nTip <- length(tip.id)
   nNode <- tr$Nnode
   
   if (fig == FALSE) {
-    tip.col <- TipCol(tip.label)
+    tip.col <- TipCol(tip.id)
   } else {
-    tip.col <- 'black';
+    tip.col <- "black";
   }
   
   if (bi) label.offset <- 2 * min(tr$edge.length)
@@ -59,6 +33,7 @@ Plot <- function (tr, pdf = FALSE, direction = 'rightwards', font = 3,
   } else {
     align <- 0.5
   }
+  tr$tip.label <- tip.label
   plot(tr,
        edge.color = ec,
        edge.width = 2,
@@ -88,18 +63,13 @@ Plot <- function (tr, pdf = FALSE, direction = 'rightwards', font = 3,
 
 ColPlot <- function (tr, taxnames = "", direction = "rightwards",
                      ec = 0, ...) {
-  # List taxa that should be displayed in upright (non-italic) font
-  roman <- c("taxon_1", "taxon_10")
-  
-  # List taxa that should be highlighted in bold type
-  bold <- c("taxon_1", "taxon_2")
-  
   tr1 <- tr
-  tip.label <- tr$tip.label
-  nTip <- length(tip.label)
+  tip.id <- tr$tip.label
+  tip.label <- ages[tip.id, "taxon"]
+  nTip <- length(tip.id)
   nNode <- tr$Nnode
   
-  tip.col <- TipCol(tip.label)
+  tip.col <- TipCol(tip.id)
   
   for (tax in names(taxnames)) {
     taxa <- taxnames[[tax]]
