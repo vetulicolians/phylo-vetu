@@ -1,0 +1,145 @@
+nstates num 6;
+xread
+'File output by Morphobank v3.0 (http://www.morphobank.org); 2023-06-30 11.57.24'
+86 41
+
+&[num]
+Amiskwia_sagittiformis                             ?000?10000?0-00?0?0-00010002-00??-000----?000--120200--0000020000?0?000001--00-0-00000
+Cephalochordata_Branchiostoma                      1001?10000?12001011300110002-00??-000----?000--120100--0000030000?0?000001--00-0-01100
+Tunicata_Ciona                                     1001?10000?0-0011?120001000--00??-000----?000--120110--0100010000?0?000001--00-1311100
+Shankouclava_anningense_cs3                        ?001?10000?0-00???1300010?????0?--000----??00??120110--0110010000?0?000001--00-1[23]0????
+Phlogites_longus_cs3                               ?000??0000?0-00???0-000?010--00?--000----?000--120110--0100010000?0?000001--1021[23]0????
+Hemichordata_Gyaltsenglossus                       0??0?10000?1100??1??00010005-00??-000----?000--1201?0--00?0010000?0?000001--00-120????
+Hemichordata_Spartobranchus                        0110?10000?1110??1130011000?-00??-000----?000--120??0--01?0010000?0?000001-?00???0????
+Hemichordata_Oesia                                 0110?10000?1100??1130011000?-00??-000----?000--120??0--01?0010000?0?000001-?00???0????
+Pterobranch_Rhabdopleura                           0100?10000?12002010-00000002-00??-000----?000--120??0--01?0010000?0?00000?-?00???10011
+Pterobranch_Cephalodiscus                          0100?10000?12002011300000002-00??-000----?000--120??0--01?0010000?0?00000?-?00???10011
+Enteropneusta_Harrimaniidae_Saccoglossus           0110?10000?11111011300110002-00??-000----???0--120??0--00?0010000?0?000001-?00???00011
+Enteropneusta_Spengelidae_Glandiceps               0110?10000?1111101130011000?-00??-000----?000--120??0--00?0010000?0?000001-?00???00011
+Herpetogaster_collinsi                             0000?10000?0-002010-00010102-00??-000----?000--120210--0110010000?0?000001-?00?120????
+Rotadiscus_cs3                                     0000?10000?0-001110-000?0102-00??-000----?000--0-0-00--0110020000?0?000001-?00?0-0????
+Banffia_constricta_cs5                             0000?1000??0-00??01300?0?011101??-??0-?1-?000--0-0-00--0000011000?0?100001-?1030-0????
+Vetulicola_cuneata_cs3                             0000?10000?0-00??01300000011101?1???0-?1??100--0-0-00--0000031000?0?000001-?00-0-0????
+Beidazoon_venustum_cs3                             ?????1000??0-00??01[31]00000011101?1???0-?1-?000--0-0-00--000103?001?0?000001--00-0-0????
+Vetulocystis_catenata_cs3                          000??0000??0-00??01200000011100??-??0-??-?000-10-0-00--0001110000?0?0000021-1020-0????
+Mitrate_Mitrocystella_incipiens_om                 ?????10001?0-00???0-00000011101?11??0-??-?100--0-0-00--000112?100100110001--1030-0????
+Mitrate_Lagynocystis_pyramidalis_os2               ?????10101?0-00???1[12]00100011101?21??0-??-?110--0-0-00--000112?10010010000[21][-2]-1020-0????
+Mitrate_Jaekelocarpus_oklahomensis                 ?????10101?0-0010?1200100011101?????0-??-?110--0-0-00--000111?000100100001--00-0-0????
+Ctenoimbricata_spinosa_cs5                         ?????10001?0-00???1100000?0--00?--??0-?--?000--????0???00010211110100000022-?0?0-0????
+Ctenocystoid_Courtessolea_cs6-5                    ?????10001?0-00???1100000?0--00?--??0-?--?000--0-0-00--00010211111100000022-1010-0????
+Cinctan_Bohemiacinctus_havliceki_cs5               ?????00001?0-00??0120000000--00?--??0-?--?000--???[-1]00[-1][-1]00011211110000000021-1020-0????
+Cornute_Ponticulocarpus_cs5                        ?????10101?0-0010?1300000011101?????0-??-?110-10-0-00--000112?1000011100022-1020-0????
+Solute_Coleicarpus_sprinklei_cs6                   ?????10??1?0-00??0???0000011101??1??0-??-?00?--1?12?011000111?000?0?0000022-101120????
+Solute_Castericystis_vali_cs6                      ?????10??1?0-00??0???0000011-01?????0-??-?00?--1?12?111000113?000?0???00022-101110????
+Helicocystis_moroccoensis_cs5                      ?????01111?0-001000-00000014201?2?0111-12?000121?12?011000111?000?0?000003-1102120????
+Helicoplacus_cs3                                   ?????00111?0-00??00-00000013211?2-0111-22?000110-0-00--000111?000?0?000001--10?120????
+Eocrinoidea_Ubaghsicystis_cs5                      ?????10111?0-001001110000012-01?11??0-??1?00132111200220001120000?0?000113--1011200011
+Eocrinoidea_Akadocrinus_cs6                        ?????11111?0-00100111000001?101?11?????21?001?2111210220001110000?0?0000???????1200011
+Eocrinoidea_Lyracystis_radiata_cs5                 ?????11111?0-00??01110001213101?11?10???1?00132111200110001110000?0?000003-1102120????
+Eocrinoidea_Rhombifera_Pleurocystites              ?????10111?0-00?001301000012-01??1??0-??1?001?21212?1221001120000?0?001113-11121?00011
+Edrioasteroidea_Stromatocystites_cs4-5             ?????10111?0-00??0111000001411121-0111121?000121111?0110001110000?0?000003-2101120????
+Edrioasteroidea_Kailidiscus_chinensis_cs5          ?????10111?0-001000-000000142112211112-21?000121?11?0110001110000?0?000003-1101120????
+Edrioasteroidea_Camptostroma_cs4                   ?????101?1?0-00??011100000142112?-??12121?000221111?0110001110000?0?000003-2101120????
+Cornute?_Ceratocystis_perneri_cs5-4                ?????10101?0-0010?13000000111011????0--2-?110--0-0-00--000112?100001100001--10-0-0????
+Eocrinoidea_Kinzercystis_cs4                       ?????10111?0-0010011100000141011111012211?001[23]21111?0110001110000?0?000003-2101120????
+Eocrinoidea_Gogia_cs4                              ?????11111?0-001001110000014101111??0-211?001321112?0110001110000?0?000003-1101120????
+Eocrinoidea_Rhombifera_Macrocystella_os1           ?????11111?0-00100130100101?-01?11010-211?001?21112?1221001110000?0?001013-11121?00011
+Crinoidea_Aethocrinus_os1                          ???0?11111?0-001000-00001114101222??0-121?000321112?0130001110000?0?0000?3-210?1?0????
+
+;
+
+
+cnames
+{ 0 Notochord absent present;
+{ 1 Stomochord absent present;
+{ 2 Stomochord:_Nuchal_skeleton absent present;
+{ 3 Endostyle absent present;
+{ 4 Dorsal_collar_nerve_cord_(neurocord) absent present;
+{ 5 Bilateral_symmetry asymmetric present,_whether_or_not_overprinted_by_torsion;
+{ 6 Radial_symmetry absent present;
+{ 7 Torsion absent present;
+{ 8 Torsion_resulting_in_vertical_stacking_of_body_coeloms_and_complete_suppression_of_right_hydrocoel_development_in_adult_form absent present;
+{ 9 Stereom absent present;
+{ 10 Anterior-posterior_(mouth-anus)_axis no yes;
+{ 11 Preoral_proboscis absent present,_including_cephalic_shield;
+{ 12 Proboscis:_Shape [Transformational_character] acorn-shaped flattened;
+{ 13 Proboscis:_Skeleton absent present;
+{ 14 Preoral_region:_Ciliary_organ absent present;
+{ 15 Anterior_coelomopore_paired [Transformational_character] unpaired paired;
+{ 16 Anterior_coelomopore:_Dorsal_tubercle absent present;
+{ 17 Mesocoel_(hydrocoel)_symmetry asymmetric symmetric;
+{ 18 Respiration:_Pharyngeal_openings absent present;
+{ 19 Respiration:_Openings:_Serialized [Transformational_character] openings_are_not_serialized two_non-identical_openings respiratory_openings_occur_in_series;
+{ 20 Respiration:_Openings:_Epispires absent present;
+{ 21 Respiration:_Openings:_Rhombs absent present;
+{ 22 Respiration:_Openings:_Secondary_gill_bars absent present;
+{ 23 Distinct_pharyngeal_(branchial)_body_region absent present;
+{ 24 Respiration:_Respiratory_folds_on_thecal_plates absent_or_very_reduced present;
+{ 25 Tentacles:_Branched not_branched isotomously_branched heterotomously_branched;
+{ 26 Ambulacra absent present;
+{ 27 Ambulacra:_Number [Transformational_character] one two three five six;
+{ 28 Ambulacra:_Shape [Transformational_character] straight curved_and_spiralling_distally;
+{ 29 Ambulacra:_Integrated_into_theca no_integration_of_appendage(s)_into_theca integrated_into_theca;
+{ 30 Ambulacra:_Cover_plates absent present;
+{ 31 Ambulacra:_Cover_plates:_Tiers [Transformational_character] lateral_tier_only lateral_and_medial_tiers;
+{ 32 Ambulacra:_Cover_plates:_Multiple_series [Transformational_character] single_biseries multiserial;
+{ 33 Ambulacra:_Flooring_elements_ [Transformational_character] with_fine_biserial_flooring_elements uniserial_extension_of_the_theca;
+{ 34 Ambulacra:_Adaxial_flooring_plates absent present;
+{ 35 Ambulacra:_Abaxial_flooring_plates absent present;
+{ 36 Ambulacra:_Flooring_plates_forming_an_integral_part_of_the_theca absent present;
+{ 37 Ambulacra:_Flooring_plates_integrated_into_theca:_Aspect [Transformational_character] short:_wider_than_long narrow:_longer_than_wide;
+{ 38 Ambulacra:_Flooring_plates_support_appendage [Transformational_character] thin,_slat-like_floor_plates_in_appendages_do_not_provide_primary_appendage_supports thick,_blocky_floor_plates_form_primary_appendage_skeletal_supports;
+{ 39 Ambulacra:_Flooring_plates:_Perforate [Transformational_character] not_perforate perforate;
+{ 40 Ambulacra:_Interambulacral_zones_with:_ [Transformational_character] simple_pavements_of_plates folded_concertina-like_structure;
+{ 41 Ambulacra:_Mineralized [Transformational_character] non-mineralized mineralized;
+{ 42 Ambulacra:_Proximal_and_distal_regionization no_distinct_regions prominent_differentiation_of_proximal_from_distal_ambulacrum;
+{ 43 Ambulacra:_Stylocone absent present;
+{ 44 Ambulacra:_Brachioles absent present;
+{ 45 Ambulacra:_Axial_zone:_Proportion [Transformational_character] larger_than_extraxial_area similar_size_to_extraxial_area smaller_than_extraxial_area;
+{ 46 Ambulacra:_Axial_zone:_Position_of_mouth [Transformational_character] lateral central_and_apical;
+{ 47 Post-anal_structure absent present;
+{ 48 Post-anal_structure:_Muscular [Transformational_character] not_muscular muscular;
+{ 49 Post-anal_structure:_Plated not_plated bearing_one_or_more_plates;
+{ 50 Post-anal_structure:_Differentiated [Transformational_character] not_clearly_separated_from_theca clearly_differentiated_from_theca;
+{ 51 Post-anal_structure:_Terminal_disc absent present;
+{ 52 Post-anal_structure:_Distinct_distal_and_proximal_regions not_differentiated major_change_in_diameter_or_plate_construction_between_proximal_and_distal_parts;
+{ 53 Post-anal_structure:_Distal_plating [Transformational_character] polyplated_and_imbricate_elements holomeric;
+{ 54 Post-anal_structure:_Proximal_plating [Transformational_character] polyplated_and_imbricate_elements holomeric_(holocolumnals) polymeric_(pluricolumnals);
+{ 55 Post-anal_structure:_Proximal_plating:_Articulating_ring_flange absent present;
+{ 56 Theca:_External_sheath absent present;
+{ 57 Theca:_External_sheath:_Ridges absent present;
+{ 58 Theca:_Embedded_ossicles_(plates) absent present;
+{ 59 Theca:_Embedded_ossicles:_Tessellation ossicles_(if_present)_sit_in_matrix_of_non-plated_integument all_plates_tightly_packed,_tessellating;
+{ 60 Theca:_Aspect [Transformational_character] broadly_cylindrical_or_sac-like dorsoventrally_flattened laterally_compressed;
+{ 61 Theca:_Suroral_operculum absent present;
+{ 62 Theca:_Marginal_frame absent present;
+{ 63 Theca:_Marginal_frame:_Ctenidial_plates absent present;
+{ 64 Theca:_Marginal_frame:_Labrum absent present;
+{ 65 Theca:_Marginal_frame:_Loss_of_M5 retained lost;
+{ 66 Theca:_Marginal_frame:_Posterior_marginal_plate absent present;
+{ 67 Theca:_Marginal_frame:_Ventral_protuberances absent present;
+{ 68 Theca:_Glossal_and_digital absent present;
+{ 69 Theca:_Glossal_and_digital:_Incorporation_into_frame not_incorporated:_external_processes,_or_absent incorporated_into_marginal_frame;
+{ 70 Theca:_Organized_in_circlets no yes;
+{ 71 Theca:_Oral_region_raised_as_a_spout no yes;
+{ 72 Theca:_Large_oral_plates_differentiated absent present;
+{ 73 Periproct:_Location [Transformational_character] posterior_trunk dorsal_plated_membrane axial_membrane_between_ambulacra;
+{ 74 Periproct:_Position_within_dorsal_plated_membrane [Transformational_character] lateral posterior;
+{ 75 Periproct:_Position_within_axial_membrane [Transformational_character] lateral within_the_oral_zone;
+{ 76 Periproct:_Plates absent present;
+{ 77 Periproct:_Plates:_L-shaped absent present;
+{ 78 Periproct:_Plates:_Organization [Transformational_character] loosely_organized one_circlet three_concentric_circlets;
+{ 79 Habit:_Attachment unattached attached_to_substrate_at_some_point_in_life_cycle;
+{ 80 Habit:_Attachment:_As_adult [Transformational_character] attached_as_juvenile_only attached_throughout_lifecycle attached_as_adult_only;
+{ 81 Habit:_Coloniality solitary colonial;
+{ 82 Constraint:_Chordata not_chordata chordata;
+{ 83 Constraint:_Chordata_II not_chordata chordata;
+{ 84 Constraint:_Ambulacraria outgroup ambulacraria;
+{ 85 Constraint:_Ambulacraria_II outgroup ambulacraria;
+;
+
+
+ccode  - 0.85;
+
+
+;

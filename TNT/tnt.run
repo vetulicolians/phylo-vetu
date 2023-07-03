@@ -1,8 +1,8 @@
 piwe=;
 mxram 1024;
 
-proc ENTER_INPUT_FILENAME_HERE;
-outgroup ENTER_OUTGROUP_LABEL_HERE;
+proc mbank_X27573_2023-06-30-1345-yanjie.tnt;
+outgroup Amiskwia_sagittiformis;
 
 macro=;
 

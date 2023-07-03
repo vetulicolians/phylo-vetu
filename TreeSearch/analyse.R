@@ -10,6 +10,7 @@ hits <- 100 # Maximum times to hit best tree
 latest <- LatestMatrix()
 message("* Reading ", latest)
 dat <- ReadAsPhyDat(latest)
+dat <- dat[names(dat)[substr(names(dat), 1, 11) != "Yanjiahella"]]
 
 resultsFile <- ResultsFile(latest, "ew")
 

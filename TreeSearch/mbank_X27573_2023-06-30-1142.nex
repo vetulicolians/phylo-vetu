@@ -1,0 +1,905 @@
+#NEXUS
+
+    [ File output by Morphobank v3.0 (http://www.morphobank.org); 2023-06-30 11.42.10 ]
+
+    BEGIN TAXA;
+    DIMENSIONS NTAX=43;
+    TAXLABELS
+    		'Amiskwia sagittiformis'
+		'Cephalochordata Branchiostoma'
+		'Tunicata Ciona'
+		'Shankouclava anningense cs3'
+		'Phlogites longus cs3'
+		'Hemichordata Gyaltsenglossus'
+		'Hemichordata Spartobranchus'
+		'Hemichordata Oesia'
+		'Pterobranch Rhabdopleura'
+		'Pterobranch Cephalodiscus'
+		'Enteropneusta Harrimaniidae Saccoglossus'
+		'Enteropneusta Spengelidae Glandiceps'
+		'Herpetogaster collinsi'
+		'Rotadiscus cs3'
+		'Banffia constricta cs5'
+		'Vetulicola cuneata cs3'
+		'Beidazoon venustum cs3'
+		'Vetulocystis catenata cs3'
+		'Mitrate Mitrocystella incipiens om'
+		'Mitrate Lagynocystis pyramidalis os2'
+		'Mitrate Jaekelocarpus oklahomensis'
+		'Yanjiahella biscarpa cs1 aulacophore'
+		'Yanjiahella biscarpa cs1 tentacles'
+		'Ctenoimbricata spinosa cs5'
+		'Ctenocystoid Courtessolea cs6-5'
+		'Cinctan Bohemiacinctus havliceki cs5'
+		'Cornute Ponticulocarpus cs5'
+		'Solute Coleicarpus sprinklei cs6'
+		'Solute Castericystis vali cs6'
+		'Helicocystis moroccoensis cs5'
+		'Helicoplacus cs3'
+		'Eocrinoidea Ubaghsicystis cs5'
+		'Eocrinoidea Akadocrinus cs6'
+		'Eocrinoidea Lyracystis radiata cs5'
+		'Eocrinoidea Rhombifera Pleurocystites'
+		'Edrioasteroidea Stromatocystites cs4-5'
+		'Edrioasteroidea Kailidiscus chinensis cs5'
+		'Edrioasteroidea Camptostroma cs4'
+		'Cornute? Ceratocystis perneri cs5-4'
+		'Eocrinoidea Kinzercystis cs4'
+		'Eocrinoidea Gogia cs4'
+		'Eocrinoidea Rhombifera Macrocystella os1'
+		'Crinoidea Aethocrinus os1'
+    ;
+    ENDBLOCK;
+
+    BEGIN CHARACTERS;
+	DIMENSIONS NCHAR=86;
+	FORMAT DATATYPE=STANDARD GAP=- MISSING=? SYMBOLS="0123456";
+	CHARLABELS
+		 [1] 'Notochord'
+		 [2] 'Stomochord'
+		 [3] 'Stomochord: Nuchal skeleton'
+		 [4] 'Endostyle'
+		 [5] 'Dorsal collar nerve cord (neurocord)'
+		 [6] 'Bilateral symmetry'
+		 [7] 'Radial symmetry'
+		 [8] 'Torsion'
+		 [9] 'Torsion resulting in vertical stacking of body coeloms and complete suppression of right hydrocoel development in adult form'
+		 [10] 'Stereom'
+		 [11] 'Anterior-posterior (mouth-anus) axis'
+		 [12] 'Preoral proboscis'
+		 [13] 'Proboscis: Shape'
+		 [14] 'Proboscis: Skeleton'
+		 [15] 'Preoral region: Ciliary organ'
+		 [16] 'Anterior coelomopore paired'
+		 [17] 'Anterior coelomopore: Dorsal tubercle'
+		 [18] 'Mesocoel (hydrocoel) symmetry'
+		 [19] 'Respiration: Pharyngeal openings'
+		 [20] 'Respiration: Openings: Serialized'
+		 [21] 'Respiration: Openings: Epispires'
+		 [22] 'Respiration: Openings: Rhombs'
+		 [23] 'Respiration: Openings: Secondary gill bars'
+		 [24] 'Distinct pharyngeal (branchial) body region'
+		 [25] 'Respiration: Respiratory folds on thecal plates'
+		 [26] 'Tentacles: Branched'
+		 [27] 'Ambulacra'
+		 [28] 'Ambulacra: Number'
+		 [29] 'Ambulacra: Shape'
+		 [30] 'Ambulacra: Integrated into theca'
+		 [31] 'Ambulacra: Cover plates'
+		 [32] 'Ambulacra: Cover plates: Tiers'
+		 [33] 'Ambulacra: Cover plates: Multiple series'
+		 [34] 'Ambulacra: Flooring elements '
+		 [35] 'Ambulacra: Adaxial flooring plates'
+		 [36] 'Ambulacra: Abaxial flooring plates'
+		 [37] 'Ambulacra: Flooring plates forming an integral part of the theca'
+		 [38] 'Ambulacra: Flooring plates integrated into theca: Aspect'
+		 [39] 'Ambulacra: Flooring plates support appendage'
+		 [40] 'Ambulacra: Flooring plates: Perforate'
+		 [41] 'Ambulacra: Interambulacral zones with: '
+		 [42] 'Ambulacra: Mineralized'
+		 [43] 'Ambulacra: Proximal and distal regionization'
+		 [44] 'Ambulacra: Stylocone'
+		 [45] 'Ambulacra: Brachioles'
+		 [46] 'Ambulacra: Axial zone: Proportion'
+		 [47] 'Ambulacra: Axial zone: Position of mouth'
+		 [48] 'Post-anal structure'
+		 [49] 'Post-anal structure: Muscular'
+		 [50] 'Post-anal structure: Plated'
+		 [51] 'Post-anal structure: Differentiated'
+		 [52] 'Post-anal structure: Terminal disc'
+		 [53] 'Post-anal structure: Distinct distal and proximal regions'
+		 [54] 'Post-anal structure: Distal plating'
+		 [55] 'Post-anal structure: Proximal plating'
+		 [56] 'Post-anal structure: Proximal plating: Articulating ring flange'
+		 [57] 'Theca: External sheath'
+		 [58] 'Theca: External sheath: Ridges'
+		 [59] 'Theca: Embedded ossicles (plates)'
+		 [60] 'Theca: Embedded ossicles: Tessellation'
+		 [61] 'Theca: Aspect'
+		 [62] 'Theca: Suroral operculum'
+		 [63] 'Theca: Marginal frame'
+		 [64] 'Theca: Marginal frame: Ctenidial plates'
+		 [65] 'Theca: Marginal frame: Labrum'
+		 [66] 'Theca: Marginal frame: Loss of M5'
+		 [67] 'Theca: Marginal frame: Posterior marginal plate'
+		 [68] 'Theca: Marginal frame: Ventral protuberances'
+		 [69] 'Theca: Glossal and digital'
+		 [70] 'Theca: Glossal and digital: Incorporation into frame'
+		 [71] 'Theca: Organized in circlets'
+		 [72] 'Theca: Oral region raised as a spout'
+		 [73] 'Theca: Large oral plates differentiated'
+		 [74] 'Periproct: Location'
+		 [75] 'Periproct: Position within dorsal plated membrane'
+		 [76] 'Periproct: Position within axial membrane'
+		 [77] 'Periproct: Plates'
+		 [78] 'Periproct: Plates: L-shaped'
+		 [79] 'Periproct: Plates: Organization'
+		 [80] 'Habit: Attachment'
+		 [81] 'Habit: Attachment: As adult'
+		 [82] 'Habit: Coloniality'
+		 [83] 'Constraint: Chordata'
+		 [84] 'Constraint: Chordata II'
+		 [85] 'Constraint: Ambulacraria'
+		 [86] 'Constraint: Ambulacraria II'
+	;
+	STATELABELS
+		1
+		'absent'
+		'present'
+		,
+		2
+		'absent'
+		'present'
+		,
+		3
+		'absent'
+		'present'
+		,
+		4
+		'absent'
+		'present'
+		,
+		5
+		'absent'
+		'present'
+		,
+		6
+		'asymmetric'
+		'present, whether or not overprinted by torsion'
+		,
+		7
+		'absent'
+		'present'
+		,
+		8
+		'absent'
+		'present'
+		,
+		9
+		'absent'
+		'present'
+		,
+		10
+		'absent'
+		'present'
+		,
+		11
+		'no'
+		'yes'
+		,
+		12
+		'absent'
+		'present, including cephalic shield'
+		,
+		13
+		'[Transformational character]'
+		'acorn-shaped'
+		'flattened'
+		,
+		14
+		'absent'
+		'present'
+		,
+		15
+		'absent'
+		'present'
+		,
+		16
+		'[Transformational character]'
+		'unpaired'
+		'paired'
+		,
+		17
+		'absent'
+		'present'
+		,
+		18
+		'asymmetric'
+		'symmetric'
+		,
+		19
+		'absent'
+		'present'
+		,
+		20
+		'[Transformational character]'
+		'openings are not serialized'
+		'two non-identical openings'
+		'respiratory openings occur in series'
+		,
+		21
+		'absent'
+		'present'
+		,
+		22
+		'absent'
+		'present'
+		,
+		23
+		'absent'
+		'present'
+		,
+		24
+		'absent'
+		'present'
+		,
+		25
+		'absent or very reduced'
+		'present'
+		,
+		26
+		'not branched'
+		'isotomously branched'
+		'heterotomously branched'
+		,
+		27
+		'absent'
+		'present'
+		,
+		28
+		'[Transformational character]'
+		'one'
+		'two'
+		'three'
+		'five'
+		'six'
+		,
+		29
+		'[Transformational character]'
+		'straight'
+		'curved and spiralling distally'
+		,
+		30
+		'no integration of appendage(s) into theca'
+		'integrated into theca'
+		,
+		31
+		'absent'
+		'present'
+		,
+		32
+		'[Transformational character]'
+		'lateral tier only'
+		'lateral and medial tiers'
+		,
+		33
+		'[Transformational character]'
+		'single biseries'
+		'multiserial'
+		,
+		34
+		'[Transformational character]'
+		'with fine biserial flooring elements'
+		'uniserial extension of the theca'
+		,
+		35
+		'absent'
+		'present'
+		,
+		36
+		'absent'
+		'present'
+		,
+		37
+		'absent'
+		'present'
+		,
+		38
+		'[Transformational character]'
+		'short: wider than long'
+		'narrow: longer than wide'
+		,
+		39
+		'[Transformational character]'
+		'thin, slat-like floor plates in appendages do not provide primary appendage supports'
+		'thick, blocky floor plates form primary appendage skeletal supports'
+		,
+		40
+		'[Transformational character]'
+		'not perforate'
+		'perforate'
+		,
+		41
+		'[Transformational character]'
+		'simple pavements of plates'
+		'folded concertina-like structure'
+		,
+		42
+		'[Transformational character]'
+		'non-mineralized'
+		'mineralized'
+		,
+		43
+		'no distinct regions'
+		'prominent differentiation of proximal from distal ambulacrum'
+		,
+		44
+		'absent'
+		'present'
+		,
+		45
+		'absent'
+		'present'
+		,
+		46
+		'[Transformational character]'
+		'larger than extraxial area'
+		'similar size to extraxial area'
+		'smaller than extraxial area'
+		,
+		47
+		'[Transformational character]'
+		'lateral'
+		'central and apical'
+		,
+		48
+		'absent'
+		'present'
+		,
+		49
+		'[Transformational character]'
+		'not muscular'
+		'muscular'
+		,
+		50
+		'not plated'
+		'bearing one or more plates'
+		,
+		51
+		'[Transformational character]'
+		'not clearly separated from theca'
+		'clearly differentiated from theca'
+		,
+		52
+		'absent'
+		'present'
+		,
+		53
+		'not differentiated'
+		'major change in diameter or plate construction between proximal and distal parts'
+		,
+		54
+		'[Transformational character]'
+		'polyplated and imbricate elements'
+		'holomeric'
+		,
+		55
+		'[Transformational character]'
+		'polyplated and imbricate elements'
+		'holomeric (holocolumnals)'
+		'polymeric (pluricolumnals)'
+		,
+		56
+		'absent'
+		'present'
+		,
+		57
+		'absent'
+		'present'
+		,
+		58
+		'absent'
+		'present'
+		,
+		59
+		'absent'
+		'present'
+		,
+		60
+		'ossicles (if present) sit in matrix of non-plated integument'
+		'all plates tightly packed; tessellating'
+		,
+		61
+		'[Transformational character]'
+		'broadly cylindrical or sac-like'
+		'dorsoventrally flattened'
+		'laterally compressed'
+		,
+		62
+		'absent'
+		'present'
+		,
+		63
+		'absent'
+		'present'
+		,
+		64
+		'absent'
+		'present'
+		,
+		65
+		'absent'
+		'present'
+		,
+		66
+		'retained'
+		'lost'
+		,
+		67
+		'absent'
+		'present'
+		,
+		68
+		'absent'
+		'present'
+		,
+		69
+		'absent'
+		'present'
+		,
+		70
+		'not incorporated: external processes, or absent'
+		'incorporated into marginal frame'
+		,
+		71
+		'no'
+		'yes'
+		,
+		72
+		'no'
+		'yes'
+		,
+		73
+		'absent'
+		'present'
+		,
+		74
+		'[Transformational character]'
+		'posterior trunk'
+		'dorsal plated membrane'
+		'axial membrane between ambulacra'
+		,
+		75
+		'[Transformational character]'
+		'lateral'
+		'posterior'
+		,
+		76
+		'[Transformational character]'
+		'lateral'
+		'within the oral zone'
+		,
+		77
+		'absent'
+		'present'
+		,
+		78
+		'absent'
+		'present'
+		,
+		79
+		'[Transformational character]'
+		'loosely organized'
+		'one circlet'
+		'three concentric circlets'
+		,
+		80
+		'unattached'
+		'attached to substrate at some point in life cycle'
+		,
+		81
+		'[Transformational character]'
+		'attached as juvenile only'
+		'attached throughout lifecycle'
+		'attached as adult only'
+		,
+		82
+		'solitary'
+		'colonial'
+		,
+		83
+		'not chordata'
+		'chordata'
+		,
+		84
+		'not chordata'
+		'chordata'
+		,
+		85
+		'outgroup'
+		'ambulacraria'
+		,
+		86
+		'outgroup'
+		'ambulacraria'
+		
+	;
+	MATRIX
+	'Amiskwia sagittiformis'		                             ?000?10000?0-00?0?0-00010002-00??-000----?000--120200--0000020000?0?000001--00-0-00000
+	'Cephalochordata Branchiostoma'		                      1001?10000?12001011300110002-00??-000----?000--120100--0000030000?0?000001--00-0-01100
+	'Tunicata Ciona'		                                     1001?10000?0-0011?120001000--00??-000----?000--120110--0100010000?0?000001--00-1311100
+	'Shankouclava anningense cs3'		                        ?001?10000?0-00???1300010?????0?--000----??00??120110--0110010000?0?000001--00-1(2,3)0????
+	'Phlogites longus cs3'		                               ?000??0000?0-00???0-000?010--00?--000----?000--120110--0100010000?0?000001--1021(2,3)0????
+	'Hemichordata Gyaltsenglossus'		                       0??0?10000?1100??1??00010005-00??-000----?000--1201?0--00?0010000?0?000001--00-120????
+	'Hemichordata Spartobranchus'		                        0110?10000?1110??1130011000?-00??-000----?000--120??0--01?0010000?0?000001-?00???0????
+	'Hemichordata Oesia'		                                 0110?10000?1100??1130011000?-00??-000----?000--120??0--01?0010000?0?000001-?00???0????
+	'Pterobranch Rhabdopleura'		                           0100?10000?12002010-00000002-00??-000----?000--120??0--01?0010000?0?00000?-?00???10011
+	'Pterobranch Cephalodiscus'		                          0100?10000?12002011300000002-00??-000----?000--120??0--01?0010000?0?00000?-?00???10011
+	'Enteropneusta Harrimaniidae Saccoglossus'		           0110?10000?11111011300110002-00??-000----???0--120??0--00?0010000?0?000001-?00???00011
+	'Enteropneusta Spengelidae Glandiceps'		               0110?10000?1111101130011000?-00??-000----?000--120??0--00?0010000?0?000001-?00???00011
+	'Herpetogaster collinsi'		                             0000?10000?0-002010-00010102-00??-000----?000--120210--0110010000?0?000001-?00?120????
+	'Rotadiscus cs3'		                                     0000?10000?0-001110-000?0102-00??-000----?000--0-0-00--0110020000?0?000001-?00?0-0????
+	'Banffia constricta cs5'		                             0000?1000??0-00??01300?0?011101??-??0-?1-?000--0-0-00--0000011000?0?100001-?1030-0????
+	'Vetulicola cuneata cs3'		                             0000?10000?0-00??01300000011101?1???0-?1??100--0-0-00--0000031000?0?000001-?00-0-0????
+	'Beidazoon venustum cs3'		                             ?????1000??0-00??01(3,1)00000011101?1???0-?1-?000--0-0-00--000103?001?0?000001--00-0-0????
+	'Vetulocystis catenata cs3'		                          000??0000??0-00??01200000011100??-??0-??-?000-10-0-00--0001110000?0?0000021-1020-0????
+	'Mitrate Mitrocystella incipiens om'		                 ?????10001?0-00???0-00000011101?11??0-??-?100--0-0-00--000112?100100110001--1030-0????
+	'Mitrate Lagynocystis pyramidalis os2'		               ?????10101?0-00???1(1,2)00100011101?21??0-??-?110--0-0-00--000112?10010010000(2,1)(-,2)-1020-0????
+	'Mitrate Jaekelocarpus oklahomensis'		                 ?????10101?0-0010?1200100011101?????0-??-?110--0-0-00--000111?000100100001--00-0-0????
+	'Yanjiahella biscarpa cs1 aulacophore'		               ?????10????0-00?????00000011101?????0-??-?100--??0(-,2)?0--00011(1,2)?000?0??0000????0?0-0????
+	'Yanjiahella biscarpa cs1 tentacles'		                 ?00??10?0??0-00??1??0000000--00?--000-?--?000--121201?100011(1,2)0000?0?00000????0?120????
+	'Ctenoimbricata spinosa cs5'		                         ?????10001?0-00???1100000?0--00?--??0-?--?000--????0???00010211110100000022-?0?0-0????
+	'Ctenocystoid Courtessolea cs6-5'		                    ?????10001?0-00???1100000?0--00?--??0-?--?000--0-0-00--00010211111100000022-1010-0????
+	'Cinctan Bohemiacinctus havliceki cs5'		               ?????00001?0-00??0120000000--00?--??0-?--?000--???(-,1)00(-,1)(-,1)00011211110000000021-1020-0????
+	'Cornute Ponticulocarpus cs5'		                        ?????10101?0-0010?1300000011101?????0-??-?110-10-0-00--000112?1000011100022-1020-0????
+	'Solute Coleicarpus sprinklei cs6'		                   ?????10??1?0-00??0???0000011101??1??0-??-?00?--1?12?011000111?000?0?0000022-101120????
+	'Solute Castericystis vali cs6'		                      ?????10??1?0-00??0???0000011-01?????0-??-?00?--1?12?111000113?000?0???00022-101110????
+	'Helicocystis moroccoensis cs5'		                      ?????01111?0-001000-00000014201?2?0111-12?000121?12?011000111?000?0?000003-1102120????
+	'Helicoplacus cs3'		                                   ?????00111?0-00??00-00000013211?2-0111-22?000110-0-00--000111?000?0?000001--10?120????
+	'Eocrinoidea Ubaghsicystis cs5'		                      ?????10111?0-001001110000012-01?11??0-??1?00132111200220001120000?0?000113--1011200011
+	'Eocrinoidea Akadocrinus cs6'		                        ?????11111?0-00100111000001?101?11?????21?001?2111210220001110000?0?0000???????1200011
+	'Eocrinoidea Lyracystis radiata cs5'		                 ?????11111?0-00??01110001213101?11?10???1?00132111200110001110000?0?000003-1102120????
+	'Eocrinoidea Rhombifera Pleurocystites'		              ?????10111?0-00?001301000012-01??1??0-??1?001?21212?1221001120000?0?001113-11121?00011
+	'Edrioasteroidea Stromatocystites cs4-5'		             ?????10111?0-00??0111000001411121-0111121?000121111?0110001110000?0?000003-2101120????
+	'Edrioasteroidea Kailidiscus chinensis cs5'		          ?????10111?0-001000-000000142112211112-21?000121?11?0110001110000?0?000003-1101120????
+	'Edrioasteroidea Camptostroma cs4'		                   ?????101?1?0-00??011100000142112?-??12121?000221111?0110001110000?0?000003-2101120????
+	'Cornute? Ceratocystis perneri cs5-4'		                ?????10101?0-0010?13000000111011????0--2-?110--0-0-00--000112?100001100001--10-0-0????
+	'Eocrinoidea Kinzercystis cs4'		                       ?????10111?0-0010011100000141011111012211?001(2,3)21111?0110001110000?0?000003-2101120????
+	'Eocrinoidea Gogia cs4'		                              ?????11111?0-001001110000014101111??0-211?001321112?0110001110000?0?000003-1101120????
+	'Eocrinoidea Rhombifera Macrocystella os1'		           ?????11111?0-00100130100101?-01?11010-211?001?21112?1221001110000?0?001013-11121?00011
+	'Crinoidea Aethocrinus os1'		                          ???0?11111?0-001000-00001114101222??0-121?000321112?0130001110000?0?0000?3-210?1?0????
+    ;
+    ENDBLOCK;
+
+          BEGIN NOTES;
+              [Taxon comments]
+        	TEXT TAXON=3 TEXT='Following @Nanglu2022cb where scored';
+	TEXT TAXON=4 TEXT='@Chen2003pnas';
+	TEXT TAXON=5 TEXT='@Shu2003n; @Hou2006gff; @Caron2010po';
+	TEXT TAXON=6 TEXT='Following @Nanglu2022cb where scored';
+	TEXT TAXON=17 TEXT='Synonym of Bullivetula variola.^n^n^n^nCoded from @Aldridge2007p; @Chen2017ch26';
+	TEXT TAXON=19 TEXT='Basal mitrate in analysis of @Ruta1999zjls, though more derived in @Lefebvre2000jop';
+	TEXT TAXON=21 TEXT='@Dominguez2002n^n^nWhilst Jaekelocarpus is Carboniferous, the middle Ordovician Lagynocystis pyramidalis also exhibits gill bars [@AlvarezArmada2022prsb].';
+	TEXT TAXON=22 TEXT='Fortunian [@Topper2019nc]';
+	TEXT TAXON=24 TEXT='@Zamora2012bmcb';
+	TEXT TAXON=25 TEXT='@Zamora2012bmcb';
+	TEXT TAXON=26 TEXT='Latest Wuliuan; oldest cinctan Protocinctus is mid-Wuliuan, and differs little in the characters included in the present analysis [@Rahman2009zjls]^n^n^n^nDescribed in @Fatka2001jg; redescribed as Bohemiacinctus by @Zamora2023pip';
+	TEXT TAXON=27 TEXT='@Sumrall1999jp^n^nSpence Shale = Wuliuan^n^ncf. Protocystites menevensis [@Jefferies1987p]';
+	TEXT TAXON=28 TEXT='@Daley1996zjls';
+	TEXT TAXON=29 TEXT='@Daley1995g; @Ubaghs1985ukpc';
+	TEXT TAXON=32 TEXT='@Sumrall2015jp';
+	TEXT TAXON=33 TEXT='Paradoxides gracilis zone, middle Middle Cambrian [@Fatka1991vusg]';
+	TEXT TAXON=34 TEXT='@Sprinkle2011; @Sprinkle2006cjes';
+	TEXT TAXON=37 TEXT='@Zhao2010jp; @Zamora2022prsb';
+	TEXT TAXON=39 TEXT='Considered as cornute, or sister to cornutes+mitrates [@Rahman2010pz].^n^n@Jefferies1969p; @Clausen2005n; @Rahman2010pz';
+	TEXT TAXON=41 TEXT='Alanisicystis heralds from Stage 3 [@Smith2013nc]';
+	TEXT TAXON=43 TEXT='Note that holomeric stem ossicles, albeit not diagnostically of crinoids, occur in the middle Cambrian [@Clausen2012gff] and at the Early-Middle Cambrian boundary [@Clausen2008jp]';
+
+        [Character comments]
+        	TEXT CHARACTER=1 TEXT='Coded as ambiguous where taxa do not display soft part preservation.';
+	TEXT CHARACTER=2 TEXT='Recoded as ambiguous where taxa do not display soft part preservation.^n^n@Ruppert2005cjz writes:^n"In contrast to the chordate notochord [...] the hemichordate stomochord is regionally restricted, lacks an association with the locomotory musculature and nerve cord, lies below rather than above the dorsal aorta, and has a lumen that is confluent with the buccal cavity."^n^nPotentially homologous to pharyngeal organs in chordates [@Satoh2014g].';
+	TEXT CHARACTER=3 TEXT='@Topper2019 write: ^nThis collagenous structure underlies the stomochord in the proboscis of the majority of enteropneusts, being reduced or absent in the deep-sea torquaratoids. This structure has also been documented from both Cambrian enteropneust taxa [@Caron2013n; @Nangku2015p; @Nanglu2016bb].';
+	TEXT CHARACTER=4 TEXT='A longitudinal ciliated groove on the ventral pharynx wall in chordates, homologous to the vertebrate thyroid gland';
+	TEXT CHARACTER=5 TEXT='This character cannot be coded in fossil taxa, and plausibly conflates two non-homologous conditions [@Ruppert2005cjz].  Taking a more conservative approach than @Topper2019nc, I have opted to exclude this character.^n^n@Topper2019nc write: ^nChordates possess a dorsal hollow nerve cord and hemichordates possess a neurocord. Although the homology of these structures is unclear [@Ruppert2005cjz], the collar cord of enteropneusts has been considered by some to be homologous with the neurulation in chordates [@KaulStrehlow2013fiz]. This discussion appears far from settled, however for the purpose of this analysis we have united them here under a single character state.';
+	TEXT CHARACTER=6 TEXT='@Smith2013 and @Topper2019 conflate bilateral and radial symmetry; I prefer to treat these as independent, as they can (but need not) co-occur.^n^n@Smith2013 write: ^nA bilateral body plan has the mouth and anus at opposite poles and a clear left-right symmetry – as shown by Courtessolea; an asymmetric body plan has an anterior-posterior axis but with the mouth distinctly offset to one side and an asymmetry to the food grooves^n^n@Topper2019 write: ^nThe body plan of cinctans varies from asymmetrical to nearly bilaterally symmetrical, with symmetry expressed in the shape of the theca and the size/ number of the anterior feeding grooves [@Rahman2009zjls; @Zamora2014p]. This is most likely related to their asymmetric development of the hydrocoel during their metamorphosis from larva to adult [@Rahman2009zjls; @Zamora2014p]. As such, cinctans have been here coded as exhibiting an asymmetric body plan.';
+	TEXT CHARACTER=7 TEXT='Modified from @Smith2013, who implicitly treat this as a synonym for "more than two ambulacra", to apply only to taxa with radial symmetry; not, for example, to the highly asymmetric Helicoplacus, or to taxa with a dominant 2+1+2 symmetry.';
+	TEXT CHARACTER=8 TEXT='Many taxa display a component of helical twisting, which may be overprinted on a primary bilateral symmetry.';
+	TEXT CHARACTER=9 TEXT='Topper et al. (2019) write: ^nEchinoderms have a unique ontogeny where the organism undergoes a phase of torsion in development that rotates the axis of the developing adult 29. ^nAlthough no ontogenetic information regarding Yanjiahella biscarpa is known, the clear Anterior-Posterior (A-P) axis in all specimens, suggests that the taxon did not undergo torsion.^nThe A-P axis in solutes has been used to support a pre-torsion history of the echinoderms 29 and it has been suggested that the helicoplacoids represent the earliest echinoderms to have undergone complete torsion, as both dorsoventral and left-right body axes are lost and the hydrocoel displays a radial organization29. We follow this interpretation herein and have coded all bilateral and asymmetric total group echinoderm taxa (Yanjiahella biscarpa, ctenocystoids, cinctans and solutes) as not having undergone complete torsion.';
+	TEXT CHARACTER=10 TEXT='Topper et al. (2019) write: ^nThe poor preservation of Yanjianella biscarpa thecal plates does not allow stereom microstructure to be observed. Therefore, this character state is questioned, although stereom is interpreted herein to have been present in Y. biscarpa.';
+	TEXT CHARACTER=11 TEXT='This character is undefined by @Topper2019 and seems redundant to other characters pertaining to symmetry and the position of the anus.  As such it has been removed – all taxa have been coded ambiguous.';
+	TEXT CHARACTER=14 TEXT='Following @Nanglu2022cb^n';
+	TEXT CHARACTER=15 TEXT='Following @Nanglu2022cb';
+	TEXT CHARACTER=16 TEXT='The coelomopore is present in most deuterostomes (in echinoderms, as a hydropore); it is paired in pterobranchs [@Nanglu2020cb] and, conceivably, Herpetogaster [@Smith2023cb]';
+	TEXT CHARACTER=17 TEXT='Reflecting the similarity between the Ionic spiralling structure in Rotadiscus and that in certain tunicates [@Li2023cb]';
+	TEXT CHARACTER=18 TEXT='This character refers to the symmetry of the mesocoel (hydrocoel) in adults, and is coded ambiguous in taxa where the mesocoel is absent.  In echinoderms, the ambulacral system corresponds to the left mesocoel, with the right mesocoel reduced; the presence of a single ambulacrum rather than two tentacles is taken to correspond to the reduction of the right mesocoel.  The character is interpreted as neomorphic, with asymmetry representing the derived condition.  ^n^n@Topper2019nc write:^nHemichordates and echinoderms have a homologous mesocoel (hydrocoel in echinoderms). This is paired and symmetrical in Hemichordates. Most echinoderms have an asymmetric hydrocoelom, the right mesocoel regressing (to complete degeneration in crown groups). Even if a bilateral symmetry is seen in Yanjianella biscarpa and the ctenocystoids the presence of a paired, symmetrical mesocoel can only be at best suggested. As such, the presence of paired hydrocoel in the apparently symmetrical Yanjianella biscarpa cannot be accurately assessed (scored as ?).';
+	TEXT CHARACTER=19 TEXT='Openings are non-oral apertures such as gill slits or pores. Contra previous studies, I include epispires in this definition, as these functionally serve as respiratory openings, and are conceivably homologous; rhombs too contain respiratory pores so are treated as functionally equivalent and plausible homologues.^n^n@Li2023 write:^nNon-oral pharyngeal openings are present in all extant deuterostomes except echinoderms. We assume that all deuterostome non-oral pharyngeal openings are^nultimately homologous in the deuterostome pharynx (reviewed in @Swalla2008ptrslb).^n^n@Topper2019 write:^nA recent study21 regarding gill development genes, supported the homology of echinoderm and hemichordates gills. Such gills slits and, or pores have been described in stylophoran echinoderms (not included in this analysis) and there are strong morphological indications that such structures are present in cinctans and ctenocystoids30-31 (character state for both taxa coded here as present). Poor plate preservation does not allow an accurate assessment regarding the presence of gills/pore in Yanjianella biscarpa. Thecal plates of Yanjianella biscarpa might not have abutted during life so it is possible that gills may have opened between the plates, within the soft tegument (consequently character state is questioned herein).';
+	TEXT CHARACTER=20 TEXT='@Li2023 write:^n[certain taxa] have multiple pairs of non-oral pharyngeal openings running down their body';
+	TEXT CHARACTER=21 TEXT='Epispires consist of single, vertical openings located on the suture(s) between two or more adjacent thecal plates [@Sheffield2022]';
+	TEXT CHARACTER=23 TEXT='Secondary bars associated with pharyngeal slits, sometimes termed tongue bars, have a high preservation potential [@Li2023cb]. Such gill bars are found in enteropneusts, cephalochordates and vertebrates, albeit with different developmental patterns [@Li2023cb]; equivalent features are also found in certain mitrates [@AlvarezArmada2022prsb].^n^nTopper et al. (2019) write: ^nGill bars are a morphological feature shared by enteropneusts, including the two Cambrian taxa (Oesia and Spartobranchus) where such structures are among the most common and well-preserved internal features [@Caron2013n; @Nanglu2015p; @Nanglu2016bb].';
+	TEXT CHARACTER=26 TEXT='Expressed as "Free feeding appendages isotomously branched" by @Topper2019.^nHemichordate tentacles are treated as homologous to the echinoderm water vascular system. An additional state is added to reflect the heterotomous branching in Lyracystis, which is not considered equivalent to isotomous branching [@Zamora2012prsb]^n';
+	TEXT CHARACTER=27 TEXT='Ambulacra are appendages associated with the mesocoelic tentacles (= water vascular system).  These are treated as homologous with the aulacophore. The presence or absence of cover plates is treated as a separate character, rather than part of the definition.^n^n@Topper2019 coded inapplicable in outgroup without justification; modified to absent.^n^n@Topper2019 write:^nEvidence for flooring/cover plates associated with the water vascular system is found in all echinoderms here, except cinctans, ctenocystoids and Yanjianella.';
+	TEXT CHARACTER=28 TEXT='Following @Zamora2012prsb^n^nInevitably related to the degree of radial symmetry, if present; thus that character has been removed as redundant to this.^n@^nTopper et al. (2019) write: ^nOf those echinoderm forms with a radial body plan Helicoplacus does not show pentaradial symmetry, instead showing three-fold symmetry.';
+	TEXT CHARACTER=29 TEXT='@Smith2013 write:^nAmbulacra on the theca are strongly curved in Helicoplacus, Helicocystis, and^nCamptostroma and straight or only weakly curved towards the ends in Lepidocystis and^nStromatocystites. In Gogia, although some have spiral brachioles, none have ambulacra^nforming an integral part of the theca and so are scored as inapplicable.^n^n@Topper2019 write: ^nPelmatozoans without ambulacra forming an integral part of the theca are scored as inapplicable.';
+	TEXT CHARACTER=30 TEXT='Treated as neomorphic, as integration into the theca is interpreted as a secondary modification of appendages that were originally distinct.  Taxa with no appendages are thus coded as not exhibiting integration of appendages into theca.^n^n@Smith2013 write:^nCastericystis, Gogia and Lepidocystis all have appendages that carry extensions of the water vascular system.';
+	TEXT CHARACTER=31 TEXT='Treated as a neomorphic character.^n^n@Smith2013 write:^nEvidence for a series of flooring/coverplates associated with the water vascular system is found in all except cinctans and ctenocystoids.';
+	TEXT CHARACTER=32 TEXT='@Guensburg2020jp distinguish ambulacral cover plates arranged in lateral and medial tiers from those arranged in a single biseries of lateral plates, with the medial tier not expressed.^nMedial and lateral tiers were previously referred to as primary and secondary cover plates [@Paul1984br].';
+	TEXT CHARACTER=33 TEXT='Following @Zamora2022prsb';
+	TEXT CHARACTER=34 TEXT='"Ambulacrum" is expressed as "Skeletonized free feeding appendage(s)" by @Topper2019, but this overlooks the homology of feeding appendages as ambulacra.';
+	TEXT CHARACTER=35 TEXT='Adaxial plates are located along the axis; see @Sumrall2017 fig. 2 (light blue) for diagram.';
+	TEXT CHARACTER=36 TEXT='Abaxial plates are located away from the axis; see @Sumrall2017 fig. 2 (green) for diagram.^n@Sumrall2017jp writes:^n"One of the defining characters of the oral-plate-bearing blastozoan clade is the presence of well-developed abradial floor plates and the apparent absence of adradial floor plates, associated with the presence of oral plates and the absence of the oral frame plates."';
+	TEXT CHARACTER=37 TEXT='@Smith2013 write:^nThe presence of ambulacra forming an integral part of the thecal plating is true for all ambulacral-bearing members included here except Gogia. In Gogia the brachioles arise directly from perioral plates and there is no ambulacral section extending over the theca.';
+	TEXT CHARACTER=38 TEXT='Character 3 in @Guensburg2020jp distinguishes the aspect ratio of floor plates that have been incorporated into the theca (and pointedly does not address appendage morphology).';
+	TEXT CHARACTER=39 TEXT='Character 4 in @Guensburg2020jp distinguishes thin slat-like floor plates that do not support appendages from thick blocky floor plates within the appendages that form skeletal supports within blastozoans.  Inapplicable if no free appendages.';
+	TEXT CHARACTER=40 TEXT='@Smith2013 write:^nThe flooring plates on the theca can be perforate, connecting the ambulacral groove to the interior of the theca as in Camptostroma, Stromatocystites and Helicoplacus, or imperforate, as in Lepidocystis and Helicocystis. Flooring plate morphology for Lepidocystis and Camptostroma is taken from Mooi et al. (2005). Gogia and solutes have no flooring plates on the theca and so cannot be scored for this character.^n^n@Topper2019 write: ^nPerforation of flooring plates connects the ambulacra groove to the interior of the theca. Scored as inapplicable for echinoderms lacking flooring plates (most blastozoans).';
+	TEXT CHARACTER=41 TEXT='@Smith2013 write:^nHelicoplacus and Helicocystis both have a pleated interambulacral structure that provided flexibility, allowing the body to expand and contract.^n';
+	TEXT CHARACTER=42 TEXT='This character from @Topper2019 has been removed as it is redundant to the presence of plates^n';
+	TEXT CHARACTER=43 TEXT='The stylophoran aulacophore exhibits distinct proximal and distal regions';
+	TEXT CHARACTER=44 TEXT='The stylocone is a plate situated between the proximal and distal regions of the stylophoran aulacophore (ambulacrum).';
+	TEXT CHARACTER=45 TEXT='To paraphrase the summary of @David2000p expressed by @Smith2005gj: Brachioles house just the water vascular system and radial nerve; arms also house coelomic extensions of the main body cavity. The absence of stomatocoels in the appendages is picked up as a character by @Guensburg2020jp, who state "Brachioles are entirely axial in construction whether uniserial or biserial, their primary support structures always arising from (axial) floor plates or representing extensions of those floor plates beyond the perforate extraxial region."^n^nThe ambulacra of certain eocrinoids (e.g. Kinzercystis, Gogia) exhibit brachioles: erect, biserial feeding structures contain no coelomic space.^n^n@Smith2013 write:^nThe construction of the appendage in solutes differs from that in Gogia and Lepidocystis in having a large coelomic space in direct connection with the theca.^n';
+	TEXT CHARACTER=46 TEXT='Coded inapplicable in taxa where the ambulacrum is not an integrated part of the theca.^n^n@Smith2013 write:^nIn solutes the axial zone is restricted to the single appendage and forms only a relatively small part of the theca. In Helicoplacus the entire body is composed of axial zone, and axial zone plating dominates in Helicocystis and Stromatocystites. In Gogia and Lepidocystis the axial zone is small in comparison to the stalk and cup while in Camptostroma they are approximately equal. Scored as inapplicable where there is no axial zone.';
+	TEXT CHARACTER=47 TEXT='@Smith2013 write: ^nScored as inapplicable where no axial zone/ambulacral zone is recognizable';
+	TEXT CHARACTER=48 TEXT='Treated as "Stalk or stem" by @Topper2019; reworded to reflect potential homology with post-anal spines.^n^nThis character also captures the "differentiated cup" that unites Helicocystis and Gogia in @Smith2013; these authors seem to use this character to refer to taxa that have a theca between their axial area and their stem.^n^nNote: This is coded as distinct from the "muscular stalk or stem" mentioned in an earlier character.';
+	TEXT CHARACTER=49 TEXT='Recoded from Topper et al. to be contingent on the presence of a stalk or stem (muscular or otherwise), to avoid duplication.^nTopper et al. (2019) write:^nAll hemichordates have a muscular trunk (enteropneust) or stalk (pterobranch). Among included echinoderms, muscular appendages have been described in leurocystitiids10, and also suggested in solutes (e.g. 32 and references therein; character state questioned herein). The stalk of Yanjianella biscarpa is interpreted herein to be muscular.';
+	TEXT CHARACTER=53 TEXT='Excludes the presence of a terminal disc, considered separately';
+	TEXT CHARACTER=54 TEXT='A holomeric plate comprises a single piece';
+	TEXT CHARACTER=55 TEXT='Holomeric columnals were traditionally taken to reflect the fusion of polymeric elements, but @Clausen2008 propose that a holomeric configuration is likely to be ancestral.';
+	TEXT CHARACTER=56 TEXT='A ring of articulating flanges are associated with the attachment of the stalk in pleurocystids and glyptocystids [@Zamora2012prsb]';
+	TEXT CHARACTER=57 TEXT='Wording modified from "external tubular dwelling structure" to reflect the potential homology with the tunicate tunic, and in turn to the ''disc'' of Rotadiscus.^n^nShankouclava is interpreted as exhibiting a tunicate-like tunic.  Comparisons with Phlogites and Herpetogaster would suggest that the trunks of these taxa have a similar configuration. In turn, the "segmental" ridges of the Herpetogaster trunk has been compared to the ridges of the eldoniid body disc. These body walls are thus treated as potential homologues.^n^n^n@Topper2019 coded Echinoderms as inapplicable without explanation; corrected to absent.^n^nTopper et al. (2019) write:^nThe Cambrian hemichordate taxa are tubiculous organisms18-20. Even if all four families of extant enteropneust can secrete mucous “tubes” when stressed, this structure is not homologous to those of their Cambrian relatives19.^nNo equivalent is known in echinoderms. There is no conclusive evidence to suggest that this character was present in Yanjianella biscarpa, which instead possesses a skeletonized tubular body chamber, and a weakly skeletonized stalk, and is considered herein as such.';
+	TEXT CHARACTER=58 TEXT='The external sheath of Herpetogaster bears prominent ridge, which are plausibly equivalalent to the radial ridges in eldoniids and the almost segmented appearance of the Shankouclava sheath.';
+	TEXT CHARACTER=59 TEXT='This character has been reformulated to refer expressly to the theca; periproct plates (present in Banffia and Phlogites, which lack ossicles in the theca) are treated separately.';
+	TEXT CHARACTER=60 TEXT='The dorsal plates of ctenocystoids are set in integument but do are not immediately adjacent and not tessellate.  Treated as neomorphic.';
+	TEXT CHARACTER=61 TEXT='State "laterally compressed" added to reflect condition in Vetulicola.^n^nTaken to correspond to trunk/metasome in non-echinoderms; see @Smith2023cb';
+	TEXT CHARACTER=62 TEXT='@Zamora2012po homologize the suroral plate / operculum of ctenocystoids and cinctans.  This large anterior plate sits dorsal to the position of the mouth.';
+	TEXT CHARACTER=63 TEXT='Neomorphic character; inapplicables corrected to absent^n^n@Smith2013 write:^nA flattened body form framed by a ring of stout marginal ossicles is shared by ctenocystoids and cinctans.^n^n@Topper2019 write:^nOnly the ctenocystoids and cinctans in this analysis have a body form framed by broad marginal ossicles.';
+	TEXT CHARACTER=64 TEXT='Homologized between ctenocystoids and cinctans by @Zamora2012prsb.  Treated as neomorphic.';
+	TEXT CHARACTER=65 TEXT='The cinctan food groove is treated as homologous to the labrum of ctenocystoids, which surrounds the respiratory openings and occupies the antero-marginal surface of the theca.  The lateral groove of Beidazoon also surrounds the respiratory openings and proceeds posteriad from the anterior theca along the lateral midline; it is thus coded as a potential homolog.^nThe character is treated as neomorphic.';
+	TEXT CHARACTER=66 TEXT='The fifth marginal plate is interpreted as secondarily lost in mitrates [@Lefebvre2000jp]';
+	TEXT CHARACTER=67 TEXT='Ctenocystoids exhibit a single posterior plate at the end of their paired marginals [@Zamora2012po]. Interpreted as neomorphic.';
+	TEXT CHARACTER=68 TEXT='Protuberances adorn the lower surface of marginal plates in many cornutes, but not mitrates [@Lefebvre2000jp]';
+	TEXT CHARACTER=69 TEXT='The glossal and digital are external processes that in certain mitrates are incorporated into the marginal frame [@Lefebvre2000jp]';
+	TEXT CHARACTER=70 TEXT='In certain mitrates these processes are incorporated into the marginal frame [@Lefebvre2000]. Treated as neomorphic (not incorporated → incorporated).';
+	TEXT CHARACTER=71 TEXT='In taxa such as Ridersia, Macrocystella and Veleiuxicystis, the plates of the theca form regimented rows around the circumference of the theca.^nCharacter derived from @Zamora2012prsb.';
+	TEXT CHARACTER=72 TEXT='Originally stated in @Zamora2012prsb with modifier "and bearing free arms", removed to avoid conflating multiple observations in a single character';
+	TEXT CHARACTER=73 TEXT='Treated as neomorphic. ^n@Zamora2012prsb writes:^nLarge oral plates are characteristic of Macrocystella and Ridersia where they fill the oral area. In crinoids these, if present, are internal and thus scored as unknown. ';
+	TEXT CHARACTER=74 TEXT='= position of anus in non-echinoderms';
+	TEXT CHARACTER=77 TEXT='The anal pyramid of stylophorans and other groups, and the periproct of Banffia comprise multiple plates arranged around the presumed anus, differentiated from the plates of the theca';
+	TEXT CHARACTER=78 TEXT='Pleurocystites and Macrocystella exhibit distinctive L-shaped plates that form a frame around the opening [@Zamora2012prsb]';
+	TEXT CHARACTER=79 TEXT='Whereas Banffia exhibits three distinct and regimented circlets of plates, a more chaotic arrangement of plates occurs in the anal pyramids of e.g. solutes.';
+
+      [Attribute comments]
+      	TEXT TAXON=6 CHARACTER=2 TEXT='Preservation plausible but equivocal [@Nanglu2020cb]';
+	TEXT TAXON=28 CHARACTER=6 TEXT='Symmetrical [@Daley1996zjls]';
+	TEXT TAXON=31 CHARACTER=6 TEXT='Mouth distinctly offset to one side';
+	TEXT TAXON=5 CHARACTER=6 TEXT='Probably, but not demonstrably, reflected in tentacles';
+	TEXT TAXON=20 CHARACTER=6 TEXT='Primarily symmetrical, but with asymmetrically developed marginal plates [@Parsel2000jp].';
+	TEXT TAXON=18 CHARACTER=11 TEXT='Position of mouth and anus uncertain';
+	TEXT TAXON=2 CHARACTER=18 TEXT='Considered homologous with the coelomic pouches expressed during cephalochordate development [@Yasui2000d]';
+	TEXT TAXON=14 CHARACTER=18 TEXT='Symmetry suggested by tentacles; presence of single pore compatible with symmetry [@Yasui2000d]';
+	TEXT TAXON=29 CHARACTER=18 TEXT='Hydropore expressed in plate [@Daley1995g]';
+	TEXT TAXON=13 CHARACTER=18 TEXT='Reflected by presence of paired coelompores as interpreted by @Smith2023cb';
+	TEXT TAXON=3 CHARACTER=18 TEXT='Concerted investigation found no evidence of mesodermal compartments, suggesting that the tripartite coelom is secondarily lost in tunicates [@Stach2009z]. ';
+	TEXT TAXON=23 CHARACTER=18 TEXT='Tentacles treated as homologues of deuterostome tentacles';
+	TEXT TAXON=22 CHARACTER=19 TEXT='No body openings identified in any specimen, but preservation inadequate to discount.';
+	TEXT TAXON=25 CHARACTER=19 TEXT='A single anterior aperture presumably corresponds to the distinct inhalent and exhalent apertures of cinctans [@Zamora2012bmcb]';
+	TEXT TAXON=28 CHARACTER=19 TEXT='No evidence available due to poor preservation, but branchial slit inferred as possibly present based on close relatives Dendrocystoides and Girvanicystis [@Daley1996zjls]';
+	TEXT TAXON=42 CHARACTER=19 TEXT='Coded absent by @Guensburg2020jp, but I treat (incipient) rhombs [@Dzik1993app] as containing respiratory pores.';
+	TEXT TAXON=36 CHARACTER=19 TEXT='Epispires all over theca [@Zamora2015g]';
+	TEXT TAXON=27 CHARACTER=19 TEXT='Series of cothurnopores';
+	TEXT TAXON=18 CHARACTER=19 TEXT='Assumed present based on preservation of respiratory organ (Shu et al. 2004)';
+	TEXT TAXON=24 CHARACTER=19 TEXT='A single anterior aperture presumably corresponds to the distinct inhalent and exhalent apertures of cinctans [@Zamora2012bmcb]';
+	TEXT TAXON=29 CHARACTER=19 TEXT='No evidence available. Branchial slit previously inferred as present based on close relatives Dendrocystoides and Girvanicystis [@Daley1995g]';
+	TEXT TAXON=13 CHARACTER=19 TEXT='Interpreted as absent; the candidate structures occupy the mesosome rather than the trunk, so are interpreted as paired coelomopores [@Smith2023cb]';
+	TEXT TAXON=6 CHARACTER=19 TEXT='Coded ambiguous: likely present, but not preserved [@Nanglu2020cb]';
+	TEXT TAXON=5 CHARACTER=19 TEXT='Respiratory openings have never been suggested in Phlogites, and there are no obvious candidates, even if the area around the lobes, and the lobes themselves, is somewhat difficult to interpret.';
+	TEXT TAXON=17 CHARACTER=19 TEXT='Lateral lines correspond in position to Vetulicola gill pores and have inferred respiratory function';
+	TEXT TAXON=15 CHARACTER=23 TEXT='Coded ambiguous; plausibly represented by the five ''grooves''';
+	TEXT TAXON=21 CHARACTER=23 TEXT='Present [@Dominguez2002n]; their morphological statistics are similar to the bars of hemichordates, even if their homology is uncertain [@AlvarezArmada2022prsb]';
+	TEXT TAXON=6 CHARACTER=23 TEXT='Conceivably present but not preserved, yet absence of preservation considered sufficient to denote absence in context of their preservation in other Burgess Shale hemichordates [@Nanglu2020cb]';
+	TEXT TAXON=2 CHARACTER=24 TEXT='The branchial basket is interpreted as a potential homologue of the hemichordate mesosome [@Smith2023cb].';
+	TEXT TAXON=14 CHARACTER=24 TEXT='Coded ambiguous; likely to be present due to the shared body configuration with Herpetogaster, but such a region is not obvious in either Rotadiscus or Eldonia, leaving its interpretation uncertain.';
+	TEXT TAXON=13 CHARACTER=24 TEXT='The anterior region of Herpetogaster is interpreted as homologous to the hemichordate mesosome [@Smith2023cb]';
+	TEXT TAXON=1 CHARACTER=24 TEXT='The differentiated head of Amiskwia is interpreted as a potential homologue of the hemichordate mesosome [@Smith2023cb].';
+	TEXT TAXON=3 CHARACTER=24 TEXT='The branchial basket represents a distinct body region';
+	TEXT TAXON=5 CHARACTER=24 TEXT='The distinct lobes potentially form a distinct body region akin to that of Herpetogaster [see @caron2010po; @Hou2017ch23], so Phlogites is coded ambiguous.';
+	TEXT TAXON=2 CHARACTER=12 TEXT='The rostrum is treated as a putative homologue of the hemichordate prosome [after @Smith2023cb]';
+	TEXT TAXON=6 CHARACTER=13 TEXT='"Highly similar in morphology" to the harrimaniid Saccoglossus [@Nanglu2020cb]';
+	TEXT TAXON=28 CHARACTER=49 TEXT='Treated as ambiguous pending follow-up of reservations of @Topper2019nc';
+	TEXT TAXON=29 CHARACTER=49 TEXT='Treated as ambiguous pending follow-up of reservations of @Topper2019nc';
+	TEXT TAXON=5 CHARACTER=59 TEXT='Cuticle stiffened, indicated by ridges, but not mineralized';
+	TEXT TAXON=17 CHARACTER=59 TEXT='Tubercles show high relief so were likely originally mineralized or recalcitrant';
+	TEXT TAXON=15 CHARACTER=10 TEXT='The periproct elements retain significant relief and it is not impossible that they were weakly mineralized.';
+	TEXT TAXON=18 CHARACTER=10 TEXT='Argued as absent based on absence of brittle failure [@Shu2004n], but the plates retain significant relief and it is not impossible that they were weakly mineralized.';
+	TEXT TAXON=17 CHARACTER=10 TEXT='Surface texture conceivably represents mineralized plates';
+	TEXT TAXON=27 CHARACTER=63 TEXT='Prominently present [@Sumrall1999jp]';
+	TEXT TAXON=16 CHARACTER=63 TEXT='Marginal elements on Vetulicola are dorsal and ventral and do not comprise plates, so are unlikely homologous.';
+	TEXT TAXON=20 CHARACTER=63 TEXT='Present, covering ventral surface [@Parsley2000jp]';
+	TEXT TAXON=26 CHARACTER=27 TEXT='@David2000p argues that the anterior food grooves should be interpreted as brachiolar ambulacra, but I follow @Zamora2012prsb in homologizing these with the ctenidial and marginal plates of ctenocystoids.';
+	TEXT TAXON=18 CHARACTER=27 TEXT='The appendage of Vetulocystis is tentatively interpreted as homologous to the ambulacra of other taxa';
+	TEXT TAXON=4 CHARACTER=27 TEXT='Putative tentacles are reported by @Shu2010prsb, but whether these are associated with appendages is uncertain.';
+	TEXT TAXON=36 CHARACTER=29 TEXT='Straight [@Zamora2015g]';
+	TEXT TAXON=2 CHARACTER=48 TEXT='Post-anal tail present';
+	TEXT TAXON=11 CHARACTER=48 TEXT='Recoded, as muscular stalk, stem or tail coded present by Topper et al. 2019';
+	TEXT TAXON=12 CHARACTER=48 TEXT='Recoded, as muscular stalk, stem or tail coded present by Topper et al. 2019';
+	TEXT TAXON=7 CHARACTER=48 TEXT='Recoded, as muscular stalk, stem or tail coded present by Topper et al. 2019';
+	TEXT TAXON=8 CHARACTER=48 TEXT='Recoded, as muscular stalk, stem or tail coded present by Topper et al. 2019';
+	TEXT TAXON=9 CHARACTER=48 TEXT='Recoded, as muscular stalk, stem or tail coded present by Topper et al. 2019';
+	TEXT TAXON=10 CHARACTER=48 TEXT='Recoded, as muscular stalk, stem or tail coded present by Topper et al. 2019';
+	TEXT TAXON=22 CHARACTER=48 TEXT='"Feeding appendages" are conceivably homologues of the post-anal structure; thus treated as ambiguous';
+	TEXT TAXON=26 CHARACTER=48 TEXT='The stele is conceivably an extension of the marginal plates [@David2000p], but may be homologous with the distinct post-anal structure of other echinoderms.';
+	TEXT TAXON=36 CHARACTER=48 TEXT='Stem treated as present by @Smith2013prsb';
+	TEXT TAXON=38 CHARACTER=48 TEXT='Stem treated as present by @Smith2013prsb';
+	TEXT TAXON=21 CHARACTER=48 TEXT='The spine is potentially homologous with the glossal of cornutes, an extension of the posteriormost marginal plate [@Sumrall1999jp].  This is not however treated as a  potential homologue of the post-anal structure as it arises from a marginal plate.';
+	TEXT TAXON=39 CHARACTER=48 TEXT='Ceratocystis exhibits two enlarged plates that plausibly correspond to the digital and glossal, but as these are elements of the theca they are not coded as homologous to post-anal structures.';
+	TEXT TAXON=24 CHARACTER=48 TEXT='Distinct post-anal structure interpreted as absent [@Zamora2012], but coded as ambiguous as the posterior part of the specimen is not preserved.';
+	TEXT TAXON=1 CHARACTER=48 TEXT='Post-anal fin treated as possible homologue to cephalochordate post-anal tail [@Smith2023cb]';
+	TEXT TAXON=37 CHARACTER=48 TEXT='Pedunculate zone treated as potentially homologous with stalk, by comparison with Edrioaster [@Zhao2010jp]';
+	TEXT TAXON=28 CHARACTER=53 TEXT='No differentiation [@Daley1996zjls]';
+	TEXT TAXON=22 CHARACTER=61 TEXT='Difficult to establish the extent to which the flattened appearance of fossils represents post-mortem compaction';
+	TEXT TAXON=41 CHARACTER=40 TEXT='Absence reported by @Guensburg2020jp.';
+	TEXT TAXON=42 CHARACTER=40 TEXT='Absence reported by @Guensburg2020jp.';
+	TEXT TAXON=43 CHARACTER=40 TEXT='Presence reported by @Guensburg2020jp.';
+	TEXT TAXON=39 CHARACTER=40 TEXT='Pores treated as present by @Guensburg2020jp';
+	TEXT TAXON=37 CHARACTER=40 TEXT='Podial pores through flooring plates [@Zamora2022prsb]';
+	TEXT TAXON=35 CHARACTER=71 TEXT='Coded as organized in circlets by @Zamora2012prsb';
+	TEXT TAXON=43 CHARACTER=71 TEXT='Originally coded as present in @Zamora2012prsb, and retained as such by @Topper2019, but this is not supported by the fossil material.';
+	TEXT TAXON=27 CHARACTER=47 TEXT='Right, under M''1';
+	TEXT TAXON=28 CHARACTER=75 TEXT='On dorsal midline [@Daley1996zjls]';
+	TEXT TAXON=32 CHARACTER=21 TEXT='@Sumrall2015jp infer presence of epispires along some plate margins';
+	TEXT TAXON=37 CHARACTER=21 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=42 CHARACTER=22 TEXT='@Dzik1993app treats Macrocystella as exhibiting incipient rhombs, even though these are coded absent by @Zamora2012prsb';
+	TEXT TAXON=15 CHARACTER=25 TEXT='Plausibly represented by the five ''grooves''';
+	TEXT TAXON=19 CHARACTER=25 TEXT='External ridges: ornamentation only?';
+	TEXT TAXON=34 CHARACTER=25 TEXT='Coded as present by @Zamora2012prsb';
+	TEXT TAXON=30 CHARACTER=30 TEXT='Cup and ambulacral region are distinct [@Smith2013prsb]';
+	TEXT TAXON=26 CHARACTER=34 TEXT='Interpreted as biseries by @David2000p';
+	TEXT TAXON=34 CHARACTER=34 TEXT='Biserial [@Sprinkle2011cjes]';
+	TEXT TAXON=4 CHARACTER=26 TEXT='Putative tentacles are reported by @Shu2010prsb, but whether these branch is uncertain.';
+	TEXT TAXON=22 CHARACTER=57 TEXT='Absent; the structure interpreted as such by @Topper2019 is the distal aulacophore';
+	TEXT TAXON=6 CHARACTER=57 TEXT='Conceivable that all specimens found had been dislodged from tubes – but considered unjustifiable to code as such [@Nanglu2020cb]';
+	TEXT TAXON=3 CHARACTER=57 TEXT='The tunicate tunic is conceivably homologous with the hemichordate coenicium';
+	TEXT TAXON=4 CHARACTER=82 TEXT='All nine known specimens preserved individually';
+	TEXT TAXON=22 CHARACTER=42 TEXT='Ambiguous; proximal region has robust preservation that may denote mineralization';
+	TEXT TAXON=22 CHARACTER=8 TEXT='Plate arrangement insufficiently constrained to evaluate';
+	TEXT TAXON=28 CHARACTER=8 TEXT='Not clear how this could be recognized given irregular plating of theca; coded ambiguous';
+	TEXT TAXON=15 CHARACTER=8 TEXT='Indicated by banding on carapace';
+	TEXT TAXON=27 CHARACTER=8 TEXT='Denoted by curvature of zygal plate';
+	TEXT TAXON=29 CHARACTER=8 TEXT='Not clear how this could be recognized given irregular plating of theca; coded ambiguous';
+	TEXT TAXON=20 CHARACTER=8 TEXT='Present due to loss of plates from presumed ancestor resembling Barrandeocarpus [@Parsley2000jp]';
+	TEXT TAXON=19 CHARACTER=8 TEXT='Considered, alongside Barrandeocarpus, to represent an ancestrally untorted form [@Parsley2000jp]';
+	TEXT TAXON=22 CHARACTER=31 TEXT='Evident in proximal region';
+	TEXT TAXON=26 CHARACTER=31 TEXT='Interpreted as present by @David2000p';
+	TEXT TAXON=40 CHARACTER=7 TEXT='2+1+2';
+	TEXT TAXON=36 CHARACTER=7 TEXT='2+1+2';
+	TEXT TAXON=38 CHARACTER=7 TEXT='2+1+2';
+	TEXT TAXON=37 CHARACTER=7 TEXT='2+1+2';
+	TEXT TAXON=22 CHARACTER=45 TEXT='Water vascular canal evident';
+	TEXT TAXON=26 CHARACTER=45 TEXT='Food grooves interpreted as brachioles by @David2000p';
+	TEXT TAXON=28 CHARACTER=45 TEXT='Coded ambiguous; @David2000p argue that the appendage should be interpreted as a brachiole, but this has been contested [@Smith2005gj]';
+	TEXT TAXON=32 CHARACTER=45 TEXT='Two [@Sumrall2015jp]';
+	TEXT TAXON=43 CHARACTER=45 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=29 CHARACTER=45 TEXT='Coded ambiguous; @David2000p argue that the appendage should be interpreted as a brachiole, but this has been contested [@Smith2005gj]';
+	TEXT TAXON=43 CHARACTER=46 TEXT='Extraxial perforate plates forming a theca outside the appendages but with^na clear oral region, as with Lyracstis [@Zamora2012prsb]';
+	TEXT TAXON=14 CHARACTER=80 TEXT='Epibionts denote sessile habit, but no evidence of physical attachment';
+	TEXT TAXON=23 CHARACTER=80 TEXT='Following interpretation of @Topper2019nc as anchoring organ';
+	TEXT TAXON=29 CHARACTER=81 TEXT='Juvenile only; adults free-living [@Daley1995g]';
+	TEXT TAXON=31 CHARACTER=74 TEXT='Considered posterior by @Smith2008ed and apical by @Smith2013prsb';
+	TEXT TAXON=32 CHARACTER=74 TEXT='@GilCid2002cp write: "The anal area [was] situated above the equator of the theca between cycles three and five and is slightly displaced with respect to the possible hydropore-gonopore"';
+	TEXT TAXON=27 CHARACTER=74 TEXT='Following interpretation of @Sumrall1999jp';
+	TEXT TAXON=24 CHARACTER=74 TEXT='Interpreted as posterior part of dorsal membrane, by elimination of alternatives [@Zamora2012]';
+	TEXT TAXON=29 CHARACTER=74 TEXT='Anal cone is dorsal to the tail [@Daley1995g]';
+	TEXT TAXON=20 CHARACTER=74 TEXT='Within marginal frame, but at posterior location [@Parsley2000jp]; coded ambiguous (dorsal plates / posterior)';
+	TEXT TAXON=26 CHARACTER=20 TEXT='One covered by the operculum';
+	TEXT TAXON=15 CHARACTER=20 TEXT='Ridges are treated as pharyngeal openings^n';
+	TEXT TAXON=16 CHARACTER=20 TEXT='Five openings in series [@Shu2012]^n';
+	TEXT TAXON=21 CHARACTER=20 TEXT='Asymmetrical anterodorsal gaps interpreted as exhalent openings [@Dominguez2002n]';
+	TEXT TAXON=39 CHARACTER=20 TEXT='"accessory gaps"';
+	TEXT TAXON=3 CHARACTER=20 TEXT='Inhalent and exhalent siphon';
+	TEXT TAXON=20 CHARACTER=20 TEXT='Paired anterior pores [@Parsley2000jp]';
+	TEXT TAXON=17 CHARACTER=20 TEXT='Lateral lines conceivably mask iterated gill openings, as interpreted by @Shu2005csb; hence coded ambiguous';
+	TEXT TAXON=34 CHARACTER=76 TEXT='Lateral anal pyramid near edge of wider CD interray [@Sprinkle2006cjes; @Sprinkle2011jp]';
+	TEXT TAXON=31 CHARACTER=77 TEXT='Considered present by @Smith2008ed';
+	TEXT TAXON=40 CHARACTER=77 TEXT='Distinct anal pyramid of lath-like plates [@Paul1984br]';
+	TEXT TAXON=16 CHARACTER=77 TEXT='Though circlets occur in other vetulicolans, Vetulicola itself does not exhibit a circlet of plates around its posterior opening [@Ou2012bmcb]';
+	TEXT TAXON=39 CHARACTER=77 TEXT='Multiple small plates on oral integument considered homologous to circlet of plates';
+	TEXT TAXON=5 CHARACTER=77 TEXT='The anal opening is surrounded by a single (?) circlet of plates [@Caron2010po], though these are presumably non-mineralized';
+	TEXT TAXON=26 CHARACTER=79 TEXT='Single circlet typical for cinctans [@Smith2009p]';
+	TEXT TAXON=28 CHARACTER=79 TEXT='Irregularly arranged [@Daley1996zjls]';
+	TEXT TAXON=42 CHARACTER=79 TEXT='L-shaped plates form a frame around the opening [@Zamora2012prsb]';
+	TEXT TAXON=35 CHARACTER=79 TEXT='L-shaped plates form a frame around the opening [@Zamora2012prsb]';
+	TEXT TAXON=27 CHARACTER=79 TEXT='Single circlet of needle-like spines in Flabellicystis [@MartiMus2002pz]';
+	TEXT TAXON=19 CHARACTER=79 TEXT='Three circlets [@Ruta1999zjls]';
+	TEXT TAXON=17 CHARACTER=43 TEXT='No distinct regions evident [@Shu2005csb]';
+	TEXT TAXON=2 CHARACTER=16 TEXT='Following @Nanglu2020cb';
+	TEXT TAXON=11 CHARACTER=16 TEXT='Following @Nanglu2020cb';
+	TEXT TAXON=12 CHARACTER=16 TEXT='Left coelomopore only [@KaulStrehlow2013fiz]';
+	TEXT TAXON=7 CHARACTER=16 TEXT='Following @Nanglu2020cb';
+	TEXT TAXON=8 CHARACTER=16 TEXT='Following @Nanglu2020cb';
+	TEXT TAXON=9 CHARACTER=16 TEXT='Following @Nanglu2020cb';
+	TEXT TAXON=10 CHARACTER=16 TEXT='Following @Nanglu2020cb';
+	TEXT TAXON=31 CHARACTER=16 TEXT='Hydropore not preserved [@Smith2008ed].  Coded ambiguous; presumed unpaired.';
+	TEXT TAXON=36 CHARACTER=16 TEXT='Hydropore unknown [@Zamora2015g]';
+	TEXT TAXON=14 CHARACTER=16 TEXT='Present, unparied [@Li2023cb]';
+	TEXT TAXON=6 CHARACTER=16 TEXT='Following @Nanglu2020cb';
+	TEXT TAXON=3 CHARACTER=16 TEXT='Following @Nanglu2020cb';
+	TEXT TAXON=2 CHARACTER=15 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=11 CHARACTER=15 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=12 CHARACTER=15 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=7 CHARACTER=15 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=8 CHARACTER=15 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=9 CHARACTER=15 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=10 CHARACTER=15 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=1 CHARACTER=15 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=6 CHARACTER=15 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=3 CHARACTER=15 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=2 CHARACTER=14 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=11 CHARACTER=14 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=12 CHARACTER=14 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=7 CHARACTER=14 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=8 CHARACTER=14 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=9 CHARACTER=14 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=10 CHARACTER=14 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=1 CHARACTER=14 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=6 CHARACTER=14 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=3 CHARACTER=14 TEXT='Coded following @Nangul2022cb';
+	TEXT TAXON=5 CHARACTER=28 TEXT='Four or five tentacles [@Caron2010po], but not appendicular in nature';
+	TEXT TAXON=23 CHARACTER=1 TEXT='On a bold view, the axial structure in the post-anal structure could conceivably denote a notochord.  Its interpretation as a gut [@Topper2019nc] is inconsistent with an echinoderm interpretation and does not seem anatomically plausible, given the slender nature of the post-anal structure distally.^n^nAn alternative is that the structure corresponds to the coelomic lumen that follows the axis of (eo)crinoid stalks [see @Clausen2008jp]';
+	TEXT TAXON=31 CHARACTER=33 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=40 CHARACTER=33 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=41 CHARACTER=33 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=33 CHARACTER=33 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=42 CHARACTER=33 TEXT='The ambulacral grooves are covered by undifferentiated cover plates [@Sumrall2017jp].';
+	TEXT TAXON=43 CHARACTER=33 TEXT='Double biseries of medial cover plates [@Guensburg2020jp]';
+	TEXT TAXON=36 CHARACTER=33 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=30 CHARACTER=33 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=37 CHARACTER=33 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=34 CHARACTER=33 TEXT='Biserial [@Sprinkle2011cjes]';
+	TEXT TAXON=31 CHARACTER=36 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=40 CHARACTER=36 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=41 CHARACTER=36 TEXT='@Zamora2022prsb interpret the plates as abaxial; @Sumrall2017 assumes that they are adaxial. Coded ambiguous.';
+	TEXT TAXON=42 CHARACTER=36 TEXT='In glyptocystitoid rhombiferans, double biserial abradial floor plates extend from the oral plates [@Sumrall2017jp]';
+	TEXT TAXON=43 CHARACTER=36 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=36 CHARACTER=36 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=30 CHARACTER=36 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=37 CHARACTER=36 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=34 CHARACTER=36 TEXT='Treated as abaxial by @Zamora2012prsb';
+	TEXT TAXON=31 CHARACTER=35 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=40 CHARACTER=35 TEXT='Following @Zamora2022prsb; see figure 2.3 of @Sumrall2017 for annotated figure of Lepidocystis';
+	TEXT TAXON=41 CHARACTER=35 TEXT='@Zamora2022prsb interpret the plates as abaxial; @Sumrall2017 assumes that they are adaxial. Coded ambiguous.';
+	TEXT TAXON=42 CHARACTER=35 TEXT='In glyptocystitoid rhombiferans, double biserial abradial floor plates extend from the oral plates [@Sumrall2017jp]';
+	TEXT TAXON=43 CHARACTER=35 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=36 CHARACTER=35 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=30 CHARACTER=35 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=37 CHARACTER=35 TEXT='Following @Zamora2022prsb';
+	TEXT TAXON=33 CHARACTER=52 TEXT='Expanded [@Nohejlova2016bg]';
+	TEXT TAXON=32 CHARACTER=52 TEXT='Not evident [@Sumrall2015jp]';
+	TEXT TAXON=5 CHARACTER=52 TEXT='Pedal disc present [@hou2006gff]';
+	TEXT TAXON=43 CHARACTER=4 TEXT='Reasonable to assume absence based on absence of organ in any extant ambulacrarian';
+	TEXT TAXON=22 CHARACTER=69 TEXT='"Tentacles" conceivably correspond to these projections';
+	TEXT TAXON=25 CHARACTER=69 TEXT='No obvious homologue';
+	TEXT TAXON=24 CHARACTER=69 TEXT='No obvious homologue';
+	TEXT TAXON=27 CHARACTER=70 TEXT='"Ponticulocarpus differs from all other cornutes by the enclosure of the posterior portion of the theca by incorporating the glossal and digital spines into the marginal series" [@Sumrall1999jp]';
+	TEXT TAXON=25 CHARACTER=66 TEXT='Courtessolea has marginals 0-4 and a posterior marginal plate';
+	TEXT TAXON=24 CHARACTER=66 TEXT='Ctenoimbricata has marginals 0-5 and a posterior marginal plate';
+	TEXT TAXON=15 CHARACTER=62 TEXT='A separate plate sits at the anterior point of the theca dorsal to the attachment of the ambulacrum, and by extension the mouth; this is marked by a prominent spine in Vetulicola.';
+	TEXT TAXON=16 CHARACTER=62 TEXT='A separate plate sits at the anterior point of the theca dorsal to the attachment of the ambulacrum, and by extension the mouth; this is marked by a prominent spine in Vetulicola.';
+	TEXT TAXON=17 CHARACTER=62 TEXT='Not obviously present [@Chen2017ch26], but treated as ambiguous as certain taxa in this morphotype do appear to have a small raised spine akin to that of Vetulicola [@Shu2005csb]';
+	TEXT TAXON=26 CHARACTER=60 TEXT='Tesselating [@Zamora2023pip]';
+	TEXT TAXON=31 CHARACTER=38 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=40 CHARACTER=38 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=36 CHARACTER=38 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=38 CHARACTER=38 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=30 CHARACTER=38 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=37 CHARACTER=38 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=40 CHARACTER=32 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=41 CHARACTER=32 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=42 CHARACTER=32 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=43 CHARACTER=32 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=36 CHARACTER=32 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=38 CHARACTER=32 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=39 CHARACTER=32 TEXT='Following @Guensburg2020jp';
+	TEXT TAXON=37 CHARACTER=32 TEXT='Following @Guensburg2020jp';
+      ENDBLOCK;
+            BEGIN ASSUMPTIONS;
+      TYPESET * UNTITLED = unord: 1 - 86;
+      ENDBLOCK;
+      
