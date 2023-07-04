@@ -1,0 +1,104 @@
+#NEXUS
+[R-package APE, Tue Jul  4 20:39:33 2023]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX = 41;
+	TAXLABELS
+		Amiskwia_sagittiformis
+		Cephalochordata_Branchiostoma
+		Tunicata_Ciona
+		Shankouclava_anningense_cs3
+		Phlogites_longus_cs3
+		Herpetogaster_collinsi
+		Rotadiscus_cs3
+		Hemichordata_Gyaltsenglossus
+		Hemichordata_Spartobranchus
+		Hemichordata_Oesia
+		Pterobranch_Rhabdopleura
+		Pterobranch_Cephalodiscus
+		Enteropneusta_Harrimaniidae_Saccoglossus
+		Enteropneusta_Spengelidae_Glandiceps
+		Banffia_constricta_cs5
+		Vetulicola_cuneata_cs3
+		Beidazoon_venustum_cs3
+		Vetulocystis_catenata_cs3
+		Cinctan_Bohemiacinctus_havliceki_cs5
+		Ctenoimbricata_spinosa_cs5
+		Ctenocystoid_Courtessolea_cs6-5
+		Mitrate_Mitrocystella_incipiens_om
+		Mitrate_Lagynocystis_pyramidalis_os2
+		Mitrate_Jaekelocarpus_oklahomensis
+		Cornute_Ponticulocarpus_cs5
+		Cornute?_Ceratocystis_perneri_cs5-4
+		Solute_Coleicarpus_sprinklei_cs6
+		Solute_Castericystis_vali_cs6
+		Edrioasteroidea_Stromatocystites_cs4-5
+		Edrioasteroidea_Kailidiscus_chinensis_cs5
+		Edrioasteroidea_Camptostroma_cs4
+		Helicocystis_moroccoensis_cs5
+		Helicoplacus_cs3
+		Crinoidea_Aethocrinus_os1
+		Eocrinoidea_Kinzercystis_cs4
+		Eocrinoidea_Lyracystis_radiata_cs5
+		Eocrinoidea_Gogia_cs4
+		Eocrinoidea_Ubaghsicystis_cs5
+		Eocrinoidea_Akadocrinus_cs6
+		Eocrinoidea_Rhombifera_Pleurocystites_om
+		Eocrinoidea_Rhombifera_Macrocystella_os1
+	;
+END;
+BEGIN TREES;
+	TRANSLATE
+		1	Amiskwia_sagittiformis,
+		2	Cephalochordata_Branchiostoma,
+		3	Tunicata_Ciona,
+		4	Shankouclava_anningense_cs3,
+		5	Phlogites_longus_cs3,
+		6	Herpetogaster_collinsi,
+		7	Rotadiscus_cs3,
+		8	Hemichordata_Gyaltsenglossus,
+		9	Hemichordata_Spartobranchus,
+		10	Hemichordata_Oesia,
+		11	Pterobranch_Rhabdopleura,
+		12	Pterobranch_Cephalodiscus,
+		13	Enteropneusta_Harrimaniidae_Saccoglossus,
+		14	Enteropneusta_Spengelidae_Glandiceps,
+		15	Banffia_constricta_cs5,
+		16	Vetulicola_cuneata_cs3,
+		17	Beidazoon_venustum_cs3,
+		18	Vetulocystis_catenata_cs3,
+		19	Cinctan_Bohemiacinctus_havliceki_cs5,
+		20	Ctenoimbricata_spinosa_cs5,
+		21	Ctenocystoid_Courtessolea_cs6-5,
+		22	Mitrate_Mitrocystella_incipiens_om,
+		23	Mitrate_Lagynocystis_pyramidalis_os2,
+		24	Mitrate_Jaekelocarpus_oklahomensis,
+		25	Cornute_Ponticulocarpus_cs5,
+		26	Cornute?_Ceratocystis_perneri_cs5-4,
+		27	Solute_Coleicarpus_sprinklei_cs6,
+		28	Solute_Castericystis_vali_cs6,
+		29	Edrioasteroidea_Stromatocystites_cs4-5,
+		30	Edrioasteroidea_Kailidiscus_chinensis_cs5,
+		31	Edrioasteroidea_Camptostroma_cs4,
+		32	Helicocystis_moroccoensis_cs5,
+		33	Helicoplacus_cs3,
+		34	Crinoidea_Aethocrinus_os1,
+		35	Eocrinoidea_Kinzercystis_cs4,
+		36	Eocrinoidea_Lyracystis_radiata_cs5,
+		37	Eocrinoidea_Gogia_cs4,
+		38	Eocrinoidea_Ubaghsicystis_cs5,
+		39	Eocrinoidea_Akadocrinus_cs6,
+		40	Eocrinoidea_Rhombifera_Pleurocystites_om,
+		41	Eocrinoidea_Rhombifera_Macrocystella_os1
+	;
+	TREE * seed_1 = [&R] (((1,(5,(6,7))),(2,(3,4))),((8,(((9,(13,14)),10),(11,12))),(15,(16,(17,((((18,((22,(23,24)),(25,26))),((27,28),((((29,31),(30,(32,33))),34),(35,(36,(37,((38,(40,41)),39))))))),19),(20,21)))))));
+	TREE * start_1 = [&R] (((1,(5,(6,7))),(2,(3,4))),((8,(((9,(13,14)),10),(11,12))),(15,(16,(17,((((18,((22,(23,24)),(25,26))),((27,28),((((29,31),(30,(32,33))),34),(35,(36,(37,((38,(40,41)),39))))))),19),(20,21)))))));
+	TREE * start_2 = [&R] (((1,(5,(6,7))),(2,(3,4))),((8,(((9,(13,14)),10),(11,12))),(15,(16,(17,((((18,((22,(23,24)),(25,26))),((27,28),((((29,31),(30,(32,33))),34),(35,(36,(37,((38,39),(40,41)))))))),19),(20,21)))))));
+	TREE * start_3 = [&R] (((1,(5,(6,7))),(2,(3,4))),((8,(((9,(13,14)),10),(11,12))),(15,(16,(17,((((18,((22,(23,24)),(25,26))),((27,28),((((29,31),(30,(32,33))),34),(35,(36,(37,(38,(39,(40,41))))))))),19),(20,21)))))));
+	TREE * start_4 = [&R] (((1,(5,(6,7))),(2,(3,4))),((8,(((9,(13,14)),10),(11,12))),(15,(16,(17,((((18,((22,(23,24)),(25,26))),((27,28),((((29,31),(30,(32,33))),34),(35,((36,37),((38,39),(40,41))))))),19),(20,21)))))));
+	TREE * start_5 = [&R] (((1,(5,(6,7))),(2,(3,4))),((8,(((9,(13,14)),10),(11,12))),(15,(16,(17,((((18,((22,(23,24)),(25,26))),((27,28),((((29,31),(30,(32,33))),34),(35,((36,((38,39),(40,41))),37))))),19),(20,21)))))));
+	TREE * start_6 = [&R] (((1,(5,(6,7))),(2,(3,4))),((8,(((9,(13,14)),10),(11,12))),(15,(16,(17,((((18,((22,(23,24)),(25,26))),((27,28),((((29,31),(30,(32,33))),34),(35,((36,((38,(40,41)),39)),37))))),19),(20,21)))))));
+	TREE * start_7 = [&R] (((1,(5,(6,7))),(2,(3,4))),((8,(((9,(13,14)),10),(11,12))),(15,(16,(17,((((18,((22,(23,24)),(25,26))),((27,28),((((29,31),(30,(32,33))),34),(35,((36,37),((38,(40,41)),39)))))),19),(20,21)))))));
+	TREE * start_8 = [&R] (((1,(5,(6,7))),(2,(3,4))),((8,(((9,(13,14)),10),(11,12))),(15,(16,(17,((((18,((22,(23,24)),(25,26))),((27,28),((((29,31),(30,(32,33))),34),(35,((36,(38,(39,(40,41)))),37))))),19),(20,21)))))));
+	TREE * start_9 = [&R] (((1,(5,(6,7))),(2,(3,4))),((8,(((9,(13,14)),10),(11,12))),(15,(16,(17,((((18,((22,(23,24)),(25,26))),((27,28),((((29,31),(30,(32,33))),34),(35,((36,37),(38,(39,(40,41)))))))),19),(20,21)))))));
+END;

@@ -39,7 +39,7 @@ Plot <- function (tr, pdf = FALSE, direction = 'rightwards', font = 3,
   tr$tip.label <- tip.label
   tr <- TipTimedTree(tr, ages[tip.id, "time"], minEdge)
   
-  plot(
+  plotted <- plot(
     tr,
     edge.color = ec,
     edge.width = 2,
@@ -64,12 +64,14 @@ Plot <- function (tr, pdf = FALSE, direction = 'rightwards', font = 3,
     nodelabels(lab, adj = c(nudgel + bi.nudge, -0.5), frame = 'none', cex = 0.8)
   }
   
-  
+  list(
+    plotted = plotted,
+    tree = tr
+  )
 }
 
 ColPlot <- function (tr, taxnames = "", direction = "rightwards",
                      ec = 0, ...) {
-  tr1 <- tr
   tip.id <- tr$tip.label
   tip.label <- ages[tip.id, "taxon"]
   nTip <- length(tip.id)

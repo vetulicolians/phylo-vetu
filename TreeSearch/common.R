@@ -2,6 +2,8 @@
 library("TreeTools")
 library("TreeSearch")
 
+data("timescales", package = "geoscale")
+
 # Define functions
 ResultsFile <- function(latest, weighting, k = NULL) {
   paste0(

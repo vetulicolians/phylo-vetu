@@ -10,7 +10,11 @@ hits <- 100 # Maximum times to hit best tree
 latest <- LatestMatrix()
 message("* Reading ", latest)
 dat <- ReadAsPhyDat(latest)
-dat <- dat[names(dat)[substr(names(dat), 1, 11) != "Yanjiahella"]]
+#dat <- dat[names(dat)[substr(names(dat), 1, 11) != "Yanjiahella"]]
+dat <- dat[!names(dat) %in% c(
+  "Yanjiahella_biscarpa_cs1_aulacophore",
+  "Mitrate_Jaekelocarpus_oklahomensis"
+)]
 
 resultsFile <- ResultsFile(latest, "ew")
 

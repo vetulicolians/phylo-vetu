@@ -1,3 +1,5 @@
+minEdge <- 0.7
+
 # Print current working directory, which should contain the scripts,
 # matrix and trees.
 getwd()
@@ -34,13 +36,53 @@ for (treeFile in treeFiles) {
     # Root trees on outgroup
     trees <- RootTree(trees, og)
   }
-  rogues <- Rogue::QuickRogue(trees, p = 1)
+  # rogues <- Rogue::QuickRogue(trees, p = 1)
+  rogues <- Rogue::RogueTaxa(trees, threshold = 100)
   cons <- SortTree(ConsensusWithout(trees, rogues[-1, "taxon"]))
   
   pdf(gsub(".trees", ".timed.pdf", treeFile, fixed = TRUE), 
       width = 8, height = 10)
   
-  ColPlot(cons, ec = "black", minEdge = 1)
+  plotted <- ColPlot(cons, ec = "black", minEdge = minEdge)
+  pp <- get("last_plot.phylo", envir = .PlotPhyloEnv)
+  outgroupEdge <- plotted$tree$edge[, 2] == 
+    match(ages[outgroup, "taxon"], 
+          plotted$tree$tip.label)
+  outgroupTime <- ages[outgroup, "time"] 
+  rootAge <- outgroupTime + 
+    plotted$tr$edge.length[outgroupEdge]
+  # axisPhylo(line = -2, cex = 0.4, root.time = rootAge)
+  
+  outgroupX <- pp$xx[pp$edge[outgroupEdge]]
+  TimeToX <- function(time) {
+    (rootAge - time) * 
+    (rootAge - outgroupTime) / (outgroupX[2] - outgroupX[1])
+  }
+  
+  ts <- timescales$ICS2015
+  plottedPeriods <- c("Cambrian", "Ordovician", "Silurian")
+  epochs <- ts[ts$Type %in% "Epoch" & ts$Part_of %in% plottedPeriods, ]
+  
+  rect(
+    xleft = TimeToX(epochs$Start),
+    ybottom = -0.5,
+    xright = TimeToX(epochs$End),
+    ytop = 0.5,
+    col = rgb(epochs$Col_R, epochs$Col_G, epochs$Col_B, 255, NULL, 255)
+  )
+  text(TimeToX(epochs$Midpoint), 0, epochs$Abbrev, cex = 0.5)
+  
+  periods <- ts[ts$Type %in% "Period" & ts$Name %in% plottedPeriods, ]
+  abline(
+    v = TimeToX(periods$End),
+    lty = "dotted",
+    col = rgb(periods$Col_R, periods$Col_G, periods$Col_B, 180, NULL, 255)
+  )
+  
+  gps <- !duplicated(ages$group)
+  legend("bottomright", ages[gps, "group"][-1],
+         bty = "n", cex = 0.8,
+         pch = 15, col = TipCol(rownames(ages)[gps][-1]))
   if (nrow(rogues) > 1) {
     legend("topleft", ages[rogues[-1, "taxon"], "taxon"], bty = "n", lty = 2,
            text.font = 3, text.col = TipCol(rogues[-1, "taxon"]))
