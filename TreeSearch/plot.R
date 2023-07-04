@@ -1,3 +1,5 @@
+bold <- character(0)
+
 TipCol <- function (tip.label) {
   c("black" = "#222222", palette.colors(pal = "Tableau 10"))[
     match(ages[tip.label, "group"], unique(ages$group))]
@@ -5,9 +7,10 @@ TipCol <- function (tip.label) {
 
 # REQUIRE tr, a phylo object.
 Plot <- function (tr, pdf = FALSE, direction = 'rightwards', font = 3,
-                  plotw = 3, ploth = 2.5,
-                  pts=10, ec = 'black', bi = FALSE, annot = FALSE, bi.nudge = 0,
-                  col.factor = 1, brightest = 0.9, filename = 'plot/plot.pdf',
+                  plotw = 3, ploth = 2.5, minEdge = 2,
+                  pts = 10, ec = 'black', bi = FALSE, annot = FALSE,
+                  bi.nudge = 0,
+                  col.factor = 1, brightest = 0.9, filename = "plot/plot.pdf",
                   tip.col, fig = FALSE) {
   if (pdf) {
     pdf(file = paste(filename, "pdf", sep = "."), width = plotw,
@@ -34,19 +37,22 @@ Plot <- function (tr, pdf = FALSE, direction = 'rightwards', font = 3,
     align <- 0.5
   }
   tr$tip.label <- tip.label
-  plot(tr,
-       edge.color = ec,
-       edge.width = 2,
-       font = font,
-       cex = 1,
-       tip.col = tip.col,
-       adj = align,
-       label.offset = 0.5,
-       use.edge.length = bi,
-       direction = direction,
-       no.margin = TRUE,
-       root.edge = TRUE,
-       underscore = TRUE
+  tr <- TipTimedTree(tr, ages[tip.id, "time"], minEdge)
+  
+  plot(
+    tr,
+    edge.color = ec,
+    edge.width = 2,
+    font = font,
+    #cex = 1,
+    tip.col = tip.col,
+    adj = align,
+    label.offset = 0.5,
+    #use.edge.length = bi,
+    direction = direction,
+    no.margin = TRUE,
+    root.edge = TRUE,
+    underscore = TRUE
   )
   
   if (annot) {
@@ -76,12 +82,11 @@ ColPlot <- function (tr, taxnames = "", direction = "rightwards",
     tr <- drop.tip(tr, which(tr$tip.label%in%taxnames[[tax]]), subtree = TRUE)
     new.clade.name <- paste(tax, " (", length(taxnames[[tax]]), ")", sep = "")
     tr$tip.label[length(tr$tip.label)] <- new.clade.name
-    roman <- c(roman, new.clade.name)
   }
   
   nTip <- length(tr$tip.label)
   nNode <- tr$Nnode
-  font <- (!(tr$tip.label %in% roman))*2+1+(tr$tip.label %in% bold)
+  font <- 3 + (tr$tip.label %in% bold)
   Plot(tr, direction = direction, font = font, ec = ec, tip.col = tip.col, ...)
 }
 

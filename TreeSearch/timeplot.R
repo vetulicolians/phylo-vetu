@@ -23,6 +23,7 @@ treeFiles <- list.files(
   pattern = paste0(".+_", sub("^.*/", "", latest), ".trees"),
   full.names = TRUE
 )
+treeFile <- treeFiles[1]
 
 for (treeFile in treeFiles) {
   trees <- read.nexus(treeFile)
@@ -36,12 +37,13 @@ for (treeFile in treeFiles) {
   rogues <- Rogue::QuickRogue(trees, p = 1)
   cons <- SortTree(ConsensusWithout(trees, rogues[-1, "taxon"]))
   
-  # pdf(gsub(".trees", ".pdf", treeFile, fixed = TRUE), 
-  #     width = 8, height = 10)
+  pdf(gsub(".trees", ".timed.pdf", treeFile, fixed = TRUE), 
+      width = 8, height = 10)
   
-  ColPlot(cons, ec = "black")
+  ColPlot(cons, ec = "black", minEdge = 1)
   if (nrow(rogues) > 1) {
-    legend("topleft", rogues[-1, "taxon"], bty = "n", lty = 2)
+    legend("topleft", ages[rogues[-1, "taxon"], "taxon"], bty = "n", lty = 2,
+           text.font = 3, text.col = TipCol(rogues[-1, "taxon"]))
   }
   k <- KValue(treeFile)
   legend(
@@ -93,5 +95,4 @@ for (treeFile in treeFiles) {
          bty = "n")
   
   dev.off()
-  
 }
