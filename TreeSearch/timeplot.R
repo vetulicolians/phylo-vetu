@@ -60,17 +60,26 @@ for (treeFile in treeFiles) {
   }
   
   ts <- timescales$ICS2015
-  plottedPeriods <- c("Cambrian", "Ordovician", "Silurian")
+  plottedPeriods <- c("Cambrian", "Ordovician")
   epochs <- ts[ts$Type %in% "Epoch" & ts$Part_of %in% plottedPeriods, ]
+  subepochs <- ts[ts$Type %in% "Age" & ts$Part_of %in% plottedPeriods, ]
   
+  rect(
+    xleft = TimeToX(subepochs$Start),
+    ybottom = 0,
+    xright = TimeToX(subepochs$End),
+    ytop = 0.5,
+    col = rgb(subepochs$Col_R, subepochs$Col_G, subepochs$Col_B, 255, NULL, 255)
+  )
+  text(TimeToX(subepochs$Midpoint), 0.25, subepochs$Abbrev, cex = 0.5)
   rect(
     xleft = TimeToX(epochs$Start),
     ybottom = -0.5,
     xright = TimeToX(epochs$End),
-    ytop = 0.5,
+    ytop = 0,
     col = rgb(epochs$Col_R, epochs$Col_G, epochs$Col_B, 255, NULL, 255)
   )
-  text(TimeToX(epochs$Midpoint), 0, epochs$Abbrev, cex = 0.5)
+  text(TimeToX(epochs$Midpoint), -0.25, epochs$Abbrev, cex = 0.5)
   
   periods <- ts[ts$Type %in% "Period" & ts$Name %in% plottedPeriods, ]
   abline(
