@@ -37,7 +37,8 @@ ew <- TaxonInfluence(
   maxHits = hits,
   ratchIter = ratchets,
   maxTime = timeout,
-  saveTo = paste0(infDir, "/ew_")
+  saveTo = paste0(infDir, "/ew_"),
+  useCache = TRUE
 )
 results <- cbind(ew = ew)
 write.csv(results, file = infFile)
@@ -54,6 +55,7 @@ for (k in kValues) {
     maxHits = hits,
     ratchIter = ratchets,
     saveTo = paste0(infDir, "/k", k, "_"),
+    useCache = TRUE,
     maxTime = timeout
   ))
   colnames(kRes) <- paste0("k", k)
