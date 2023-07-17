@@ -40,8 +40,28 @@ ew <- TaxonInfluence(
   savePath = paste0(infDir, "/ew_"),
   useCache = TRUE
 )
-results <- cbind(ew = ew)
+results <- rbind(ew = ew)
 write.csv(results, file = infFile)
+
+par(mar = rep(0, 4), cex = 0.8)
+maxPossible <- ClusteringEntropy(PectinateTree(NTip(dat) - 1)) * 2
+upperBound <- max(ew)
+nBin <- 128
+bin <- cut(
+  ew["dwMean", ],
+  breaks = seq(0, upperBound, length.out = nBin),
+  include.lowest = TRUE
+)
+palette <- hcl.colors(nBin, "inferno")
+
+plot(startTree, tip.color = palette[bin])
+PlotTools::SpectrumLegend(
+  "bottomleft",
+  palette = palette,
+  title = paste("Tip influence\n Max:", signif(maxPossible, 3), "bits"),
+  legend = signif(seq(upperBound, 0, length.out = 4), 3),
+  bty = "n"
+)
 
 for (k in kValues) {
   startTree <- LatestTree(dat, paste0("iw", k))
