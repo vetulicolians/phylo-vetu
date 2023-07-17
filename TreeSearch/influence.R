@@ -40,10 +40,11 @@ ew <- TaxonInfluence(
   savePath = paste0(infDir, "/ew_"),
   useCache = TRUE
 )
-results <- rbind(ew = ew)
+results <- ew
+rownames(results) <- paste0("ew_", rownames(ew))
 write.table(results, file = infFile)
 
-ew <- as.matrix(read.table(infFile))
+# ew <- as.matrix(read.table(infFile))
 
 par(mar = rep(0, 4), cex = 0.8)
 maxPossible <- ClusteringEntropy(PectinateTree(NTip(dat) - 1)) * 2
@@ -80,7 +81,29 @@ for (k in kValues) {
     useCache = TRUE,
     maxTime = timeout
   ))
-  colnames(kRes) <- paste0("k", k)
-  results <- cbind(results, kRes)
+  rownames(kRes) <- paste0("k", k, "_", rownames(kRes))
+  results <- rbind(results, kRes)
   write.table(results, file = infFile)
 }
+
+par(mar = rep(0, 4), cex = 0.8)
+maxPossible <- ClusteringEntropy(PectinateTree(NTip(dat) - 1)) * 2
+upperBound <- max(results["k10_max", ])
+nBin <- 128
+bin <- cut(
+  results["k10_dwMean", ],
+  breaks = seq(0, upperBound, length.out = nBin),
+  include.lowest = TRUE
+)
+palette <- hcl.colors(nBin, "inferno")
+
+plot(startTree, tip.color = palette[bin])
+PlotTools::SpectrumLegend(
+  "bottomleft",
+  palette = palette,
+  title = paste("Tip influence\n Max:", signif(maxPossible, 3), "bits"),
+  legend = signif(seq(upperBound, 0, length.out = 4), 3),
+  bty = "n"
+)
+
+
