@@ -37,7 +37,7 @@ ew <- TaxonInfluence(
   maxHits = hits,
   ratchIter = ratchets,
   maxTime = timeout,
-  saveTo = paste0(infDir, "/ew_"),
+  savePath = paste0(infDir, "/ew_"),
   useCache = TRUE
 )
 results <- cbind(ew = ew)
@@ -54,7 +54,7 @@ for (k in kValues) {
     concavity = k,
     maxHits = hits,
     ratchIter = ratchets,
-    saveTo = paste0(infDir, "/k", k, "_"),
+    savePath = paste0(infDir, "/k", k, "_"),
     useCache = TRUE,
     maxTime = timeout
   ))
