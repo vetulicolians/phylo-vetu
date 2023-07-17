@@ -22,7 +22,7 @@ dat <- dat[!names(dat) %in% c(
 )]
 
 resultsFile <- ResultsFile(latest, "ew")
-infFile <- gsub(".nex.trees", ".csv", fixed = TRUE,
+infFile <- gsub(".nex.trees", ".txt", fixed = TRUE,
                 ResultsFile(latest, "influence"))
 infDir <- sub("./", "./influence_", fixed = TRUE, latest)
 
@@ -41,7 +41,9 @@ ew <- TaxonInfluence(
   useCache = TRUE
 )
 results <- rbind(ew = ew)
-write.csv(results, file = infFile)
+write.table(results, file = infFile)
+
+ew <- as.matrix(read.table(infFile))
 
 par(mar = rep(0, 4), cex = 0.8)
 maxPossible <- ClusteringEntropy(PectinateTree(NTip(dat) - 1)) * 2
@@ -80,5 +82,5 @@ for (k in kValues) {
   ))
   colnames(kRes) <- paste0("k", k)
   results <- cbind(results, kRes)
-  write.csv(results, file = infFile)
+  write.table(results, file = infFile)
 }
