@@ -6,6 +6,11 @@ timeout <- 60 # Minutes after which to terminate each search
 ratchets <- 8 # Ratchet iterations
 hits <- 100 # Maximum times to hit best tree
 
+kValues <- c(10) # Concavity constants for implied weighting
+timeout <- 3 # Minutes after which to terminate each search
+ratchets <- 8 # Ratchet iterations
+hits <- 60 # Maximum times to hit best tree
+
 # Load data from locally downloaded matrix
 latest <- LatestMatrix()
 message("* Reading ", latest)
@@ -17,6 +22,9 @@ dat <- dat[!names(dat) %in% c(
 )]
 
 resultsFile <- ResultsFile(latest, "ew")
+infFile <- gsub(".nex.trees", ".csv", fixed = TRUE,
+                ResultsFile(latest, "influence"))
+infDir <- sub("./", "./influence_", fixed = TRUE, latest)
 
 startTree <- LatestTree(dat, "ew")
 if (is.null(startTree)) {
@@ -28,11 +36,11 @@ ew <- TaxonInfluence(
   tree = startTree,
   maxHits = hits,
   ratchIter = ratchets,
-  maxTime = timeout
+  maxTime = timeout,
+  saveTo = paste0(infDir, "/ew_")
 )
 results <- cbind(ew = ew)
-write.csv(results, file = "influence.csv")
-
+write.csv(results, file = infFile)
 
 for (k in kValues) {
   startTree <- LatestTree(dat, paste0("iw", k))
@@ -45,9 +53,10 @@ for (k in kValues) {
     concavity = k,
     maxHits = hits,
     ratchIter = ratchets,
+    saveTo = paste0(infDir, "/k", k, "_"),
     maxTime = timeout
   ))
-  setNames(kRes, paste0("k", k))
+  colnames(kRes) <- paste0("k", k)
   results <- cbind(results, kRes)
-  write.nexus(best, file = resultsFile)
+  write.csv(results, file = infFile)
 }
