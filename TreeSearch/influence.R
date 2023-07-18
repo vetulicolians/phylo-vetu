@@ -22,9 +22,8 @@ dat <- dat[!names(dat) %in% c(
 )]
 
 resultsFile <- ResultsFile(latest, "ew")
-infFile <- gsub(".nex.trees", ".txt", fixed = TRUE,
-                ResultsFile(latest, "influence"))
-infDir <- sub("./", "./influence_", fixed = TRUE, latest)
+infFile <- InfluenceFile(latest)
+infDir <- InfluenceCache(latest)
 
 startTree <- LatestTree(dat, "ew")
 if (is.null(startTree)) {
@@ -77,33 +76,34 @@ for (k in kValues) {
     concavity = k,
     maxHits = hits,
     ratchIter = ratchets,
-    savePath = paste0(infDir, "/k", k, "_"),
+    savePath = paste0(infDir, "/iw", k, "_"),
     useCache = TRUE,
     maxTime = timeout
   ))
-  rownames(kRes) <- paste0("k", k, "_", rownames(kRes))
+  rownames(kRes) <- paste0("iw", k, "_", rownames(kRes))
   results <- rbind(results, kRes)
   write.table(results, file = infFile)
 }
 
-par(mar = rep(0, 4), cex = 0.8)
-maxPossible <- ClusteringEntropy(PectinateTree(NTip(dat) - 1)) * 2
-upperBound <- max(results["k10_max", ])
-nBin <- 128
-bin <- cut(
-  results["k10_dwMean", ],
-  breaks = seq(0, upperBound, length.out = nBin),
-  include.lowest = TRUE
-)
-palette <- hcl.colors(nBin, "inferno")
-
-plot(startTree, tip.color = palette[bin])
-PlotTools::SpectrumLegend(
-  "bottomleft",
-  palette = palette,
-  title = paste("Tip influence\n Max:", signif(maxPossible, 3), "bits"),
-  legend = signif(seq(upperBound, 0, length.out = 4), 3),
-  bty = "n"
-)
-
-
+if (interactive()) {
+  par(mar = rep(0, 4), cex = 0.8)
+  maxPossible <- ClusteringEntropy(PectinateTree(NTip(dat) - 1)) * 2
+  upperBound <- max(results["iw10_max", ])
+  nBin <- 128
+  bin <- cut(
+    results["iw10_dwMean", ],
+    breaks = seq(0, upperBound, length.out = nBin),
+    include.lowest = TRUE
+  )
+  palette <- hcl.colors(nBin, "inferno")
+  
+  plot(startTree, tip.color = palette[bin])
+  PlotTools::SpectrumLegend(
+    "bottomleft",
+    palette = palette,
+    title = paste("Tip influence\n Max:", signif(maxPossible, 3), "bits"),
+    legend = signif(seq(upperBound, 0, length.out = 4), 3),
+    bty = "n"
+  )
+}
+  

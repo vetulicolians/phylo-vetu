@@ -12,6 +12,14 @@ ResultsFile <- function(latest, weighting, k = NULL) {
   )
 }
 
+InfluenceFile <- function(latest) {
+  gsub(".nex.trees", ".txt", fixed = TRUE, ResultsFile(latest, "influence"))
+}
+
+InfluenceCache <- function(latest) {
+  sub("./", "./influence_", fixed = TRUE, latest)
+}
+
 LatestMatrix <- function(path = ".", full.names = TRUE) {
   rev(list.files(
     path = path, 

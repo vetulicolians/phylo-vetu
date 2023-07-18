@@ -9,19 +9,28 @@ outgroup <- c("") # Specify taxa on which to root tree
 source(paste0(wd, "/common.R"))
 source(paste0(wd, "/plot.R"))
 
+ages <- data.frame(readxl::read_xlsx("../Ages.xlsx", sheet = "taxa"),
+                   row.names = "morphoname")
+
 latest <- LatestMatrix(wd)
 dat <- ReadAsPhyDat(latest)
 if (outgroup == "") {
   outgroup <- names(dat)[1]
 }
+
+influence <- tryCatch(as.matrix(read.table(InfluenceFile(latest))),
+                      error = function(e) NULL)
+
 treeFiles <- list.files(
   path = wd,
   pattern = paste0(".+_", sub("^.*/", "", latest), ".trees"),
   full.names = TRUE
 )
 
+
 for (treeFile in treeFiles) {
   trees <- read.nexus(treeFile)
+  prefix <- strsplit(basename(treeFile), "_")[[1]][1]
   
   # Ignore outgroup taxa that aren't in tree
   og <- intersect(outgroup, TipLabels(trees)[[1]])
@@ -35,10 +44,8 @@ for (treeFile in treeFiles) {
   pdf(gsub(".trees", ".pdf", treeFile, fixed = TRUE), 
       width = 8, height = 10)
   
-  ColPlot(cons, ec = "black")
-  if (nrow(rogues) > 1) {
-    legend("topleft", rogues[-1, "taxon"], bty = "n", lty = 2)
-  }
+  stabCol <- Rogue::ColByStability(trees)
+  Plot(cons, tip.col = stabCol)
   k <- KValue(treeFile)
   legend(
     "topright",
@@ -48,6 +55,96 @@ for (treeFile in treeFiles) {
     ),
     bty = "n" # No bounding box
   )
+  PlotTools::SpectrumLegend(
+    "bottomright",
+    palette = hcl.colors(131, "inferno")[1:101],
+    title = paste0("Tip stability",
+                   if(nrow(rogues) > 1) "\n(before rogue removal)"),
+    legend = c("Least stable", "-", "Most stable"),
+    bty = "n"
+  )
+  if (nrow(rogues) > 1) {
+    rogueTaxa <- rogues[-1, "taxon"]
+    legend("topleft", rogueTaxa, bty = "n", lty = 2, col = stabCol[rogueTaxa])
+  }
+  
+  influenceAvailable <- !is.null(influence) &&
+    paste0(prefix, "_max") %in% rownames(influence)
+  
+  tip.col <- if (influenceAvailable) {
+    TipCol(cons$tip.label)
+  } else {
+    maxPossible <- ClusteringEntropy(PectinateTree(NTip(dat) - 1)) * 2
+    upperBound <- max(influence[paste0(prefix, "_max"), ])
+    nBin <- 128
+    bin <- cut(
+      influence[paste0(prefix, "_dwMean"), ],
+      breaks = seq(0, upperBound, length.out = nBin),
+      include.lowest = TRUE
+    )
+    palette <- hcl.colors(nBin, "inferno")
+    palette[bin]
+  }
+  Plot(cons, tip.col = tip.col)
+  
+  if (nrow(rogues) > 1) {
+    rogueTaxa <- rogues[-1, "taxon"]
+    legend("topleft", rogueTaxa, bty = "n", lty = 2, col = tip.col[rogueTaxa])
+  }
+
+  if (influenceAvailable) {
+    PlotTools::SpectrumLegend(
+      "bottomright",
+      palette = palette,
+      title = paste("Tip influence\n Max:", signif(maxPossible, 3), "bits"),
+      legend = signif(seq(upperBound, 0, length.out = 4), 3),
+      bty = "n"
+    )
+    
+    influencers <- colnames(influence)[
+      order(influence[paste0(prefix, "_dwMean"), ], decreasing = TRUE)[1:3]]
+    for (influencer in influencers) {
+      cache <- paste0(InfluenceCache(latest), "/",
+                      prefix, "_", fs::path_sanitize(influencer),
+                      ".nex")
+      if (file.exists(cache)) {
+        infTrees <- read.nexus(cache)
+        # Ignore outgroup taxa that aren't in tree
+        infOG <- intersect(outgroup, TipLabels(infTrees)[[1]])
+        if (length(infOG)) {
+          # Root trees on outgroup
+          infTrees <- RootTree(infTrees, infOG)
+        }
+        infRogues <- Rogue::QuickRogue(infTrees, p = 1)
+        infCons <- SortTree(ConsensusWithout(infTrees, infRogues[-1, "taxon"]))
+        
+        infStabCol <- Rogue::ColByStability(infTrees)
+        Plot(infCons, tip.col = infStabCol)
+        
+        legend(
+          "topright",
+          paste("Search without", influencer),
+          bty = "n" # No bounding box
+        )
+        
+        if (nrow(infRogues) > 1) {
+          rogueTaxa <- infRogues[-1, "taxon"]
+          legend("topleft", rogueTaxa, bty = "n", lty = 2,
+                 col = stabCol[rogueTaxa])
+        }
+        PlotTools::SpectrumLegend(
+          "bottomright",
+          palette = hcl.colors(131, "inferno")[1:101],
+          title = paste0("Tip stability",
+                         if(nrow(infRogues) > 1) "\n(before rogue removal)"),
+          legend = c("Least stable", "--", "Most stable"),
+          bty = "n"
+        )
+      }
+    }
+    
+  }
+  
   
   
   distances <- TreeDist::ClusteringInfoDistance(trees)

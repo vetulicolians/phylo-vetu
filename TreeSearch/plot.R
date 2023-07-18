@@ -6,9 +6,9 @@ TipCol <- function (tip.label) {
 }
 
 # REQUIRE tr, a phylo object.
-Plot <- function (tr, pdf = FALSE, direction = 'rightwards', font = 3,
+Plot <- function (tr, pdf = FALSE, direction = "rightwards", font = 3,
                   plotw = 3, ploth = 2.5, minEdge = 2,
-                  pts = 10, ec = 'black', bi = FALSE, annot = FALSE,
+                  pts = 10, ec = "black", bi = FALSE, annot = FALSE,
                   bi.nudge = 0,
                   col.factor = 1, brightest = 0.9, filename = "plot/plot.pdf",
                   tip.col, fig = FALSE) {
@@ -22,10 +22,12 @@ Plot <- function (tr, pdf = FALSE, direction = 'rightwards', font = 3,
   nTip <- length(tip.id)
   nNode <- tr$Nnode
   
-  if (fig == FALSE) {
-    tip.col <- TipCol(tip.id)
-  } else {
-    tip.col <- "black";
+  if (missing(tip.col)) {
+    if (fig == FALSE) {
+      tip.col <- TipCol(tip.id)
+    } else {
+      tip.col <- "black";
+    }
   }
   
   if (bi) label.offset <- 2 * min(tr$edge.length)
