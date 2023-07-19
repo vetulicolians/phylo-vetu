@@ -1,8 +1,10 @@
+library("TreeDist") # for median.multiPhylo
+
 wd <- if (basename(getwd()) == "TreeSearch") "../MrBayes/" else 
   if (basename(getwd()) == "MrBayes") "./" else "/MrBayes/"
 exclusions <- list.files(wd, "^.*-no-.*\\.nex$")
 base <- substr(exclusions[1], 0, regexpr("-no-", exclusions[1]) - 1)
-nTrees <- 20
+nTrees <- 48
 Distance <- TreeDist::ClusteringInfoDistance
 
 #' @importFrom ape read.nexus
@@ -40,14 +42,85 @@ baseTrees <- ReadMrBayes(paste0(wd, base, ".nex"), n = nTrees)
 res <- vapply(exclusions, function(file) {
   trees <- ReadMrBayes(paste0(wd, file), n = nTrees)
   if (is.null(trees)) {
-    c(NA_real_, NA, NA)
+    rep(NA_real_, 6)
   } else {
     thinnedTrees <- KeepTip(baseTrees, TipLabels(trees[[1]]))
-    self <- Distance(baseTrees)
-    d <- Distance(baseTrees, trees)
-    c(mean(d) - mean(self), mean(d), sd(d) - sd(self))
+    with <- Distance(baseTrees)
+    without <- Distance(trees)
+    cf <- Distance(baseTrees, trees)
+    
+    mdnWithout <- median(trees, index = TRUE)
+    mdnWith <- median(baseTrees, index = TRUE)
+    
+    pdf(paste0(wd, sub(".nex", ".pdf", fixed = TRUE, file)), 6, 9)
+    par(mar = rep(0, 4))
+    allDist <- Distance(c(trees, baseTrees))
+    map <- cmdscale(allDist, k = 2)
+    plot(map, asp = 1, ann = FALSE, axes = FALSE,
+         pch = c(rep(16, length(trees)), rep(1, length(baseTrees))),
+         col = c(rep(3, length(trees)), rep(8, length(baseTrees))))
+    points(map[c(mdnWithout, length(trees) + mdnWith), ],
+           col = c(3, 8), pch = 3, cex = 2.5)
+    legend("topleft", bty = "n", text.font = 3,
+           gsub("_", " ", fixed = TRUE,
+                substr(file, nchar(base) + 5, nchar(file) - 4)))
+    legend("topright",
+           c("a priori", "a posteriori", "median"),
+           pch = c(16, 1, 3), col = c(3, 8, 1),
+           title = "Taxon removed:", bty = "n")
+    qual <- TreeDist::MappingQuality(allDist, dist(map))
+    legend("bottom", bty = "n", paste(names(qual), "=", signif(qual, 3)))
+    dev.off()
+    
+    # Return:
+    c(median(cf), median(without), median(with),
+      Distance(baseTrees[[mdnWith]], trees[[mdnWithout]]),
+      sd(without), sd(with))
   }
-}, c(meanIncrease = 0, originalMean = 0, sdIncrease = 0))
-
+}, c(tii = 0, mdnPre = 0, mdnPost = 0, distMdns = 0, 
+     sdPre = 0, sdPost = 0))
 colnames(res) <- substr(exclusions, nchar(base) + 5, nchar(exclusions) - 4)
+
 write.table(res, file = "influence.txt")
+
+ShowMe <- function(what, diverging = FALSE) {
+  nBin <- 128
+  palRange <- if (diverging) {
+    extreme <- max(abs(range(what, na.rm = TRUE)))
+    c(-extreme, extreme)
+  } else {
+    range(what, na.rm = TRUE)
+  }
+  palette <- if (diverging) {
+    bin <- cut(what, seq(palRange[1], palRange[2], length.out = nBin))
+    hcl.colors(nBin, "Green-Orange")
+  } else {
+    bin <- cut(what, breaks = nBin, include.lowest = TRUE)
+    hcl.colors(nBin * 1.1, "plasma")
+  }
+  
+  cons <- Consensus(baseTrees, p = 0.5)
+  tipIndex <- TreeDist::LAPJV(adist(TipLabels(cons), colnames(res)))$matching
+  
+  oPar <- par(mar = rep(0, 4), cex = 0.8)
+  on.exit(par(oPar))
+  plot(cons, tip.color = palette[bin][tipIndex])
+  PlotTools::SpectrumLegend(
+    "bottomright",
+    palette = palette[seq_len(nBin)],
+    legend = signif(seq(palRange[2], palRange[1], length.out = 5), 3),
+    bty = "n"
+  )
+}
+
+if (interactive()) {
+  # Bright: Including this taxon results in different trees
+  ShowMe(res["tii", ])
+  # Bright: Including this taxon changes the central tendency of trees
+  ShowMe(res["distMdns", ])
+  # Green: Including this taxon INCREASES uncertainty
+  ShowMe(res["mdnPre", ] - res["mdnPost", ], diverging = TRUE)
+  # ShowMe(res["sdPre", ] - res["sdPost", ], diverging = TRUE)
+  extra <- c("vetu", "vetulicolians")
+  res["sdPre", extra] - res["sdPost", extra]
+}

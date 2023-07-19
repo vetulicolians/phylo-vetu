@@ -7,7 +7,7 @@ i = 0
 for line in Lines:
       i += 1
       if re.search(r'^\s*MATRIX\s*$', line):
-          matrixStart = i + 1
+          matrixStart = i
       elif re.search(r'^\s*;\s*$', line):
           matrixEnd = i - 1
           break
