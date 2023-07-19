@@ -72,9 +72,7 @@ for (treeFile in treeFiles) {
     paste0(prefix, "_max") %in% rownames(influence)
   
   tip.col <- if (influenceAvailable) {
-    TipCol(cons$tip.label)
-  } else {
-    maxPossible <- ClusteringEntropy(PectinateTree(NTip(dat) - 1)) * 2
+    maxPossible <- TreeDist::ClusteringEntropy(PectinateTree(NTip(dat) - 1)) * 2
     upperBound <- max(influence[paste0(prefix, "_max"), ])
     nBin <- 128
     bin <- cut(
@@ -84,6 +82,8 @@ for (treeFile in treeFiles) {
     )
     palette <- hcl.colors(nBin, "inferno")
     palette[bin]
+  } else {
+    TipCol(cons$tip.label)
   }
   Plot(cons, tip.col = tip.col)
   
