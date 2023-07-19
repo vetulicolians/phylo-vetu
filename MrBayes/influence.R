@@ -103,18 +103,20 @@ res <- vapply(exclusions, function(file) {
          pch = c(rep(16, length(trees)), rep(1, length(thinnedTrees))),
          col = c(rep(3, length(trees)), rep(8, length(thinnedTrees))))
     points(map[c(mdnWithout, length(trees) + mdnWith), ],
-           col = c(3, 8), pch = 3, cex = 2.5)
+           col = c(3, 8), pch = c(3, 4), cex = 2.5)
     legend("topleft", bty = "n", text.font = 3, taxon)
     legend("topright",
            c("a priori", "a posteriori", "median"),
            pch = c(16, 1, 3), col = c(3, 8, 1),
            title = "Taxon removed:", bty = "n")
-    qual <- TreeDist::MappingQuality(d, dist(map))
-    legend("bottom", bty = "n", paste(names(qual), "=", signif(qual, 3)))
+    qual <- TreeDist::MappingQuality(d, dist(map))[1:2]
+    legend("bottom", bty = "n", paste(names(qual), "=", signif(qual, 3)),
+           title = "Tree space mapping quality")
     dev.off()
     
     # Return:
-    c(median(d), median(without), median(with),
+    c(mean(d[seq_len(nTrees), nTrees + seq_len(nTrees)]), # 10.1002/ece3.3941
+      median(without), median(with),
       Distance(thinnedTrees[[mdnWith]], trees[[mdnWithout]]),
       dIn,
       sd(without), sd(with))
@@ -123,7 +125,7 @@ res <- vapply(exclusions, function(file) {
      sdPre = 0, sdPost = 0))
 colnames(res) <- substr(exclusions, nchar(base) + 5, nchar(exclusions) - 4)
 
-write.table(res, file = paste0(wd, base, "influence.txt"))
+write.table(res, file = paste0(wd, base, "-influence.txt"))
 
 ShowMe <- function(what, title = "", sub = "", diverging = FALSE) {
   nBin <- 128
@@ -134,8 +136,9 @@ ShowMe <- function(what, title = "", sub = "", diverging = FALSE) {
     range(what, na.rm = TRUE)
   }
   palette <- if (diverging) {
-    bin <- cut(what, seq(palRange[1], palRange[2], length.out = nBin))
-    hcl.colors(nBin, "Green-Orange")
+    bin <- cut(what, seq(palRange[1], palRange[2], length.out = nBin),
+               include.lowest = TRUE)
+    hcl.colors(nBin, "Green-Orange", rev = TRUE)
   } else {
     bin <- cut(what, breaks = nBin, include.lowest = TRUE)
     hcl.colors(nBin * 1.1, "plasma")
@@ -157,29 +160,31 @@ ShowMe <- function(what, title = "", sub = "", diverging = FALSE) {
 }
 
 # load from file:
-# res <- as.matrix(read.table(paste0(wd, base, "influence.txt")))
+# res <- as.matrix(read.table(paste0(wd, base, "-influence.txt")))
 
-pdf(paste0(wd, base, "-influence.pdf"), 7, 9)
+pdf(paste0(wd, base, "-influence.pdf"), 7, 9, title = "Taxon influence")
 par(mar = c(0, 0, 1, 0), cex = 0.9)
 # Bright: Including this taxon changes the central tendency of trees
-ShowMe(res["distMdns", ], "Distance between median trees")
+ShowMe(res["distMdns", ], "Distance between median trees",
+       sub = "High value: including taxon changes typical tree")
 
 # Bright: Including this taxon changes the central tendency of trees
 ShowMe(-log(res["withOwn", ]), diverging = TRUE,
        "log(Similarity to self: similarity to other)",
-       sub = "High value -> results differ more when taxon removed a priori")
+       sub = "High value: Distinct results if taxon removed a priori")
 
 # Bright: Including this taxon results in different trees
 ShowMe(res["tii", ], "Taxon influence index")
 
 # Green: Including this taxon INCREASES uncertainty
-ShowMe(res["mdnPre", ] - res["mdnPost", ], diverging = TRUE,
-       "Increase in median distance (uncertainty)")
+ShowMe(res["mdnPost", ] - res["mdnPre", ], diverging = TRUE,
+       "Increase in median distance when taxon removed a priori",
+       sub = "Positive value: Including the taxon in analysis decreases uncertainty")
 # ShowMe(res["sdPre", ] - res["sdPost", ], diverging = TRUE)
 dev.off()
 
 extra <- c("vetu", "vetulicolans")
-res["sdPre", extra] - res["sdPost", extra]
-log(res["withOwn", extra])
+res["mdnPost", extra] - res["mdnPre", extra]
+-log(res["withOwn", extra])
 
 cli::cli_h1("Complete")
