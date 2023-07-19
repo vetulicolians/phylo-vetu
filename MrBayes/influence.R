@@ -66,6 +66,9 @@ res <- vapply(exclusions, function(file) {
   if (is.null(trees)) {
     rep(NA_real_, 6)
   } else {
+    taxon <- gsub("_", " ", fixed = TRUE,
+                  substr(file, nchar(base) + 5, nchar(file) - 4))
+    
     thinnedTrees <- KeepTip(baseTrees, TipLabels(trees[[1]]))
     with <- Distance(thinnedTrees)
     without <- Distance(trees)
@@ -74,11 +77,15 @@ res <- vapply(exclusions, function(file) {
     mdnWithout <- median(trees, index = TRUE)
     mdnWith <- median(thinnedTrees, index = TRUE)
     
-    pdf(paste0(wd, sub(".nex", ".pdf", fixed = TRUE, file)), 6, 9)
-    par(mar = rep(0, 4))
+    pdf(paste0(wd, sub(".nex", ".pdf", fixed = TRUE, file)), 7, 8.8)
+    par(mar = c(0, 0, 1, 0), cex = 0.9)
     
-    RogueCons(thinnedTrees)
     RogueCons(trees)
+    title(paste0(gsub("_", " ", taxon), " removed a priori"),
+          font.main = 3)
+    RogueCons(thinnedTrees)
+    title(paste0(gsub("_", " ", taxon), " removed a posteriori"),
+          font.main = 3)
     
     
     allDist <- Distance(c(trees, thinnedTrees))
@@ -88,9 +95,7 @@ res <- vapply(exclusions, function(file) {
          col = c(rep(3, length(trees)), rep(8, length(thinnedTrees))))
     points(map[c(mdnWithout, length(trees) + mdnWith), ],
            col = c(3, 8), pch = 3, cex = 2.5)
-    legend("topleft", bty = "n", text.font = 3,
-           gsub("_", " ", fixed = TRUE,
-                substr(file, nchar(base) + 5, nchar(file) - 4)))
+    legend("topleft", bty = "n", text.font = 3, taxon)
     legend("topright",
            c("a priori", "a posteriori", "median"),
            pch = c(16, 1, 3), col = c(3, 8, 1),
