@@ -5,7 +5,8 @@ wd <- if (basename(getwd()) == "TreeSearch") "../MrBayes/" else
   if (basename(getwd()) == "MrBayes") "./" else "/MrBayes/"
 exclusions <- list.files(wd, "^.*-no-.*\\.nex$")
 base <- substr(exclusions[1], 0, regexpr("-no-", exclusions[1]) - 1)
-nTrees <- 48
+nTrees <- 20
+nTrees <- 100
 Distance <- TreeDist::ClusteringInfoDistance
 
 #' @importFrom ape read.nexus
@@ -64,18 +65,27 @@ RogueCons <- function(trees) {
 res <- vapply(exclusions, function(file) {
   trees <- ReadMrBayes(paste0(wd, file), n = nTrees)
   if (is.null(trees)) {
-    rep(NA_real_, 6)
+    rep(NA_real_, 7)
   } else {
     taxon <- gsub("_", " ", fixed = TRUE,
                   substr(file, nchar(base) + 5, nchar(file) - 4))
+    cli::cli_h2(taxon)
+    
+    stopifnot(length(baseTrees) == length(trees))
     
     thinnedTrees <- KeepTip(baseTrees, TipLabels(trees[[1]]))
-    with <- Distance(thinnedTrees)
-    without <- Distance(trees)
-    cf <- Distance(thinnedTrees, trees)
+    d <- as.matrix(Distance(c(trees, thinnedTrees)))
+    
+    without <- d[seq_len(nTrees), seq_len(nTrees)]
+    with <- d[-seq_len(nTrees), -seq_len(nTrees)]
     
     mdnWithout <- median(trees, index = TRUE)
     mdnWith <- median(thinnedTrees, index = TRUE)
+    
+    dIn <- median(vapply(seq_len(nTrees), function (i) {
+      theseTrees <- seq_len(nTrees)[-i]
+      median(d[i, theseTrees]) / median(d[i, nTrees + seq_len(nTrees)])
+    }, double(1)))
     
     pdf(paste0(wd, sub(".nex", ".pdf", fixed = TRUE, file)), 7, 8.8)
     par(mar = c(0, 0, 1, 0), cex = 0.9)
@@ -88,8 +98,7 @@ res <- vapply(exclusions, function(file) {
           font.main = 3)
     
     
-    allDist <- Distance(c(trees, thinnedTrees))
-    map <- cmdscale(allDist, k = 2)
+    map <- cmdscale(d, k = 2)
     plot(map, asp = 1, ann = FALSE, axes = FALSE,
          pch = c(rep(16, length(trees)), rep(1, length(thinnedTrees))),
          col = c(rep(3, length(trees)), rep(8, length(thinnedTrees))))
@@ -100,22 +109,23 @@ res <- vapply(exclusions, function(file) {
            c("a priori", "a posteriori", "median"),
            pch = c(16, 1, 3), col = c(3, 8, 1),
            title = "Taxon removed:", bty = "n")
-    qual <- TreeDist::MappingQuality(allDist, dist(map))
+    qual <- TreeDist::MappingQuality(d, dist(map))
     legend("bottom", bty = "n", paste(names(qual), "=", signif(qual, 3)))
     dev.off()
     
     # Return:
-    c(median(cf), median(without), median(with),
+    c(median(d), median(without), median(with),
       Distance(thinnedTrees[[mdnWith]], trees[[mdnWithout]]),
+      dIn,
       sd(without), sd(with))
   }
-}, c(tii = 0, mdnPre = 0, mdnPost = 0, distMdns = 0, 
+}, c(tii = 0, mdnPre = 0, mdnPost = 0, distMdns = 0, withOwn = 0,
      sdPre = 0, sdPost = 0))
 colnames(res) <- substr(exclusions, nchar(base) + 5, nchar(exclusions) - 4)
 
-write.table(res, file = "influence.txt")
+write.table(res, file = paste0(wd, base, "influence.txt"))
 
-ShowMe <- function(what, diverging = FALSE) {
+ShowMe <- function(what, title = "", sub = "", diverging = FALSE) {
   nBin <- 128
   palRange <- if (diverging) {
     extreme <- max(abs(range(what, na.rm = TRUE)))
@@ -143,16 +153,33 @@ ShowMe <- function(what, diverging = FALSE) {
     legend = signif(seq(palRange[2], palRange[1], length.out = 5), 3),
     bty = "n"
   )
+  title(title, font.main = 1, line = -1, sub = sub)
 }
 
-if (interactive()) {
-  # Bright: Including this taxon results in different trees
-  ShowMe(res["tii", ])
-  # Bright: Including this taxon changes the central tendency of trees
-  ShowMe(res["distMdns", ])
-  # Green: Including this taxon INCREASES uncertainty
-  ShowMe(res["mdnPre", ] - res["mdnPost", ], diverging = TRUE)
-  # ShowMe(res["sdPre", ] - res["sdPost", ], diverging = TRUE)
-  extra <- c("vetu", "vetulicolians")
-  res["sdPre", extra] - res["sdPost", extra]
-}
+# load from file:
+# res <- as.matrix(read.table(paste0(wd, base, "influence.txt")))
+
+pdf(paste0(wd, base, "-influence.pdf"), 7, 9)
+par(mar = c(0, 0, 1, 0), cex = 0.9)
+# Bright: Including this taxon changes the central tendency of trees
+ShowMe(res["distMdns", ], "Distance between median trees")
+
+# Bright: Including this taxon changes the central tendency of trees
+ShowMe(-log(res["withOwn", ]), diverging = TRUE,
+       "log(Similarity to self: similarity to other)",
+       sub = "High value -> results differ more when taxon removed a priori")
+
+# Bright: Including this taxon results in different trees
+ShowMe(res["tii", ], "Taxon influence index")
+
+# Green: Including this taxon INCREASES uncertainty
+ShowMe(res["mdnPre", ] - res["mdnPost", ], diverging = TRUE,
+       "Increase in median distance (uncertainty)")
+# ShowMe(res["sdPre", ] - res["sdPost", ], diverging = TRUE)
+dev.off()
+
+extra <- c("vetu", "vetulicolans")
+res["sdPre", extra] - res["sdPost", extra]
+log(res["withOwn", extra])
+
+cli::cli_h1("Complete")
