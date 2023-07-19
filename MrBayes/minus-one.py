@@ -1,5 +1,5 @@
 import re
-template_root = 'mbank_X27573_2023-07-17-1103-no-'
+template_root = 'mbank_X27573_2023-07-17-1103-no'
 template = open(template_root + '.nex', 'r')
 Lines = template.readlines()
 
@@ -14,6 +14,6 @@ for line in Lines:
 
 for i in range(matrixStart, matrixEnd):
     taxon = re.search(r'^\s+(\w+)', Lines[i]).group(1)
-    newFile = open(template_root + taxon + '.nex', 'w')
+    newFile = open(template_root + '-' + taxon + '.nex', 'w')
     newFile.writelines(Lines[:i] + Lines[i+1:])
                       
