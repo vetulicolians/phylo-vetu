@@ -119,7 +119,7 @@ for (treeFile in treeFiles) {
         infCons <- SortTree(ConsensusWithout(infTrees, infRogues[-1, "taxon"]))
         
         infStabCol <- Rogue::ColByStability(infTrees)
-        Plot(infCons, tip.col = infStabCol)
+        Plot(infCons, tip.col = infStabCol[infCons$tip.label])
         
         legend(
           "topright",

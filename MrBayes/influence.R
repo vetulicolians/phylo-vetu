@@ -1,3 +1,4 @@
+library("TreeTools") # for median.multiPhylo
 library("TreeDist") # for median.multiPhylo
 
 wd <- if (basename(getwd()) == "TreeSearch") "../MrBayes/" else 
@@ -39,26 +40,52 @@ ReadMrBayes <- function(filename, n = NULL, burninFrac = NULL) {
 
 baseTrees <- ReadMrBayes(paste0(wd, base, ".nex"), n = nTrees)
 
+RogueCons <- function(trees) {
+  rogues <- Rogue::RogueTaxa(trees)[-1, "taxon"]
+  
+  cons <- ConsensusWithout(trees, rogues, p = 0.5)
+  stabCol <- Rogue::ColByStability(trees)
+  plot(cons, tip.col = stabCol[cons$tip.label])
+  PlotTools::SpectrumLegend("bottomright", bty = "n",
+                            title = "Leaf stability",
+                            legend = c("Unstable", "", "", "Stable"),
+                            palette = hcl.colors(131, "inferno")[1:101])
+  
+  splitP <- SplitFrequency(cons, trees) / length(trees)
+  LabelSplits(cons, frame = "none", pos = 3, signif(splitP * 100, 2),
+              unit = "%", col = SupportColor(splitP), cex = 0.8)
+  if (length(rogues)) {
+    legend("topright", lty = "dotted", gsub("_", " ", rogues),
+           text.col = stabCol[rogues],
+           text.font = 3, bty = "n", cex = 0.8)
+  }
+}
+
 res <- vapply(exclusions, function(file) {
   trees <- ReadMrBayes(paste0(wd, file), n = nTrees)
   if (is.null(trees)) {
     rep(NA_real_, 6)
   } else {
     thinnedTrees <- KeepTip(baseTrees, TipLabels(trees[[1]]))
-    with <- Distance(baseTrees)
+    with <- Distance(thinnedTrees)
     without <- Distance(trees)
-    cf <- Distance(baseTrees, trees)
+    cf <- Distance(thinnedTrees, trees)
     
     mdnWithout <- median(trees, index = TRUE)
-    mdnWith <- median(baseTrees, index = TRUE)
+    mdnWith <- median(thinnedTrees, index = TRUE)
     
     pdf(paste0(wd, sub(".nex", ".pdf", fixed = TRUE, file)), 6, 9)
     par(mar = rep(0, 4))
-    allDist <- Distance(c(trees, baseTrees))
+    
+    RogueCons(thinnedTrees)
+    RogueCons(trees)
+    
+    
+    allDist <- Distance(c(trees, thinnedTrees))
     map <- cmdscale(allDist, k = 2)
     plot(map, asp = 1, ann = FALSE, axes = FALSE,
-         pch = c(rep(16, length(trees)), rep(1, length(baseTrees))),
-         col = c(rep(3, length(trees)), rep(8, length(baseTrees))))
+         pch = c(rep(16, length(trees)), rep(1, length(thinnedTrees))),
+         col = c(rep(3, length(trees)), rep(8, length(thinnedTrees))))
     points(map[c(mdnWithout, length(trees) + mdnWith), ],
            col = c(3, 8), pch = 3, cex = 2.5)
     legend("topleft", bty = "n", text.font = 3,
@@ -74,7 +101,7 @@ res <- vapply(exclusions, function(file) {
     
     # Return:
     c(median(cf), median(without), median(with),
-      Distance(baseTrees[[mdnWith]], trees[[mdnWithout]]),
+      Distance(thinnedTrees[[mdnWith]], trees[[mdnWithout]]),
       sd(without), sd(with))
   }
 }, c(tii = 0, mdnPre = 0, mdnPost = 0, distMdns = 0, 
