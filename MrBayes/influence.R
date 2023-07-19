@@ -5,7 +5,6 @@ wd <- if (basename(getwd()) == "TreeSearch") "../MrBayes/" else
   if (basename(getwd()) == "MrBayes") "./" else "/MrBayes/"
 exclusions <- list.files(wd, "^.*-no-.*\\.nex$")
 base <- substr(exclusions[1], 0, regexpr("-no-", exclusions[1]) - 1)
-nTrees <- 20
 nTrees <- 100
 Distance <- TreeDist::ClusteringInfoDistance
 
@@ -53,7 +52,8 @@ RogueCons <- function(trees) {
                             palette = hcl.colors(131, "inferno")[1:101])
   
   splitP <- SplitFrequency(cons, trees) / length(trees)
-  LabelSplits(cons, frame = "none", pos = 3, signif(splitP * 100, 2),
+  LabelSplits(cons, frame = "none", pos = 3,
+              signif(splitP * 100, ceiling(log10(nTrees + 1)),
               unit = "%", col = SupportColor(splitP), cex = 0.8)
   if (length(rogues)) {
     legend("topright", lty = "dotted", gsub("_", " ", rogues),
