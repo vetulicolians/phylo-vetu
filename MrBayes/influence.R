@@ -53,7 +53,7 @@ RogueCons <- function(trees) {
   
   splitP <- SplitFrequency(cons, trees) / length(trees)
   LabelSplits(cons, frame = "none", pos = 3,
-              signif(splitP * 100, ceiling(log10(nTrees + 1)),
+              signif(splitP * 100, ceiling(log10(nTrees + 1))),
               unit = "%", col = SupportColor(splitP), cex = 0.8)
   if (length(rogues)) {
     legend("topright", lty = "dotted", gsub("_", " ", rogues),
