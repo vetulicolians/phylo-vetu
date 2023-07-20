@@ -19,6 +19,10 @@ Plot <- function (tr, pdf = FALSE, direction = "rightwards", font = 3,
   }
   tip.id <- tr$tip.label
   tip.label <- ages[tip.id, "taxon"]
+  if (any(is.na(tip.label))) {
+    warning("Keys not found in ages.xlsx: ",
+            paste(tip.id[is.na(tip.label)], collapse = ", "))
+  }
   nTip <- length(tip.id)
   nNode <- tr$Nnode
   

@@ -47,9 +47,20 @@ BEGIN DATA;
 ENDBLOCK;
 
 BEGIN MRBAYES;
+  [ Define constraints ]
+  constraint Chordata partial =  Tunicata_Ciona : Amiskwia_sagittiformis Pterobranch_Rhabdopleura Pterobranch_Cephalodiscus
+    Enteropneusta_Harrimaniidae_Saccoglossus Enteropneusta_Spengelidae_Glandiceps Crinoidea_Aethocrinus;
+  constraint Ambulacraria partial = Pterobranch_Rhabdopleura Pterobranch_Cephalodiscus
+    Enteropneusta_Harrimaniidae_Saccoglossus Enteropneusta_Spengelidae_Glandiceps Crinoidea_Aethocrinus :
+     Tunicata_Ciona Amiskwia_sagittiformis;
+  constraint Hemichordata partial = Pterobranch_Rhabdopleura Pterobranch_Cephalodiscus
+    Enteropneusta_Harrimaniidae_Saccoglossus Enteropneusta_Spengelidae_Glandiceps :
+    Crinoidea_Aethocrinus  Tunicata_Ciona Amiskwia_sagittiformis;
+  
   [ Configure priors ]
   lset coding=variable rates=gamma;
   prset brlenspr=unconstrained: gammadir(1, 0.35, 1, 1);
+  prset topologypr = constraints (Chordata, Ambulacraria, Hemichordata);
   
   [ Configure MCMC parameters ]
   mcmcp ngen=150000 samplefreq=500 nruns=2 nchains=6 burninfrac=0.3;

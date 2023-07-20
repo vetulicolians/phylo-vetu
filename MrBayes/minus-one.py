@@ -15,5 +15,5 @@ for line in Lines:
 for i in range(matrixStart, matrixEnd):
     taxon = re.search(r'^\s+(\w+)', Lines[i]).group(1)
     newFile = open(template_root + '-' + taxon + '.nex', 'w')
-    newFile.writelines(Lines[:i] + Lines[i+1:])
+    newFile.writelines(Lines[:i] + [line.replace(taxon, '') for line in Lines[i+1:]])
                       
