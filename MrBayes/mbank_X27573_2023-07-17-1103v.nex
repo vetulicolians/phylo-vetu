@@ -63,7 +63,7 @@ BEGIN MRBAYES;
     Echinodermata Chordata Outgroup;
   
   [ Configure priors ]
-  lset coding=informative rates=gamma;
+  lset coding=variable rates=gamma;
   prset brlenspr=unconstrained: gammadir(1, 0.35, 1, 1);
   prset topologypr = constraints (Chordata, Ambulacraria, Hemichordata);
   
