@@ -11,8 +11,8 @@ source(paste0(wd, "/plot.R"))
 
 latest <- LatestMatrix(wd)
 dat <- ReadAsPhyDat(latest)
-if (outgroup == "") {
-  outgroup <- names(dat)[1]
+if (length(outgroup) == 1 && outgroup == "") {
+  outgroup <- names(dat)[[1]]
 }
 treeFiles <- list.files(
   path = wd,
@@ -24,7 +24,7 @@ for (treeFile in treeFiles) {
   trees <- read.nexus(treeFile)
   
   # Ignore outgroup taxa that aren't in tree
-  og <- intersect(outgroup, TipLabels(trees)[[1]])
+  og <- intersect(outgroup, TipLabels(trees[[1]]))
   if (length(og)) {
     # Root trees on outgroup
     trees <- RootTree(trees, og)
