@@ -14,8 +14,8 @@ ages <- data.frame(readxl::read_xlsx("../Ages.xlsx", sheet = "taxa"),
 
 latest <- LatestMatrix(wd)
 dat <- ReadAsPhyDat(latest)
-if (outgroup == "") {
-  outgroup <- names(dat)[1]
+if (length(outgroup) == 1 && outgroup == "") {
+  outgroup <- names(dat)[[1]]
 }
 
 influence <- tryCatch(as.matrix(read.table(InfluenceFile(latest))),
@@ -33,7 +33,7 @@ for (treeFile in treeFiles) {
   prefix <- strsplit(basename(treeFile), "_")[[1]][1]
   
   # Ignore outgroup taxa that aren't in tree
-  og <- intersect(outgroup, TipLabels(trees)[[1]])
+  og <- intersect(outgroup, TipLabels(trees[[1]]))
   if (length(og)) {
     # Root trees on outgroup
     trees <- RootTree(trees, og)

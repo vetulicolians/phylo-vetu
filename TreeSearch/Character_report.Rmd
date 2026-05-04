@@ -17,17 +17,23 @@ Modify the file for your purposes by editing the code block below.
 -->
 
 ```{r initialization, echo = FALSE, message = FALSE}
+# If unavailable, installs the necessary MorphoBank package
+# before other packages are loaded
+if (!requireNamespace("MorphoBank", quietly = TRUE)) {
+  devtools::install_github("ms609/MorphoBank")
+}
+
 source("common.R") # Leave this line here: it loads necessary functions
 
 matrixFile <- LatestMatrix() # To use a specific file, write its path here
-# For example: 
+# For example:
 # matrixFile <- "C:\path\to\file.nex"
 
 dataset <- ReadAsPhyDat(matrixFile) # Use instead ReadTntAsPhyDat() for .tnt files
 
 # Load a tree on which to map characters
 tree <- LatestTree(dataset)
-# To load a specific tree, see instructions at 
+# To load a specific tree, see instructions at
 # https://ms609.github.io/TreeTools/articles/load-trees.html
 
 # Root the tree on the first taxon in the dataset
@@ -40,6 +46,8 @@ tree <- RootTree(
 # Taxon names from the dataset will be added automatically to this list
 # Add any words that should be italicized in character notes here.
 italic_words <- c("sensu", "stricto", "lato")
+# Tip labels that should not be italicized when displayed
+roman_taxa <- c("Outgroup")
 
 # Taxa to omit
 # Taxa listed here will not be listed in the character descriptions
@@ -49,20 +57,19 @@ ignored_taxa <- c()
 subheadings <- c()
 ```
 
-This report defines each character in the matrix (file: ``r matrixFile``),
-justifying the score of particular taxa where relevant.
 Each character has been mapped onto a tree, with each tip labelled according to
 its coding in the matrix.
-These states have been used to reconstruct the condition of each internal node,
-using the parsimony method of @Brazeau2019 as implemented in the _R_ package
-"TreeSearch" [@Smith2023].
+This report defines each character in the matrix ``r matrixFile``, with a
+justification of the score for each taxon where relevant.
+These terminal states have been used to reconstruct the condition of each
+internal node, using the parsimony method of @Brazeau2019 as implemented in
+the _R_ package "TreeSearch" [@Smith2023rj].
+As different trees may give different reconstructions, these character mappings
+are illustrative, and do not represent definitive models of how any given
+character evolved.
 
-As different trees may give different reconstructions, the character mappings 
-do not definitively establish how any given character evolved; rather, they
-serve to display how each character has been coded, and thus how it fits
-onto a given tree.
 ```{R prepare-the-tree, echo = FALSE}
-tree <- DropTip(tree, ignored_taxa)
+tree <- DropTip(tree, intersect(ignored_taxa, TipLabels(tree)))
 # Uniform edge length in plot
 tree$edge.length <- rep(1, nrow(tree$edge))
 ```
@@ -81,22 +88,25 @@ taxa_plaintext <- gsub("_", " ", taxa_names, fixed = TRUE)
 taxa_italic <- paste0("_", taxa_plaintext, "_")
 ```
 
-```{R define-functions, echo = FALSE}
-if (!requireNamespace("MorphoBank", quietly = TRUE)) {
-  devtools::install_github("ms609/MorphoBank")
-}
+```{R define-functions, echo = FALSE, message = FALSE}
 library(
   "MorphoBank",
   exclude = c("ReadNotes", "MorphoBankDecode", "EndSentence")
 )
 
 Italicize <- function (string) {
-  string <- gsub(paste0("\\b(",
-                        paste0(gsub("_", "|", fixed = TRUE,
-                                    c(taxa_names, italic_words)),
-                               collapse="|"),
-                        ")\\b"), "_\\1_", string, perl=TRUE, ignore.case=FALSE)
-  gsub("\\b([A-Z]\\.) _([a-z])", "_\\1 \\2", string, perl=TRUE)
+  string <- gsub(
+    paste0("\\b(", paste0(
+      gsub("_", "|", fixed = TRUE,
+           c(setdiff(taxa_names, roman_taxa), italic_words)),
+      collapse = "|"), ")\\b"
+      ),
+    "_\\1_",
+    string,
+    perl = TRUE,
+    ignore.case = FALSE
+  )
+  gsub("\\b([A-Z]\\.) _([a-z])", "_\\1&nbsp;\\2", string, perl = TRUE)
 }
 ```
 
@@ -141,9 +151,16 @@ for (i in seq_len(n_char)) {
   }
   
   cat("  \n\n")
-  char_notes_i <- char_notes[[i]]
-  state_notes_i <- char_notes_i[[2]]
-  state_notes_i <- state_notes_i[!names(state_notes_i) %in% ignored_taxa]
+  char_notes_i <- if (length(char_notes) >= i) {
+    char_notes[[i]]
+  } else {
+    list(character(0))
+  }
+  state_notes_i <- if (length(char_notes_i) > 1) {
+    char_notes_i[[2]][!names(char_notes_i[[2]]) %in% ignored_taxa]
+  } else {
+    character(0)
+  }
   if (length(char_notes_i[[1]]) > 0) {
     cat(Italicize(char_notes_i[[1]]), "  \n")
   }

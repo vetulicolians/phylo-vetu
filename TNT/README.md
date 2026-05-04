@@ -16,6 +16,7 @@ Analyse a dataset using Fitch parsimony under equal and implied weights in TNT.
 - Enter the name of the input file in the line
   `proc ENTER_INPUT_FILENAME_HERE;`.
   For example this might end up reading `proc my_data.nex;`.
+  You may wish to enter the full filepath (e.g. `c:/phylogeny/my_data.nex`) if this resides in a different directory to `run.tnt`.
 
 - Enter the name of the outgroup taxon in the line
   `outgroup ENTER_OUTGROUP_LABEL_HERE;`.
@@ -61,3 +62,8 @@ To run the script from the command line:
   - `cd ..` goes up a directory; `cd mydir` moves to the subdirectory `mydir`
 
 - type `tnt tnt.run;` to begin the analysis.
+
+# Visualize results
+
+- `visualize.R` can be run from R or RStudio.  It will take the latest output from the `.tre` files to plot
+  a summary tree for each concavity constant.  (It currently lacks finesse.)

@@ -18,9 +18,14 @@ dat <- dat[!names(dat) %in% c(
 
 resultsFile <- ResultsFile(latest, "ew")
 
-startTree <- LatestTree(dat, "ew")
+startTree <- LatestTree(dat, "ew", addMissing = TRUE)
 if (is.null(startTree)) {
   startTree <- AdditionTree(dat)
+}
+notOnTree <- setdiff(names(dat), TipLabels(startTree))
+if (length(notOnTree)) {
+  message("* Adding taxa missing from tree: ", paste(notOnTree, collapse = ", "))
+  startTree <- AdditionTree(dat, constraint = startTree)
 }
 
 best <- MaximizeParsimony(
@@ -35,10 +40,16 @@ write.nexus(best, file = resultsFile)
 
 for (repetition in seq_len(searchRepeats)) for (k in kValues) {
   resultsFile <- ResultsFile(latest, "iw", k)
-  startTree <- LatestTree(dat, paste0("iw", k))
+  startTree <- LatestTree(dat, paste0("iw", k), addMissing = TRUE)
   if (is.null(startTree)) {
     startTree <- AdditionTree(dat, concavity = k)
   }
+  notOnTree <- setdiff(names(dat), TipLabels(startTree))
+  if (length(notOnTree)) {
+    message("* Adding taxa not on tree: ", paste(notOnTree, collapse = ", "))
+    startTree <- AdditionTree(dat, constraint = startTree)
+  }
+
   best <- MaximizeParsimony(
     dataset = dat,
     tree = startTree,

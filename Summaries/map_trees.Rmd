@@ -1,0 +1,1012 @@
+---
+title: "Tree mapping"
+date: '`r format(Sys.time(), usetz = TRUE)`'
+output:
+  bookdown::pdf_document2:
+    toc: no
+    extra_dependencies: ["float"]
+csl: "assets/palaeontology.csl"
+link-citations: yes
+bibliography:
+  - assets/REFERENCES.bib
+---
+
+\renewcommand{\figurename}{Supplementary Figure}
+
+```{r initialize-variables, echo=FALSE, message=FALSE}
+# Set preferred distance method.  Choose from "CID" or "Quartet".
+# See Smith (2020, https://doi.org/10.1093/bioinformatics/btaa614) and
+# Smith (2022, https://doi.org/10.1093/sysbio/syab100) for guidance.
+distMethod <- "CID"
+
+# What taxon / taxa should be used to root the tree?
+outgroup <- c("Eolorica", "Echinoderes", "Tubiluchus")
+
+# Which taxa should be illustrated using PhyloPic?
+# Either specify taxa from which to fetch images:
+pic <- c("Cricocosmia", "Beorn", "Hurdia")
+# Or specify a vector of images named by their associated taxon,
+# or an empty string where default images should be used.
+pic <- list(
+  # You can specify the full URL of an image page:
+  "Tubiluchus" = "https://www.phylopic.org/images/19b4474b-698e-4b5a-8f90-6ed4c580819c/tubiluchus",
+  # Or just the UUID component of the URL:
+  "Eolorica" = "03219505-5777-42e6-9660-9ddb80746144",
+  # Or a taxon name:
+  "Echinoderes" = "Kinorhyncha",
+  "Euperipatoides" = "Onychophora",
+  # Blank entries will be searched from the Phylopic database:
+  "Cricocosmia" = ""
+)
+
+picWidth <- 0.06 # Relative width of silhouette images
+# To size some taxa differently, use:
+picWidth <- function(taxon) switch(taxon,
+  "Eolorica" = 0.03,
+  0.06 # Default for unlisted taxa
+)
+
+# Paths to results directories
+treeSearchDir <- "../TreeSearch" # Must contain the input matrix file
+mbDir <- "../MrBayes"            # Location of MrBayes results, if they exist
+rbDir <- "../RevBayes"           # Location of RevBayes results, if they exist
+
+# Run time scales with the square of the number of trees visualized.
+# How many trees should be sampled from each set of parsimony results?
+nMapPars <- 24
+# How many trees should be sampled from each run of each Bayesian analysis?
+nMapBayes <- 48
+# How many trees should be sampled when computing posterior probabilities?
+ppSample <- 1000
+# What proportion of Bayesian trees should be discarded as burnin? (0.0-1.0)
+burninF <- 0.10
+
+# What k values from implied weight parsimony should be visualized?
+# If NULL, all values will be used.
+concavities <- NULL
+# Trees with these low values of K will be visualized separately.
+# Set to NULL to visualize all implied weighting trees together.
+lowK <- c(3, 6)
+
+# Set output parameters
+pageHeight <- (254 / 25.4)
+pageWidth <- 176 / 25.4
+colWidth <- 84 / 25.4
+midWidth <- 120 / 25.4
+
+# Define colour scale for concordance values
+concHead <- 51
+concScale <- c(rep("#FFFFFF", concHead),
+               hcl.colors(101 - concHead, "plasma", rev = TRUE))
+concLegScale <- concScale[-seq_len(concHead)]
+```
+
+```{r set-up-session, echo=FALSE, message=FALSE}
+# Load libraries and functions
+library("ape")
+library("phangorn")
+library("TreeTools", quietly = TRUE)
+library("TreeSearch")
+#library("cli")
+source(paste0(treeSearchDir, "/common.R"))
+
+dataset <- LatestMatrix(treeSearchDir, full.names = FALSE)
+if (is.na(dataset)) {
+  stop("Dataset could not be found. Check a Nexus file exists in ",
+     treeSearchDir)
+}
+```
+
+```{r load-data, echo=FALSE}
+#| eval = !is.na(dataset)
+dat <- ReadAsPhyDat(LatestMatrix(treeSearchDir, full.names = TRUE))
+latest <- LatestMatrix(treeSearchDir)
+dat <- ReadAsPhyDat(latest)
+treeFiles <- list.files(
+  path = treeSearchDir,
+  pattern = paste0(".+_", sub("^.*/", "", latest), ".trees"),
+  full.names = TRUE
+)
+if (is.null(concavities)) {
+  concavities <- sort(KValue(treeFiles))
+  concavities <- concavities[is.finite(concavities)]
+}
+```
+
+```{r output-settings, echo = FALSE}
+set.seed(1)
+knitr::opts_chunk$set(fig.pos = "H", out.extra = "", fig.width = 6.8)
+```
+
+```{r load-trees, echo = FALSE}
+tsPrefix <- c("ew", paste0("iw", concavities))
+tsFiles <- paste0(treeSearchDir, "/", tsPrefix, "_", dataset, ".trees")
+tsPrefix <- tsPrefix[file.exists(tsFiles)]
+tsFiles <- tsFiles[file.exists(tsFiles)]
+
+escapeDataset <- gsub("([\\-\\.])", "\\\\\\1", dataset)
+rbFiles <- list.files(rbDir, paste0("^", escapeDataset, "\\.mkv_run_\\d+\\.trees$"),
+                      full.names = TRUE)
+mbFiles <- list.files(mbDir, paste0("^", escapeDataset, "\\.run\\d+\\.t$"),
+                      full.names = TRUE)
+
+tsTrees <- if (length(tsFiles)) {
+  setNames(lapply(tsFiles, read.nexus), paste0("ts", tsPrefix))
+} else {
+  NULL
+}
+lowKNames <- paste0("tsiw", lowK)
+highKTrees <- tsTrees[setdiff(names(tsTrees), c(lowKNames, "tsew"))]
+lowKTrees <- tsTrees[intersect(names(tsTrees), lowKNames)]
+
+# Determine whether there's anything to analyse in subsequent chunks
+evalHighK <- !is.null(highKTrees) && length(highKTrees) > 0
+evalLowK <- !is.null(lowKTrees) && length(lowKTrees) > 0
+evalEW <- !is.null(tsTrees[["tsew"]])
+
+rbTrees <- if (length(rbFiles)) {
+  lapply(rbFiles,
+    function(rbFile) {
+      treeTable <- read.table(rbFile, header = TRUE, sep = "\t")
+      read.tree(text = gsub(" ", "_", fixed = TRUE, treeTable[["phylogeny"]])) |>
+        setNames(paste0("it", treeTable[["Iteration"]]))
+    }) |>
+  RootTree(outgroup) |>
+   setNames(paste0("rb", seq_along(rbFiles)))
+} else {
+  NULL
+}
+
+mbTrees <- if (length(mbFiles)) {
+  lapply(
+    mbFiles,
+    function (mbFile) tryCatch(
+      read.nexus(mbFile),
+      error = function (err) if (err$message == "NA/NaN argument") {
+        # Unterminated tree block, perhaps because a search is ongoing
+        withEnd <- tempfile()
+        on.exit(unlink(withEnd))
+        writeLines(c(readLines(mbFile), "\nEND;"), withEnd)
+        read.nexus(withEnd)
+      })) |> setNames(paste0("mb", seq_along(mbFiles)))
+} else {
+  NULL
+}
+
+# Remove burnin
+mbBurnOff <- lapply(mbTrees, function(trees) {
+  nTree <- length(trees)
+  trees[((nTree * burninF) + 1):nTree]
+})
+nMb <- sum(lengths(mbBurnOff))
+mbPosterior <- do.call(c, mbBurnOff)[
+  seq.int(1, nMb, length.out = min(nMb, ppSample))] |> 
+  RootTree(outgroup)
+
+rbBurnOff <- lapply(rbTrees, function(trees) {
+  nTree <- length(trees)
+  trees[(1 + (nTree * burninF)):nTree]
+})
+nRb <- sum(lengths(rbBurnOff))
+rbPosterior <- do.call(c, rbBurnOff)[
+  seq.int(1, nRb, length.out = min(nRb, ppSample))] |> 
+  RootTree(outgroup)
+
+
+Sample <- function (x, n) {
+  if (length(x) > n) {
+    sample(x, n)
+  } else {
+    x
+  }
+}
+
+set.seed(1) # Consistent sampling
+#tntSample <- lapply(tntTrees, Sample, nMapPars)
+tsSample <- lapply(tsTrees, Sample, nMapPars)
+mbSample <- lapply(mbBurnOff, Sample, nMapBayes)
+rbSample <- lapply(rbBurnOff, Sample, nMapBayes)
+```
+
+```{r load-no-pics, echo = FALSE, message = FALSE}
+silhouettes <- NULL
+```
+```{r load-pics, echo = FALSE, message = TRUE}
+#| eval = length(pic) > 0
+
+if (!requireNamespace("rphylopic", quietly = TRUE)) {
+  install.packages("rphylopic")
+}
+
+suppressPackageStartupMessages(library("rphylopic"))
+if (is.null(names(pic))) {
+  pic <- setNames(rep_len("", length(pic)), pic)
+}
+
+UuidValid <- function(uuid) {
+  if (!is.character(uuid) || is.na(uuid) || nchar(uuid) != 36) {
+    return(FALSE)
+  }
+  httr::HEAD(
+    paste0("https://phylopic.org/images/", uuid)
+  )[["status_code"]] == 200
+}
+
+GetPic <- function(uuid) {
+  uuidExpr <-
+    "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+  if (grepl(uuidExpr, uuid, perl = TRUE)) {
+    uuid <- sub(sprintf("^.*?(%s).*$", uuidExpr), perl = TRUE, "\\1", uuid)
+  }
+  if (UuidValid(uuid)) {
+    return(uuid)
+  }
+  
+  if (is.na(uuid) || uuid == "") {
+    uuid <- names(uuid)
+  } else  {
+    lookup <- tryCatch(get_uuid(uuid),
+                       error = function(e) {
+                         NA_character_
+                       })
+    if (!is.na(lookup)) {
+      return(lookup)
+    }
+  }
+  
+  if (is.na(uuid) || uuid == "") {
+    NA_character_
+  } else {
+    tryCatch(get_uuid(uuid), 
+             error = function(e) {
+               message("No silhouette found for ", uuid)
+               NA_character_
+             })
+  }
+}
+
+for (i in seq_along(pic)) { # not vapply, as we need to retain names
+  pic[[i]] <- GetPic(pic[i])
+}
+
+silhouettes <- lapply(pic[!is.na(pic)], get_phylopic)
+```
+
+# Summary of phylogenetic results
+
+Phylogenetic inference was conducted using Bayesian and parsimony methods.
+Whereas there are many reasons to prefer implied weights to equal weights
+parsimony [@Goloboff2018; @Smith2019; @Ezcurra2024], neither Bayesian nor
+parsimony approaches consistently recover 'better' trees once precision and
+accuracy are taken into account [@Smith2019].
+We present results of multiple methods, on the basis that relationships that are
+consistently recovered are less likely to represent methodological artefacts,
+and so more likely to represent genuine evolutionary signal in the data.
+
+To summarize our results, we present consensus trees constructed after identifying rogue taxa using method H1 from @SmithRogue.
+Rogue taxa are wildcards whose position varies from tree to tree due to ambiguity or conflict in their character data [@Kearney2002]; removal of such taxa from input trees reveals consistent relationships between the remaining taxa in a consensus summary tree that would otherwise be masked by the uncertain position of the rogues [@Wilkinson1994;@Wilkinson1996hb;@Wilkinson1996mbe].
+Splits in Bayesian trees are labelled with their posterior probability; in parsimony trees, splits are labelled with their quartet concordance [@Minh2020mbe].
+
+## Bayesian analysis
+
+```{r install-treess, echo = FALSE}
+#| eval = (!is.null(mbPosterior) || !is.null(rbPosterior)) &&
+#|  !requireNamespace("treess", quietly = TRUE)
+
+message("Installing packages necessary to calculate tree ESS")
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+devtools::install_github("afmagee/treess")
+```
+```{r bayes-functions, echo = FALSE}
+# Sumbitted to rphylopic, https://github.com/palaeoverse/rphylopic/pull/110
+add_phylopic_tree <- function(tree, tip, img = NULL,
+                              name = if (is.null(img) && is.null(uuid)) tip 
+                                else NULL, 
+                              uuid = NULL, width, relWidth = 0.06,
+                              padding = 1/200,
+                              hjust = 0,
+                              ...) {
+  coords <- tryCatch(get("last_plot.phylo", envir = .PlotPhyloEnv),
+                     error = function(e) {
+                       plot(tree)
+                       get("last_plot.phylo", envir = .PlotPhyloEnv)
+                     })
+  rightEdge <- par("usr")[[2]]
+  leftEdge <- par("usr")[[1]]
+  plotWidth <- rightEdge - leftEdge
+  if (missing(width)) {
+    width <- plotWidth * relWidth
+  }
+  padX <- padding * plotWidth
+  add_phylopic_base(
+    img = img,
+    name = name,
+    uuid = uuid,
+    x = rightEdge - width - padX,
+    y = coords[["yy"]][[match(tip, tree[["tip.label"]])]],
+    hjust = hjust,
+    width = width,
+    ...
+  )
+}
+
+silWidth <- if (is.function(picWidth)) picWidth else function(taxon) picWidth
+
+BayesCons <- function(posterior) {
+  cons <- SortTree(RootTree(consensus(posterior, p = 0.5), outgroup))
+  plot(cons)
+  for (i in seq_along(silhouettes)) {
+    add_phylopic_tree(cons, names(silhouettes)[[i]], img = silhouettes[[i]],
+                      relWidth = silWidth(names(silhouettes)[[i]]))
+  }
+  splitFreqs <- SplitFrequency(cons, posterior) / length(posterior)
+  tooBright <- 9
+  LabelSplits(
+    cons,
+    round(splitFreqs * 100),
+    col = SupportColour(
+      splitFreqs,
+      scale = c(rep("white", 50 - tooBright),
+                hcl.colors(51 + tooBright, "plasma", rev = TRUE))
+      ),
+    frame = "none",
+    pos = 1,
+    cex = 0.8
+  )
+  
+  PlotTools::SpectrumLegend(
+    "bottomright",
+    legend = c(100, 75, 50),
+    title = "PP / %",
+    palette = hcl.colors(51 + tooBright, "plasma",
+                         rev = TRUE)[-seq_len(tooBright)],
+    xpd = NA, bty = "n"
+  )
+}
+
+BayesRogues <- function(posterior, rogueTaxa) {
+  cons <- SortTree(RootTree(ConsensusWithout(posterior, rogueTaxa, p = 0.5), outgroup))
+  plot(cons)
+  for (i in seq_along(silhouettes)) {
+    add_phylopic_tree(cons, names(silhouettes)[[i]], img = silhouettes[[i]],
+                      relWidth = silWidth(names(silhouettes)[[i]]))
+  }
+  splitFreqs <- SplitFrequency(cons, posterior) / length(posterior)
+  tooBright <- 9
+  LabelSplits(
+    cons,
+    round(splitFreqs * 100),
+    col = SupportColour(
+      splitFreqs,
+      scale = c(rep("white", 50 - tooBright),
+                hcl.colors(51 + tooBright, "plasma", rev = TRUE))
+      ),
+    frame = "none",
+    pos = 1,
+    cex = 0.8
+  )
+  
+  legend("bottomleft", bty = "n",
+         lty = 2, text.font = 3, cex = 0.8,
+         title = "Rogue taxa", title.font = 1,
+         rogueTaxa)
+  
+  PlotTools::SpectrumLegend(
+    "bottomright",
+    legend = c(100, 75, 50),
+    title = "PP / %",
+    palette = hcl.colors(51 + tooBright, "plasma",
+                         rev = TRUE)[-seq_len(tooBright)],
+    xpd = NA, bty = "n"
+  )
+}
+
+BayesESS <- function(posterior, analysisName = character(0)) {
+  ess <- treess::treess(list(posterior), TreeDist::RobinsonFoulds,
+                        methods = c("frechetCorrelationESS", "medianPseudoESS"))[[1]]
+  cat(paste("The posterior sample of", length(posterior), analysisName,
+            "trees has a Frechet Correlation ESS of",
+            signif(ess[["frechetCorrelationESS"]], 4),
+            "and a Median Pseudo ESS of",
+            signif(ess[["medianPseudoESS"]], 4),
+            "[@Lanfear2016;@Magee2024]"
+            ))
+}
+```
+
+```{r mrbayes-tree-ess, echo = FALSE, results = "asis"}
+#| eval = !is.null(mbPosterior) && requireNamespace("treess", quietly = TRUE)
+BayesESS(mbPosterior, "MrBayes")
+```
+```{r plot-mrbayes, echo = FALSE}
+#| eval = !is.null(mbPosterior),
+#| fig.height = 6.4,
+#| fig.cap = "Majority rule consensus of Bayesian trees from MrBayes analysis;
+#|   splits labelled with posterior probabilities."
+par(mar = rep(0, 4), cex = 0.8)
+BayesCons(mbPosterior)
+```
+
+```{r mrbayes-rogues, echo = FALSE}
+#| eval = !is.null(mbPosterior),
+#| message = FALSE,
+#| results = "hide"
+set.seed(1) # Ensure consistent result from heuristic search
+mbRogues <- Rogue::QuickRogue(mbPosterior)
+```
+```{r plot-mrbayes-rogues, echo = FALSE}
+#| eval = !is.null(mbPosterior) && nrow(mbRogues) > 1,
+#| fig.height = 6.4,
+#| fig.cap = "Majority rule consensus of Bayesian trees from MrBayes analysis,
+#|   omitting rogue taxa;
+#|   splits labelled with posterior probabilities."
+par(mar = rep(0, 4), cex = 0.8)
+BayesRogues(mbPosterior, mbRogues[-1, "taxon"])
+```
+
+
+```{r revbayes-tree-ess, echo = FALSE, , results = "asis"}
+#| eval = !is.null(rbPosterior) && requireNamespace("treess", quietly = TRUE)
+BayesESS(rbPosterior, "RevBayes")
+```
+```{r plot-revbayes, echo = FALSE}
+#| eval = !is.null(rbPosterior),
+#| fig.height = 6.4,
+#| fig.cap = "Majority rule consensus of Bayesian trees from RevBayes analysis;
+#|   splits labelled with posterior probabilities."
+par(mar = rep(0, 4), cex = 0.8)
+BayesCons(rbPosterior)
+```
+
+```{r revbayes-rogues, echo = FALSE}
+#| eval = !is.null(rbPosterior),
+#| message = FALSE,
+#| results = "hide"
+set.seed(1) # Ensure consistent result from heuristic search
+rbRogues <- Rogue::QuickRogue(rbPosterior)
+```
+```{r plot-revbayes-rogues, echo = FALSE}
+#| eval = !is.null(rbPosterior) && nrow(rbRogues) > 1,
+#| fig.height = 6.4,
+#| fig.cap = "Majority rule consensus of Bayesian trees from RevBayes analysis,
+#|   omitting rogue taxa;
+#|   splits labelled with posterior probabilities."
+par(mar = rep(0, 4), cex = 0.8)
+BayesRogues(rbPosterior, rbRogues[-1, "taxon"])
+```
+
+## Maximum parsimony
+
+```{r pars-highk, echo = FALSE}
+#| eval = evalHighK
+trees <- RootTree(do.call(c, highKTrees), outgroup)
+```
+
+```{r highk-rogues, echo = FALSE}
+#| eval = evalHighK,
+#| message = FALSE,
+#| results = "hide"
+set.seed(1) # Ensure consistent result from heuristic search
+highKRogues <- Rogue::QuickRogue(trees, p = 1)
+highKRogues
+```
+```{r plot-pars-cons, echo = FALSE}
+PlotParsCons <- function(trees) {
+  cons <- SortTree(RootTree(consensus(trees), outgroup))
+  plot(cons)
+  for (i in seq_along(silhouettes)) {
+    add_phylopic_tree(cons, names(silhouettes)[[i]], img = silhouettes[[i]],
+                      relWidth = silWidth(names(silhouettes)[[i]]))
+  }
+  concordance <- QuartetConcordance(cons, dat)
+  LabelSplits(
+    tree = cons,
+    labels = round(concordance * 100),
+    col = SupportColor(concordance, scale = concScale),
+    frame = "none",
+    pos = 3,
+    cex = 0.8
+  )
+  PlotTools::SpectrumLegend(
+    "bottomright",
+    legend = c(100, 75, 50),
+    title = "Concordance / %",
+    palette = concLegScale,
+    xpd = NA, bty = "n"
+  )
+}
+
+PlotParsRogues <- function(trees, rogueTaxa) {
+  if (length(rogueTaxa) == 1) {
+    rp <- RoguePlot(trees, rogueTaxa, sort = TRUE)
+    cons <- rp[["cons"]]
+    PlotTools::SpectrumLegend(
+      "bottomleft", 
+      palette = colorRampPalette(c(par("fg"), "#009E73"), space = "Lab")(100),
+      legend = rp[["legendLabels"]],
+      cex = 0.8, bty = "n", title = paste("Position of", rogueTaxa, "in")
+    )
+  } else {
+    cons <- SortTree(RootTree(ConsensusWithout(trees, rogueTaxa),
+                              setdiff(outgroup, rogueTaxa)))
+    plot(cons)
+    legend("bottomleft", bty = "n",
+           lty = 2, text.font = 3, cex = 0.8,
+           title = "Rogue taxa", title.font = 1,
+           rogueTaxa)
+  }
+  for (i in seq_along(silhouettes)) {
+    add_phylopic_tree(cons, names(silhouettes)[[i]], img = silhouettes[[i]],
+                      relWidth = silWidth(names(silhouettes)[[i]]))
+  }
+  concordance <- QuartetConcordance(cons, dat)
+  LabelSplits(
+    tree = cons,
+    labels = round(concordance * 100),
+    col = SupportColor(concordance, scale = concScale),
+    frame = "none",
+    pos = 3,
+    cex = 0.8
+  )
+  PlotTools::SpectrumLegend(
+    "bottomright",
+    legend = c(100, 75, 50),
+    title = "Concordance / %",
+    palette = concLegScale,
+    xpd = NA, bty = "n"
+  )
+}
+```
+```{r plot-pars-highK, echo = FALSE}
+#| eval = evalHighK,
+#| message = FALSE,
+#| fig.height = 6.4,
+#| fig.cap = "(ref:pars-highK-cap)"
+
+par(mar = rep(0, 4), cex = 0.8)
+PlotParsCons(trees)
+```
+(ref:pars-highK-cap) Strict consensus of results for implied weights parsimony with high concavity values (`r paste(sort(setdiff(concavities, lowK)), collapse = ", ")`).  Splits are labelled with their quartet concordance [@Minh2020mbe].
+
+```{r plot-pars-highK-rogue, echo = FALSE}
+#| eval = evalHighK && nrow(highKRogues) > 1,
+#| message = FALSE,
+#| fig.height = 6.4,
+#| fig.cap = "(ref:pars-highK-rogue-cap)"
+
+par(mar = rep(0, 4), cex = 0.8)
+PlotParsRogues(trees, highKRogues[-1, "taxon"])
+```
+
+(ref:pars-highK-rogue-cap) Strict consensus of results for implied weights parsimony with high concavity values (`r paste(sort(setdiff(concavities, lowK)), collapse = ", ")`), after removal of rogue taxa. Splits are labelled with their quartet concordance [@Minh2020mbe].
+
+
+```{r lowK-rogues, echo = FALSE}
+#| eval = evalLowK,
+#| message = FALSE,
+#| results = "hide"
+
+set.seed(1) # Consistent result from heuristic search
+trees <- RootTree(do.call(c, lowKTrees), outgroup)
+lowKRogues <- Rogue::QuickRogue(trees, p = 1)
+lowKRogues
+```
+```{r plot-pars-lowK, echo = FALSE}
+#| eval = evalLowK,
+#| message = FALSE,
+#| fig.height = 6.4,
+#| fig.cap = "(ref:pars-lowK-cap)"
+
+par(mar = rep(0, 4), cex = 0.8)
+PlotParsCons(trees)
+```
+(ref:pars-lowK-cap) Strict consensus of results for implied weights parsimony with low concavity values (`r paste(sort(lowK), collapse = ", ")`).  Splits are labelled with their quartet concordance [@Minh2020mbe].
+
+```{r plot-pars-lowK-rogue, echo = FALSE}
+#| eval = evalLowK && nrow(lowKRogues) > 1,
+#| message = FALSE,
+#| fig.height = 6.4,
+#| fig.cap = "(ref:pars-lowK-rogue-cap)"
+
+par(mar = rep(0, 4), cex = 0.8)
+PlotParsRogues(trees, lowKRogues[-1, "taxon"])
+```
+
+(ref:pars-lowK-rogue-cap) Strict consensus of results for implied weights parsimony with low concavity values (`r paste(lowK, collapse = ", ")`), after removal of rogue taxa. Splits are labelled with their quartet concordance [@Minh2020mbe].
+
+```{r ew-rogues, echo = FALSE}
+#| eval = evalEW,
+#| message = FALSE,
+#| results = "hide"
+
+set.seed(1) # Ensure consistent result from heuristic search
+trees <- RootTree(tsTrees[["tsew"]], outgroup)
+ewRogues <- Rogue::QuickRogue(trees, p = 1)
+ewRogues
+```
+
+```{r plot-pars-ew, echo = FALSE}
+#| eval = evalEW,
+#| message = FALSE,
+#| fig.height = 6.4,
+#| fig.cap = "(ref:pars-ew-cap)"
+
+par(mar = rep(0, 4), cex = 0.8)
+PlotParsCons(trees)
+```
+(ref:pars-ew-cap) Strict consensus of results for equal weights parsimony, after removal of rogue taxa.  Splits are labelled with their quartet concordance [@Minh2020mbe].
+
+```{r plot-pars-ew-rogue, echo = FALSE}
+#| eval = evalEW && nrow(ewRogues) > 1,
+#| message = FALSE,
+#| fig.height = 6.4,
+#| fig.cap = "(ref:pars-ew-rogue-cap)"
+
+par(mar = rep(0, 4), cex = 0.8)
+PlotParsRogues(trees, ewRogues[-1, "taxon"])
+```
+
+(ref:pars-ew-rogue-cap) Strict consensus of results for equal weights parsimony, after removal of rogue taxa.  Splits are labelled with their quartet concordance [@Minh2020mbe].
+
+
+
+<!-- compute distances for clustering and mapping -->
+
+```{r tree-distances, echo = FALSE}
+#| message = FALSE,
+#| results = "hide"
+
+library("TreeDist")
+
+pal <- hcl.colors(4, palette = "Dynamic")
+
+allTrees <- c(
+  do.call(c, tsSample),
+  do.call(c, mbSample),
+  do.call(c, rbSample)
+)
+
+lengths <- c(
+  vapply(tsSample, length, 1),
+  vapply(mbSample, length, 1),
+  vapply(rbSample, length, 1)
+)
+
+names <- rep(names(lengths), lengths)
+
+if (is.null(allTrees)) {
+  stop("No trees have been loaded; check that results exist")
+}
+
+distances <- switch(
+  distMethod,
+  "Quartet" = as.dist(Quartet::QuartetDivergence(
+    Quartet::ManyToManyQuartetAgreement(allTrees),
+    similarity = FALSE)),
+  "CID" = ClusteringInfoDist(allTrees)
+)
+```
+
+```{r map-distances, echo = FALSE}
+set.seed(1) # Consistent mapping output
+mapping <- cmdscale(distances, k = 10)
+mstEnds <- MSTEdges(distances)
+```
+
+
+# Cluster analysis
+
+```{r initialize-constants, echo = FALSE}
+blackGap <- 4L
+
+tsPal <- setNames(
+  colorRampPalette(c(pal[[1]], "black"), space = "Lab")(
+    length(concavities) + 1 + blackGap
+  ),
+  paste0("ts", c(if (length(concavities) > 0) paste0("iw", sort(concavities)),
+                 "ew", rep(NA, blackGap)))
+)
+
+mbPal <- setNames(colorRampPalette(c(pal[[2]], "black"),
+                                    space = "Lab")(length(mbFiles) + blackGap),
+                   paste0("mb", c(seq_along(mbFiles), rep(NA, blackGap))))
+
+rbPal <- setNames(colorRampPalette(c(pal[[3]], "black"),
+                                    space = "Lab")(length(rbFiles) + blackGap),
+                   paste0("rb", c(seq_along(rbFiles), rep(NA, blackGap))))
+
+cols <- c(tsPal, mbPal, rbPal)[names]
+```
+```{r calculate-clusterings, echo = FALSE}
+possibleClusters <- 2:(2 * length(concavities) + 4)
+
+pamClusters <- lapply(possibleClusters, function (k) cluster::pam(distances, k = k))
+pamSils <- vapply(pamClusters, function (pamCluster) {
+  mean(cluster::silhouette(pamCluster)[, 3])
+}, double(1))
+
+bestPam <- which.max(pamSils)
+pamSil <- pamSils[bestPam]
+pamCluster <- pamClusters[[bestPam]]$cluster
+
+hTree <- protoclust::protoclust(distances)
+hClusters <- lapply(possibleClusters, function (k) cutree(hTree, k = k))
+hSils <- vapply(hClusters, function (hCluster) {
+  mean(cluster::silhouette(hCluster, distances)[, 3])
+}, double(1))
+
+
+bestH <- which.max(hSils)
+hSil <- hSils[bestH]
+hCluster <- hClusters[[bestH]]
+
+
+kClusters <- lapply(possibleClusters, function (k) KMeansPP(distances, k = k))
+kSils <- vapply(kClusters, function (kCluster) {
+  mean(cluster::silhouette(kCluster$cluster, distances)[, 3])
+}, double(1))
+
+
+bestK <- which.max(kSils)
+kSil <- kSils[[bestK]]
+kCluster <- kClusters[[bestK]]$cluster
+
+dbClusters <- lapply(c(5, 10, 25, 50), function(pts) {
+  tryCatch(dbscan::hdbscan(distances, minPts = pts),
+           error = function(e) {
+             structure(list("cluster_scores" = NA), class = "hdbscan")
+           })
+})
+dbN <- vapply(dbClusters, function(clust) length(clust[["cluster_scores"]]),
+              double(1))
+dbClusters <- dbClusters[dbN > 1]
+dbN <- dbN[dbN > 1]
+distMat <- as.matrix(distances)
+dbSils <- vapply(dbClusters, function(dbCluster) {
+  cl <- dbCluster$cluster
+  mean(cluster::silhouette(cl[cl != 0], distMat[cl != 0, cl != 0])[, 3])
+}, double(1))
+bestDB <- which.max(dbSils)
+dbSil <- dbSils[[bestDB]]
+dbCluster <- dbClusters[[bestDB]]$cluster
+```
+
+
+Clusters of trees were evaluated using partitioning around medoids [@Maechler2022],
+hierarchical clustering with minimax linkage [@Bien2011; @Murtagh1983],
+K-means++ clustering [@Arthur2007; @Hartigan1979; @TreeDist], and
+hierarchical density based clustering [@Campello2015; @Hahsler2019; @Hahsler2023].
+The clustering quality under each method, with 2–`r max(possibleClusters)` clusters, was compared using the silhouette coefficient [@Rousseeuw1987; @Maechler2022]; high silhouette coefficients distinguish the most clearly defined clusters.
+
+```{r plot-cluster-summary, echo = FALSE}
+#| fig.cap = "Evaluation of optimal clustering"
+par(mar = c(4, 4, 0.1, 0.1), cex = 0.7)
+plot(pamSils ~ possibleClusters,
+     xlab = "Number of clusters", ylab = "Silhouette coefficient",
+     ylim = range(c(pamSils, hSils, kSils)),
+     frame.plot = FALSE)
+points(hSils ~ possibleClusters, pch = 2, col = 2)
+points(kSils ~ possibleClusters, pch = 3, col = 3)
+points(dbSils ~ dbN, pch = 4, col = 4)
+legend("topright", bty = "n",
+       c("PAM", "Hierarchical", "K-means++", "HDBSCAN"),
+       pch = 1:4, col = 1:4)
+
+cluster <- switch(which.max(c(hSil, pamSil, kSil, dbSil)),
+                  hCluster, pamCluster, kCluster, dbCluster)
+cl <- table(cluster[cluster > 0])
+```
+
+```{r hcut, echo = FALSE}
+#| eval = which.max(c(hSil, pamSil, kSil, dbSil)) == 1
+class(hTree) <- "hclust"
+
+par(mar = c(0, 0, 0, 0))
+plot(hTree, labels = names, main = "", cex = 0.5)
+points(seq_along(cols), rep(5, length(cols)), pch = 16,
+       col = cols[hTree$order])
+```
+
+```{r cluster-consensus-trees, echo = FALSE, results = "asis"}
+#| eval = !is.null(cluster) && length(unique(cluster)) > 0,
+#| fig.height = 6.4,
+#| fig.cap = "(ref:clust-cons-cap)"
+
+cat(paste("Plotting the consensus tree for each cluster can reveal resolution",
+          "that is consistent within each cluster, but obscured in a single",
+          "consensus of all topologies.\n"))
+
+calcPP <- sum(lengths(c(mbPosterior, rbPosterior))) > 0
+PlotGrid <- function(n) rep(ceiling(sqrt(n)), 2)
+par(mfrow = PlotGrid(length(cl)), mar = rep(0.2, 4), cex = 0.5)
+
+for (i in seq_along(cl)) {
+  clN <- as.integer(names(cl[order(cl, decreasing = TRUE)]))
+  trees <- allTrees[cluster == clN]
+  cons <- SortTree(RootTree(consensus(trees, p = 0.5), outgroup))
+  plot(cons)
+    
+  legend("bottomleft",
+         sprintf("Consensus of cluster %s: %g%% of trees", i,
+                 signif(100 * length(trees) / length(allTrees), 3)),
+         text.col = 1 + i,
+         bty = "n")
+  if (calcPP) {
+    splitFreqs <- SplitFrequency(cons, c(mbPosterior, rbPosterior)) / 
+      length(c(mbPosterior, rbPosterior))
+    tooBright <- 26
+    LabelSplits(cons, round(splitFreqs * 100),
+                col = SupportColour(
+                  splitFreqs,
+                  scale = hcl.colors(101 + tooBright, "plasma",
+                                     rev = TRUE)[-seq_len(tooBright)]
+                ),
+                frame = "none", pos = 1, cex = 0.7)
+  }
+}
+
+if (calcPP) {
+  PlotTools::SpectrumLegend(
+    "bottomright",
+    legend = c(100, 75, 50, 25, 0),
+    title = "PP / %",
+    palette = hcl.colors(101 + tooBright, "plasma",
+                         rev = TRUE)[-seq_len(tooBright)],
+    xpd = NA, bty = "n"
+  )
+}
+```
+
+(ref:clust-cons-cap) 50% majority rule consensus trees for each cluster demonstrate the topographic changes underpinning the differences between clusters.
+
+# Tree space mapping
+
+To evaluate the consistency of phylogenetic results, we map the phylogenetic trees obtained by different methods using the Quartet distance [@Estabrook1985; @SmithSpace], using the R [@R] packages "Quartet" [@Quartet; @Sand2014] and "TreeDist" [@TreeDist].  Distances in the mapping correspond to the degree of difference between tree topologies; dashed lines depict the shortest path to connect all trees, depicting any distortion introduced by the mapping [@SmithSpace].
+
+The mapping is conducted on a subsample of `r nMapPars` trees from each parsimony search, and `r nMapBayes` samples from the posterior tree set of each Bayesian run.
+
+
+```{r plot-mapping, echo = FALSE}
+#| fig.asp = 1,
+#| fig.cap = "Two-dimensional mapping of phylogenetic results"
+
+par(mar = rep(0, 4), cex = 0.9)
+
+plot(mapping, ann = FALSE, axes = FALSE, frame.plot = FALSE, type = "n",
+     asp = 1)
+
+# Plot MST
+invisible(apply(mstEnds, 1, function (segment)
+  lines(mapping[segment, 1], mapping[segment, 2], col = "#e0e0e0", lty = 2)))
+
+# Mark clusters
+if (length(unique(cluster)) > 1) {
+  for (i in names(cl)) {
+    clN <- rank(-cl)[i]
+    inCluster <- mapping[cluster == i, 1:2]
+    if (nrow(inCluster) < 3) {
+      next
+    }
+    clusterCol <- clN + 1
+    points(inCluster, col = clusterCol, cex = 1.4)
+    xy <- inCluster[chull(inCluster), ]
+    polygon(xy, border = clusterCol)
+    text(min(xy[, 1]), max(xy[, 2]),
+         paste0("Clust ", clN, ": ", nrow(inCluster), " trees"),
+         cex = 0.6, col = clusterCol)
+  }
+}
+
+# Add points
+points(mapping, col = cols, pch = ifelse(substr(names, 1, 1) == "t", 16, 1))
+
+nPars <- length(concavities) + 1L
+legend(
+  "bottomright",
+  title = "Parsimony",
+  bty = "n",
+  pch = 16,
+  col = tsPal[seq_len(nPars)],
+  c(paste("k =", concavities), "Equal weights"),
+  cex = 0.75, pt.cex = 1.2
+)
+
+legend(
+  "bottomleft",
+  title = "Bayesian / Mk",
+  bty = "n",
+  pch = 1,
+  col = c(mbPal[seq_along(mbFiles)], rbPal[seq_along(rbFiles)]),
+  c(if (length(mbFiles) > 0) paste("MrBayes run", seq_along(mbFiles)),
+    if (length(rbFiles) > 0) paste("RevBayes run", seq_along(rbFiles))),
+  cex = 0.75, pt.cex = 1.2
+)
+```
+
+The mapping shows whether Bayesian and parsimony trees occupy a similar region of tree space, and at which concavity constants.
+
+```{r evaluate-mapping, echo = FALSE}
+qual <- vapply(seq_len(ncol(mapping)), function (k) {
+  newDist <- dist(mapping[, seq_len(k)])
+  MappingQuality(distances, newDist, 10)
+}, double(4))
+
+nDim <- max(2, which.max(qual["TxC", ] > 0.9))
+```
+
+The quality of the two-dimensional mapping (trustworthiness = `r signif(qual["Trustworthiness", 2], 3)`; continuity = `r signif(qual["Continuity", 2], 3)`), allows an evaluation of whether all aspects of the distances between pairs of trees are faithfully depicted. `r nDim` dimensions are required to meet the recommendation [@SmithSpace] of trustworthiness × continuity \> 0.9.
+
+
+(ref:treespace-cap) The structure of tree space in higher dimensions is shown using a `r nDim`-dimensional tree space mapping, with clusters numbered and their convex hulls marked.
+
+```{r cluster-plot, echo = FALSE}
+#| fig.asp = 1, 
+#| fig.cap = "(ref:treespace-cap)"
+
+plotSeq <- matrix(0, nDim, nDim)
+plotSeq[upper.tri(plotSeq)] <- seq_len(nDim * (nDim - 1) / 2)
+plotSeq <- t(plotSeq[-nDim, -1])
+if (nDim > 2) plotSeq[1, nDim - 1L] <- (nDim * (nDim - 1) / 2) + 1
+
+layout(plotSeq)
+par(mar = rep(0.1, 4))
+
+for (i in 2:nDim) for (j in seq_len(i - 1)) {
+  # Set up blank plot
+  plot(mapping[, j], mapping[, i], ann = FALSE, axes = FALSE,
+       frame.plot = nDim > 2, type = "n", asp = 1,
+       xlim = range(mapping), ylim = range(mapping))
+
+  mtext(paste("Dimension", i), 2, line = -1, cex = 0.6)
+  mtext(paste("Dimension", j), 3, line = -1, cex = 0.6)
+
+  # Plot MST
+  apply(mstEnds, 1, function (segment)
+    lines(mapping[segment, j], mapping[segment, i], col = "#bbbbbb", lty = 1))
+
+  # Add points
+  points(mapping[, j], mapping[, i], pch = 16, col = cols)
+
+  # Mark clusters
+  for (clI in unique(cluster)) {
+    inCluster <- cluster == clI
+    clusterX <- mapping[inCluster, j]
+    clusterY <- mapping[inCluster, i]
+    hull <- chull(clusterX, clusterY)
+    polygon(clusterX[hull], clusterY[hull], lty = 1, lwd = 2,
+            border = "#54de25bb")
+    text(mean(clusterX), mean(clusterY), clI, col = "#54de25bb", font = 2)
+  }
+}
+
+```
+
+
+```{r acknowledge-pics, echo = FALSE, results = "asis"}
+#| eval = length(pic) > 0
+
+picID <- unlist(pic[!is.na(pic)])
+picID <- picID[order(names(picID))]
+att <- unlist(get_attribution(picID), recursive = FALSE)
+contrib <- sort(setdiff(unique(unlist(sapply(att, `[[`, "contributor"))), "Unknown"))
+licenses <- sort(unique(vapply(att, `[[`, character(1), "license_abbr")))
+licenseUrl <- sort(unique(vapply(att, `[[`, character(1), "license")))
+linkedLicense <- paste0("[", licenses, "](", licenseUrl, ")")
+AndLast <- function(x) paste(c(paste(x[-length(x)], collapse = ", "),
+                               x[[length(x)]]), collapse = " and ")
+cat(paste(
+  "## Attribution\n",
+  "Taxon silhouettes by",
+  AndLast(contrib),
+  "were obtained from PhyloPic [@Gearty2023] and are reproduced under",
+  if (length(licenses) == 1) paste("a", linkedLicense, "license")
+  else paste(AndLast(linkedLicense), "licenses."),
+  "Original files: ",
+  paste0("[", names(picID), "](https://www.phylopic.org/images/", picID, ")", collapse = ", ")
+))
+```
+
+# References
+<!-- References cited with @identifiers will be inserted here on Knit. -->
