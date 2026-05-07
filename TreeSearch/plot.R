@@ -99,8 +99,22 @@ ColPlot <- function (tr, taxnames = "", direction = "rightwards",
 }
 
 RoguePlot <- function(trees, outgroup, p = 1) {
+  # Check trees have same labels (they should!)
+  labels1 <- TipLabels(c(trees)[[1]])
+  diffs <- vapply(TipLabels(c(trees))[-1], function(x) {
+    length(setdiff(x, labels1))
+  }, 1)
+  if (any(diffs > 0)) {
+    stop("Leaf label mismatch: ", names(diffs)[diffs > 0])
+  }
+  counts <- NTip(trees)
+  if (length(table(counts)) > 1) {
+    stop("Trees have different numbers of tips: ",
+         paste(names(table(counts)), collapse = ", "))
+  }
+  
   # Ignore outgroup taxa that aren't in tree
-  outgroup <- intersect(outgroup, TipLabels(c(trees)[[1]]))
+  outgroup <- intersect(outgroup, labels1)
   if (length(outgroup)) {
     # Root trees on outgroup
     trees <- RootTree(trees, outgroup)
